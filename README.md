@@ -1,2 +1,2 @@
-# computers-database
+# computer-database
 Project
