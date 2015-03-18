@@ -1,8 +1,5 @@
 package persistence;
 
-import java.sql.Connection;
-
-import model.Page;
 import junit.framework.TestCase;
 
 public class DaoFactoryTest extends TestCase {
