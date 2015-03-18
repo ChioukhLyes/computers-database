@@ -1,7 +1,5 @@
 package persistence;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -19,11 +17,10 @@ public enum DaoFactory {
 	INSTANCE;
 
 	/** The Constant FILE_NAME. */
-	private static final String FILE_NAME = "src/main/java/ressources/MySqlProperties.properties";
-	
+	private static final String FILE_NAME = "/MySqlProperties.properties";
+
 	/** The config prop. */
-	private final Properties configProp = new Properties();
-	
+	private Properties configProp = new Properties();
 
 	// /** The Constant MYSQL_DATABASE_URL. */
 	// private static final String MYSQL_DATABASE_URL =
@@ -34,13 +31,7 @@ public enum DaoFactory {
 	//
 	// /** The Constant PASSWORD. */
 	// private static final String PASSWORD = "qwerty1234";
-	{
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			System.err.println(e.getMessage());
-		}
+	private DaoFactory() {
 	}
 
 	/**
@@ -50,14 +41,17 @@ public enum DaoFactory {
 	 */
 	public Connection getConnection() {
 		Connection connection;
+
 		try {
-			InputStream ips = null;
-			try {
-				ips = new FileInputStream(FILE_NAME);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				System.err.println(e.getMessage());
-			}
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (InstantiationException | IllegalAccessException
+				| ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			System.err.println("eerrr"+ e1.getMessage());
+		}
+
+		try {
+			InputStream ips = DaoFactory.class.getResourceAsStream(FILE_NAME);
 			try {
 				configProp.load(ips);
 			} catch (IOException e) {
@@ -83,7 +77,7 @@ public enum DaoFactory {
 	 *            the connection
 	 */
 	public void CloseConnection(Connection connection) {
-		
+
 		if (connection != null) {
 			try {
 				connection.close();

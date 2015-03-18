@@ -10,13 +10,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import model.Company;
 import model.Computer;
 import model.Page;
 import service.Service;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**

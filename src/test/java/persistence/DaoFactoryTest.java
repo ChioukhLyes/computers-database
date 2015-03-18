@@ -1,5 +1,10 @@
 package persistence;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import org.junit.Test;
+
 import junit.framework.TestCase;
 
 public class DaoFactoryTest extends TestCase {
@@ -20,21 +25,55 @@ public class DaoFactoryTest extends TestCase {
 		super.tearDown();
 	}
 	
-	public final void testGetConnection() {
-		fail("Not yet implemented"); // TODO
-//		assertEquals(Connection.class,daoFactory.getConnection());
+	@Test
+	public void testGetConnection() {
+		// Given
+//		Connection connection = daoFactory.getConnection();
+		// Whene
+		
+		// Then
+
+		// fail("Not yet implemented"); // TODO
 	}
 
-	public final void testCloseConnection() {
-		fail("Not yet implemented"); // TODO
+	@Test
+	public void testCloseConnection() {
+
+		boolean isClosed = false;
+		// Given
+		Connection connection = DaoFactory.INSTANCE.getConnection();
+		// Whene
+		daoFactory.CloseConnection(connection);
+		try {
+			isClosed = connection.isClosed();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.err.println(e.getMessage());
+		}
+		// Then
+		assertNotNull(connection);
+		assertEquals(isClosed, true);
 	}
 
-	public final void testGetCompanyDAO() {
-		fail("Not yet implemented"); // TODO
+	@Test
+	public void testGetCompanyDAO() {
+		//Given
+		//Whene
+		CompanyDAO companyDAO =  daoFactory.getCompanyDAO();
+		//Then
+		assertNotNull(companyDAO);
+		assertTrue(companyDAO instanceof CompanyDAO);
+		
 	}
 
-	public final void testGetComputerDAO() {
-		fail("Not yet implemented"); // TODO
+	@Test
+	public void testGetComputerDAO() {
+		//Given
+		//Whene
+		ComputerDAO compuerDAO =  daoFactory.getComputerDAO();
+		//Then
+		assertNotNull(compuerDAO);
+		assertTrue(compuerDAO instanceof ComputerDAO);
 	}
 
 }
