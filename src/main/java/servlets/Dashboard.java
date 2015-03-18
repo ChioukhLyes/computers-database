@@ -15,62 +15,83 @@ import persistence.ComputerDAO;
 import persistence.DaoFactory;
 import service.Service;
 
+// TODO: Auto-generated Javadoc
 /**
- * Servlet implementation class Dashboard
+ * Servlet implementation class Dashboard.
  */
-@WebServlet("/Dashboard")
+@WebServlet("/dashboard")
 public class Dashboard extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Dashboard() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Instantiates a new dashboard.
+	 *
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public Dashboard() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * Do get.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+
 		Service service = new Service();
 		List<Computer> lisComputers = service.findAllComputers();
 		request.setAttribute("Computers", lisComputers);
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/views/dashboard.jsp");	
+		RequestDispatcher dispatcher = getServletContext()
+				.getRequestDispatcher("WEB-INF/views/dashboard.jsp");
 		dispatcher.forward(request, response);
-		
-//		if ("include".equalsIgnoreCase(action)) {
-//			rd.include(request, response);
-//		} else if ("forward".equalsIgnoreCase(action)) {
-//			rd.forward(request, response);
-//		}
+
+		// if ("include".equalsIgnoreCase(action)) {
+		// rd.include(request, response);
+		// } else if ("forward".equalsIgnoreCase(action)) {
+		// rd.forward(request, response);
+		// }
 
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Do post.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+
 		ComputerDAO computerDAO = DaoFactory.INSTANCE.getComputerDAO();
 		List<Computer> lisComputers = computerDAO.findAllComputers();
 		request.setAttribute("Computers", lisComputers);
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/views/dashboard.jsp");	
+		RequestDispatcher dispatcher = getServletContext()
+				.getRequestDispatcher("/views/dashboard.jsp");
 		dispatcher.forward(request, response);
-		
-		
-		
-//		response.setContentType("text/html");
-//		PrintWriter out = response.getWriter();
-//		out.println("TestServlet says hi<br/>");
-//
-//		RequestDispatcher rd = request
-//				.getRequestDispatcher("views/dashboard.html");
-//		rd.forward(request, response);
+
+		// response.setContentType("text/html");
+		// PrintWriter out = response.getWriter();
+		// out.println("TestServlet says hi<br/>");
+		//
+		// RequestDispatcher rd = request
+		// .getRequestDispatcher("views/dashboard.html");
+		// rd.forward(request, response);
 	}
 
 }
