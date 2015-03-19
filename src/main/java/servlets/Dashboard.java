@@ -53,7 +53,7 @@ public class Dashboard extends HttpServlet {
 		List<Computer> lisComputers = service.findAllComputers();
 		request.setAttribute("Computers", lisComputers);
 		RequestDispatcher dispatcher = getServletContext()
-				.getRequestDispatcher("WEB-INF/views/dashboard.jsp");
+				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
 		dispatcher.forward(request, response);
 
 		// if ("include".equalsIgnoreCase(action)) {

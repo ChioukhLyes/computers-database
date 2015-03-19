@@ -3,6 +3,7 @@ package persistence;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -42,12 +43,22 @@ public enum DaoFactory {
 	public Connection getConnection() {
 		Connection connection;
 
+		
+		try {
+			Driver monDriver = new com.mysql.jdbc.Driver();
+			DriverManager.registerDriver(monDriver);
+			
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			System.err.println(e2.getMessage());
+		}
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (InstantiationException | IllegalAccessException
 				| ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
-			System.err.println("eerrr"+ e1.getMessage());
+			System.err.println(e1.getMessage());
 		}
 
 		try {

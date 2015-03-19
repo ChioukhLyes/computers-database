@@ -84,8 +84,8 @@ public class ComputerDaoImpl implements ComputerDAO {
 			// statement = connection.createStatement();
 			preparedStatement = connection
 					.prepareStatement("SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id=?;");
-			preparedStatement.setString(1, computer.getName());
-			preparedStatement.executeUpdate();
+			preparedStatement.setLong(1, id);
+			preparedStatement.executeQuery();
 			resultSet = preparedStatement.getResultSet();
 			if (resultSet.next()) {
 				int idc = resultSet.getInt("id");
@@ -133,7 +133,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			preparedStatement.setTimestamp(3,
 					Timestamp.valueOf(computer.getDiscontinued()));
 			preparedStatement.setLong(4, computer.getCompanyId());
-			preparedStatement.executeUpdate();
+			preparedStatement.executeQuery();
 			return true;
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
