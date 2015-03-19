@@ -133,10 +133,10 @@ public class ComputerDaoImpl implements ComputerDAO {
 			preparedStatement.setTimestamp(3,
 					Timestamp.valueOf(computer.getDiscontinued()));
 			preparedStatement.setLong(4, computer.getCompanyId());
-			preparedStatement.executeQuery();
+			preparedStatement.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			System.err.println("dddddd  "+e.getMessage());
 			return false;
 		} finally {
 			DaoFactory.INSTANCE.CloseConnection(connection);
