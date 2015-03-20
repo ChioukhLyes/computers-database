@@ -16,7 +16,15 @@ public interface ComputerDAO {
 	 * @return the list
 	 */
 	List<Computer> findAllComputers();
-
+	
+	/**
+	 * Find all computers.
+	 *
+	 * @param fromIndex the from index
+	 * @param toIndex the to index
+	 * @return the list
+	 */
+	List<Computer> findAllComputers(int fromIndex, int toIndex);
 	/**
 	 * Find computer by id.
 	 *
@@ -52,4 +60,11 @@ public interface ComputerDAO {
 	 * @return true, if successful
 	 */
 	boolean updateComputer(Computer computer);
+	
+	/**
+	 * Gets the count computers.
+	 *
+	 * @return the count computers
+	 */
+	int getCountComputers();
 }

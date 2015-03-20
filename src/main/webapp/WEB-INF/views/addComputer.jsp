@@ -26,22 +26,22 @@
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input
-									type="text" class="form-control" id="computerName"
-									placeholder="Computer name">
+									type="text" name="computerName" class="form-control" id="computerName"
+									placeholder="Computer name" required="required">
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
-									type="date" class="form-control" id="introduced"
+									type="date" name="introduced" class="form-control" id="introduced"
 									placeholder="Introduced date">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
-									type="date" class="form-control" id="discontinued"
+									type="date" name="discontinued" class="form-control" id="discontinued"
 									placeholder="Discontinued date">
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
-									class="form-control" id="companyId">
+									class="form-control" name="companyId" id="companyId">
 									<option value="0">Select company --</option>
 									<c:forEach var="company" items="${Companies}">
 										<option value="${company.id}">${company.name}</option>

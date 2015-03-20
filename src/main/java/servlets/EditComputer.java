@@ -73,6 +73,7 @@ public class EditComputer extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
+		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		Service service = new Service();
 		String name = (String) request.getParameter("computerName");
@@ -87,6 +88,7 @@ public class EditComputer extends HttpServlet {
 //		System.out.println("Finalll  " + discontinued);
 		System.out.println("Finalll  " + companyId);
 //		
+		
 		Computer computer = new Computer();
 		computer.setName(name);
 		computer.setIntroduced(introduced);

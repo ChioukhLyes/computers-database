@@ -12,11 +12,12 @@ import java.util.Scanner;
 
 import model.Company;
 import model.Computer;
-import model.Page;
-import service.Service;
 
+import org.apache.commons.validator.routines.DateValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import service.Service;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -26,6 +27,8 @@ public class MainCLI {
 
 	/** The service. */
 	static Service service = new Service();
+
+	/** The logger. */
 	static Logger logger = LoggerFactory.getLogger(Class.class);
 
 	/**
@@ -36,7 +39,6 @@ public class MainCLI {
 	 */
 	private static void mainCLI() throws ParseException {
 
-		
 		ArrayList<String> choices = new ArrayList<String>() {
 			/**
 			 * 
@@ -103,8 +105,8 @@ public class MainCLI {
 	 *             the parse exception
 	 */
 	public static void showComputers() throws ParseException {
-		int fromIndex = 0;
-		int toIndex = 5;
+		int limit = 5;
+		int offset = 0;
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		ArrayList<String> choices = new ArrayList<String>() {
@@ -120,11 +122,17 @@ public class MainCLI {
 		};
 
 		System.out.println("List computers (pages of 5 computers) :");
-		List<Computer> computers = service.findAllComputers();
-		Page<Computer> pagination = new Page<Computer>();
+		List<Computer> computers;
+		// Page<Computer> pagination = new Page<Computer>();
 		while (true) {
-			pagination.showPaginatedList(pagination.paginate(computers,
-					fromIndex, toIndex));
+			computers = service.findAllComputers(limit, offset);
+			System.out.println(computers.size() + " okok");
+			for (Computer computer : computers) {
+				System.out.println(computer.toString());
+			}
+
+			// pagination.showPaginatedList(pagination.paginate(computers,
+			// fromIndex, toIndex));
 
 			String choice = null;
 			while (choice == null || !choices.contains(choice.toLowerCase())) {
@@ -134,8 +142,7 @@ public class MainCLI {
 
 			switch (choice.toLowerCase()) {
 			case "o":
-				fromIndex = toIndex;
-				toIndex += 5;
+				offset += limit;
 				break;
 			case "n":
 				mainCLI();
@@ -151,8 +158,8 @@ public class MainCLI {
 	 *             the parse exception
 	 */
 	public static void showCompanies() throws ParseException {
-		int fromIndex = 0;
-		int toIndex = 5;
+		int limit = 5;
+		int offset = 0;
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		ArrayList<String> choices = new ArrayList<String>() {
@@ -168,11 +175,14 @@ public class MainCLI {
 		};
 
 		System.out.println("List companies (pages of 5 companies) :");
-		List<Company> companies = service.findAllCompanies();
-		Page<Company> pagination = new Page<Company>();
+		List<Company> companies;
+		// Page<Computer> pagination = new Page<Computer>();
 		while (true) {
-			pagination.showPaginatedList(pagination.paginate(companies,
-					fromIndex, toIndex));
+			companies = service.findAllCompanies(limit, offset);
+			for (Company company : companies) {
+				System.out.println(company.toString());
+			}
+
 			String choice = null;
 			while (choice == null || !choices.contains(choice.toLowerCase())) {
 				System.out.println("\nShow more companies ? [o/n] :");
@@ -181,8 +191,7 @@ public class MainCLI {
 
 			switch (choice.toLowerCase()) {
 			case "o":
-				fromIndex = toIndex;
-				toIndex += 5;
+				offset += limit;
 				break;
 			case "n":
 				mainCLI();
@@ -225,8 +234,11 @@ public class MainCLI {
 		LocalDateTime introduced = null;
 		LocalDateTime discontinued = null;
 		Long companyId = null;
+		// SimpleDateFormat dateFormat =
+		// SimpleDateFormat.ofPattern("yyyy/MM/dd");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date parsedDate = null;
+		String donnee;
 
 		while (name == null) {
 			System.out.println("Enter computer name : ");
@@ -237,19 +249,27 @@ public class MainCLI {
 		while (introduced == null) {
 			System.out
 					.println("Enter computer introduced date (yyyy/MM/dd) : ");
-			parsedDate = dateFormat.parse(scanner.next());
-			Instant instant = Instant.ofEpochMilli(parsedDate.getTime());
-			introduced = LocalDateTime.ofInstant(instant,
-					ZoneId.systemDefault());
+			donnee = scanner.next();
+			if (DateValidator.getInstance().isValid(donnee, "yyyy/MM/dd")) {
+				parsedDate = (Date) dateFormat.parse(donnee);
+				Instant instant = Instant.ofEpochMilli(parsedDate.getTime());
+				// introduced = LocalDate.parse(donnee, dateFormat);
+				introduced = LocalDateTime.ofInstant(instant,
+						ZoneId.systemDefault());
+			}
 		}
 
 		while (discontinued == null) {
 			System.out
 					.println("Enter computer discontinued date (yyyy/MM/dd) : ");
-			parsedDate = dateFormat.parse(scanner.next());
-			Instant instant = Instant.ofEpochMilli(parsedDate.getTime());
-			discontinued = LocalDateTime.ofInstant(instant,
-					ZoneId.systemDefault());
+			donnee = scanner.next();
+			if (DateValidator.getInstance().isValid(donnee, "yyyy/MM/dd")) {
+				parsedDate = (Date) dateFormat.parse(donnee);
+				Instant instant = Instant.ofEpochMilli(parsedDate.getTime());
+				discontinued = LocalDateTime.ofInstant(instant,
+						ZoneId.systemDefault());
+				// discontinued = LocalDate.parse(donnee, dateFormat);
+			}
 		}
 
 		System.out.println("Enter company id (Long) : ");
@@ -280,9 +300,11 @@ public class MainCLI {
 		LocalDateTime introduced = null;
 		LocalDateTime discontinued = null;
 		Long companyId = null;
+		// DateTimeFormatter dateFormat = DateTimeFormatter
+		// .ofPattern("yyyy/MM/dd");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date parsedDate = null;
-
+		String donnee;
 		while (id == null || computer == null) {
 			System.out.println("Enter computer id (Long) : ");
 			id = scanner.nextLong();
@@ -302,10 +324,14 @@ public class MainCLI {
 					+ computer.getIntroduced());
 			System.out
 					.println("Enter new computer introduced date (yyyy/MM/dd) : ");
-			parsedDate = dateFormat.parse(scanner.next());
-			Instant instant = Instant.ofEpochMilli(parsedDate.getTime());
-			introduced = LocalDateTime.ofInstant(instant,
-					ZoneId.systemDefault());
+			donnee = scanner.next();
+			if (DateValidator.getInstance().isValid(donnee, "yyyy/MM/dd")) {
+				parsedDate = (Date) dateFormat.parse(donnee);
+				Instant instant = Instant.ofEpochMilli(parsedDate.getTime());
+				introduced = LocalDateTime.ofInstant(instant,
+						ZoneId.systemDefault());
+				// introduced = LocalDate.parse(donnee, dateFormat);
+			}
 		}
 		computer.setIntroduced(introduced);
 
@@ -314,10 +340,14 @@ public class MainCLI {
 					+ computer.getDiscontinued());
 			System.out
 					.println("Enter new computer discontinued date (yyyy/MM/dd) : ");
-			parsedDate = dateFormat.parse(scanner.next());
-			Instant instant = Instant.ofEpochMilli(parsedDate.getTime());
-			discontinued = LocalDateTime.ofInstant(instant,
-					ZoneId.systemDefault());
+			donnee = scanner.next();
+			if (DateValidator.getInstance().isValid(donnee, "yyyy/MM/dd")) {
+				parsedDate = (Date) dateFormat.parse(donnee);
+				Instant instant = Instant.ofEpochMilli(parsedDate.getTime());
+				discontinued = LocalDateTime.ofInstant(instant,
+						ZoneId.systemDefault());
+				// discontinued = LocalDate.parse(donnee, dateFormat);
+			}
 		}
 		computer.setDiscontinued(discontinued);
 
@@ -349,8 +379,11 @@ public class MainCLI {
 		Long id = null;
 		while (id == null || computer == null) {
 			System.out.println("Enter computer id (Long) : ");
-			id = scanner.nextLong();
-			computer = service.findComputerById(id);
+			scanner.next();
+			if (scanner.hasNextLong()) {
+				id = scanner.nextLong();
+				computer = service.findComputerById(id);
+			}
 		}
 
 		try {

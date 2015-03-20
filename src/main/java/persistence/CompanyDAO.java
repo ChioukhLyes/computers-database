@@ -16,6 +16,15 @@ public interface CompanyDAO {
 	 * @return the list
 	 */
 	List<Company> findAllCompanies();
+	
+	/**
+	 * Find all companies.
+	 *
+	 * @param fromIndex the from index
+	 * @param toIndex the to index
+	 * @return the list
+	 */
+	List<Company> findAllCompanies(int fromIndex, int toIndex);
 
 	/**
 	 * Find company by id.
@@ -25,5 +34,13 @@ public interface CompanyDAO {
 	 * @return the company
 	 */
 	Company findCompanyById(Long id);
+	
+	
+	/**
+	 * Gets the count companies.
+	 *
+	 * @return the count companies
+	 */
+	int getCountCompanies();
 
 }

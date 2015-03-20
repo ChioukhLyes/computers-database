@@ -41,11 +41,9 @@ public class ComputerDaoImpl implements ComputerDAO {
 				int id = resultSet.getInt("id");
 				String name = resultSet.getString("name");
 				if (resultSet.getTimestamp("introduced") != null)
-					introduced = resultSet.getTimestamp("introduced")
-							.toLocalDateTime();
+					introduced = resultSet.getTimestamp("introduced").toLocalDateTime();
 				if (resultSet.getTimestamp("discontinued") != null)
-					discontinued = resultSet.getTimestamp("discontinued")
-							.toLocalDateTime();
+					discontinued = resultSet.getTimestamp("discontinued").toLocalDateTime();
 
 				Long idcompany = resultSet.getLong("company_id");
 				Computer computer = new Computer();
@@ -64,6 +62,50 @@ public class ComputerDaoImpl implements ComputerDAO {
 		return computers;
 	}
 
+	
+	@Override
+	public List<Computer> findAllComputers(int limit, int offset) {
+		List<Computer> computers = new ArrayList<Computer>();
+		Connection connection = null;
+		// Statement statement = null;
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+		LocalDateTime introduced = null;
+		LocalDateTime discontinued = null;
+
+		try {
+			connection = DaoFactory.INSTANCE.getConnection();
+			preparedStatement = connection
+					.prepareStatement("SELECT id, name, introduced, discontinued, company_id FROM computer limit ? offset ?;");
+			preparedStatement.setInt(1, limit);
+			preparedStatement.setInt(2, offset);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String name = resultSet.getString("name");
+				if (resultSet.getTimestamp("introduced") != null)
+					introduced = resultSet.getTimestamp("introduced").toLocalDateTime();
+				if (resultSet.getTimestamp("discontinued") != null)
+					discontinued = resultSet.getTimestamp("discontinued").toLocalDateTime();
+
+				Long idcompany = resultSet.getLong("company_id");
+				Computer computer = new Computer();
+				computer.setId(id);
+				computer.setName(name);
+				computer.setIntroduced(introduced);
+				computer.setDiscontinued(discontinued);
+				computer.setCompanyId(idcompany);
+				computers.add(computer);
+			}
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		} finally {
+			DaoFactory.INSTANCE.CloseConnection(connection);
+		}
+		return computers;
+	}
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -91,11 +133,9 @@ public class ComputerDaoImpl implements ComputerDAO {
 				int idc = resultSet.getInt("id");
 				String name = resultSet.getString("name");
 				if (resultSet.getTimestamp("introduced") != null)
-					introduced = resultSet.getTimestamp("introduced")
-							.toLocalDateTime();
+					introduced = resultSet.getTimestamp("introduced").toLocalDateTime();
 				if (resultSet.getTimestamp("discontinued") != null)
-					discontinued = resultSet.getTimestamp("discontinued")
-							.toLocalDateTime();
+					discontinued = resultSet.getTimestamp("discontinued").toLocalDateTime();
 
 				Long idcompany = resultSet.getLong("company_id");
 				computer.setId(idc);
@@ -124,14 +164,14 @@ public class ComputerDaoImpl implements ComputerDAO {
 		PreparedStatement preparedStatement = null;
 
 		try {
+			
+			System.out.println("");
 			connection = DaoFactory.INSTANCE.getConnection();
 			preparedStatement = connection
 					.prepareStatement("INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?);");
 			preparedStatement.setString(1, computer.getName());
-			preparedStatement.setTimestamp(2,
-					Timestamp.valueOf(computer.getIntroduced()));
-			preparedStatement.setTimestamp(3,
-					Timestamp.valueOf(computer.getDiscontinued()));
+			preparedStatement.setTimestamp(2, Timestamp.valueOf(computer.getIntroduced()));
+			preparedStatement.setTimestamp(3, Timestamp.valueOf(computer.getDiscontinued()));
 			preparedStatement.setLong(4, computer.getCompanyId());
 			preparedStatement.executeUpdate();
 			return true;
@@ -182,10 +222,8 @@ public class ComputerDaoImpl implements ComputerDAO {
 			preparedStatement = connection
 					.prepareStatement("UPDATE computer set name=?, introduced=?, discontinued=?, company_id=? WHERE id=?;");
 			preparedStatement.setString(1, computer.getName());
-			preparedStatement.setTimestamp(2,
-					Timestamp.valueOf(computer.getIntroduced()));
-			preparedStatement.setTimestamp(3,
-					Timestamp.valueOf(computer.getDiscontinued()));
+			preparedStatement.setTimestamp(2, Timestamp.valueOf(computer.getIntroduced()));
+			preparedStatement.setTimestamp(3, Timestamp.valueOf(computer.getDiscontinued()));
 			preparedStatement.setLong(4, computer.getCompanyId());
 			preparedStatement.setLong(5, computer.getId());
 			preparedStatement.executeUpdate();
@@ -197,4 +235,28 @@ public class ComputerDaoImpl implements ComputerDAO {
 			DaoFactory.INSTANCE.CloseConnection(connection);
 		}
 	}
+
+
+	@Override
+	public int getCountComputers() {
+		Connection connexion = null;
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+		int count=0;
+
+		try {
+			connexion = DaoFactory.INSTANCE.getConnection();
+			preparedStatement = connexion
+					.prepareStatement("SELECT count(*) FROM computer;");
+			resultSet = preparedStatement.executeQuery();
+			resultSet.next();
+			count = resultSet.getInt(1);
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		} finally {
+			DaoFactory.INSTANCE.CloseConnection(connexion);
+		}
+		return count;
+	}
+
 }

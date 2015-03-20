@@ -164,9 +164,26 @@ public class Computer {
 	 */
 	@Override
 	public String toString() {
-		return "Computer [id=" + id + ", name=" + name + ", introduced="
-				+ introduced + ", discontinued=" + discontinued
-				+ ", companyId=" + companyId + "]";
+
+		if (this.introduced != null && discontinued != null) {
+			return "Computer [id=" + id + ", name=" + name + ", introduced="
+					+ introduced.toLocalDate() + ", discontinued="
+					+ discontinued.toLocalDate() + ", companyId=" + companyId
+					+ "]";
+		} else if ((this.introduced == null && discontinued != null)) {
+			return "Computer [id=" + id + ", name=" + name + ", introduced="
+					+ introduced + ", discontinued="
+					+ discontinued.toLocalDate() + ", companyId=" + companyId
+					+ "]";
+		} else if (this.introduced != null && discontinued == null) {
+			return "Computer [id=" + id + ", name=" + name + ", introduced="
+					+ introduced.toLocalDate() + ", discontinued="
+					+ discontinued + ", companyId=" + companyId + "]";
+		} else
+			return "Computer [id=" + id + ", name=" + name + ", introduced="
+					+ introduced + ", discontinued=" + discontinued
+					+ ", companyId=" + companyId + "]";
+
 	}
 
 	/*

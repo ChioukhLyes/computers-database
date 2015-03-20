@@ -20,6 +20,27 @@ public class Service {
 	/** The computer dao. */
 	ComputerDAO computerDAO = DaoFactory.INSTANCE.getComputerDAO();
 
+	
+	/**
+	 * Gets the count computers.
+	 *
+	 * @return the count computers
+	 */
+	public int getCountComputers() {
+		return computerDAO.getCountComputers();
+	}
+	
+	/**
+	 * Gets the count companies.
+	 *
+	 * @return the count companies
+	 */
+	public int getCountCompanies() {
+		return companyDAO.getCountCompanies();
+	}
+	
+	
+	
 	/**
 	 * Find all companies.
 	 *
@@ -27,6 +48,17 @@ public class Service {
 	 */
 	public List<Company> findAllCompanies() {
 		return companyDAO.findAllCompanies();
+	}
+	
+	/**
+	 * Find all companies.
+	 *
+	 * @param limit the limit
+	 * @param offset the offset
+	 * @return the list
+	 */
+	public List<Company> findAllCompanies(int limit, int offset) {
+		return companyDAO.findAllCompanies(limit, offset);
 	}
 
 	/**
@@ -51,6 +83,18 @@ public class Service {
 	public List<Computer> findAllComputers() {
 		return computerDAO.findAllComputers();
 	}
+	
+	
+	/**
+	 * Find all computers.
+	 *
+	 * @param fromIndex the from index
+	 * @param toIndex the to index
+	 * @return the list
+	 */
+	public List<Computer> findAllComputers(int limit, int offset){
+		return computerDAO.findAllComputers(limit, offset);	
+	}
 
 	/**
 	 * Find computer by id.
@@ -63,6 +107,7 @@ public class Service {
 		if (id == null) {
 			throw new IllegalArgumentException("Id computer is null");
 		}
+		
 		return computerDAO.findComputerById(id);
 	}
 
@@ -76,7 +121,7 @@ public class Service {
 	public boolean insertComputer(Computer computer) {
 		if (computer == null) {
 			throw new IllegalArgumentException("Insert : Computer bean is null");
-		}
+		}		
 		return computerDAO.insertComputer(computer);
 	}
 
