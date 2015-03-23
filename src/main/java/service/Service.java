@@ -2,11 +2,15 @@ package service;
 
 import java.util.List;
 
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.Logger;
 import model.Company;
 import model.Computer;
 import persistence.CompanyDAO;
 import persistence.ComputerDAO;
 import persistence.DaoFactory;
+import servlets.EditComputer;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -20,6 +24,9 @@ public class Service {
 	/** The computer dao. */
 	ComputerDAO computerDAO = DaoFactory.INSTANCE.getComputerDAO();
 
+	/** The logger. */
+	private static Logger logger = (Logger) LoggerFactory
+			.getLogger(EditComputer.class);
 	
 	/**
 	 * Gets the count computers.
@@ -72,6 +79,7 @@ public class Service {
 		if (id == null) {
 			throw new IllegalArgumentException("Id company is null");
 		}
+		logger.info("Founded company by id");
 		return companyDAO.findCompanyById(id);
 	}
 
@@ -107,7 +115,7 @@ public class Service {
 		if (id == null) {
 			throw new IllegalArgumentException("Id computer is null");
 		}
-		
+		logger.info("Founded computer by id");
 		return computerDAO.findComputerById(id);
 	}
 

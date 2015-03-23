@@ -1,12 +1,9 @@
 package cli;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -231,13 +228,12 @@ public class MainCLI {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		String name = null;
-		LocalDateTime introduced = null;
-		LocalDateTime discontinued = null;
+		LocalDate introduced = null;
+		LocalDate discontinued = null;
 		Long companyId = null;
 		// SimpleDateFormat dateFormat =
 		// SimpleDateFormat.ofPattern("yyyy/MM/dd");
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		Date parsedDate = null;
+		DateTimeFormatter dateFormat =  DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String donnee;
 
 		while (name == null) {
@@ -248,27 +244,19 @@ public class MainCLI {
 
 		while (introduced == null) {
 			System.out
-					.println("Enter computer introduced date (yyyy/MM/dd) : ");
+					.println("Enter computer introduced date (yyyy-MM-dd) : ");
 			donnee = scanner.next();
-			if (DateValidator.getInstance().isValid(donnee, "yyyy/MM/dd")) {
-				parsedDate = (Date) dateFormat.parse(donnee);
-				Instant instant = Instant.ofEpochMilli(parsedDate.getTime());
-				// introduced = LocalDate.parse(donnee, dateFormat);
-				introduced = LocalDateTime.ofInstant(instant,
-						ZoneId.systemDefault());
+			if (DateValidator.getInstance().isValid(donnee, "yyyy-MM-dd")) {
+				introduced = LocalDate.parse(donnee, dateFormat);
 			}
 		}
 
 		while (discontinued == null) {
 			System.out
-					.println("Enter computer discontinued date (yyyy/MM/dd) : ");
+					.println("Enter computer discontinued date (yyyy-MM-dd) : ");
 			donnee = scanner.next();
-			if (DateValidator.getInstance().isValid(donnee, "yyyy/MM/dd")) {
-				parsedDate = (Date) dateFormat.parse(donnee);
-				Instant instant = Instant.ofEpochMilli(parsedDate.getTime());
-				discontinued = LocalDateTime.ofInstant(instant,
-						ZoneId.systemDefault());
-				// discontinued = LocalDate.parse(donnee, dateFormat);
+			if (DateValidator.getInstance().isValid(donnee, "yyyy-MM-dd")) {
+				discontinued = LocalDate.parse(donnee, dateFormat);
 			}
 		}
 
@@ -276,8 +264,7 @@ public class MainCLI {
 		companyId = scanner.nextLong();
 
 		try {
-			service.insertComputer(new Computer(name, introduced, discontinued,
-					companyId));
+			service.insertComputer(new Computer(name, introduced, discontinued,	new Company(companyId, null)));
 			System.out.println("Computer inserted");
 		} catch (Exception e) {
 			System.out.println("Computer not inserted" + e.getMessage());
@@ -297,13 +284,12 @@ public class MainCLI {
 		Computer computer = null;
 		Long id = null;
 		String name = null;
-		LocalDateTime introduced = null;
-		LocalDateTime discontinued = null;
+		LocalDate introduced = null;
+		LocalDate discontinued = null;
 		Long companyId = null;
 		// DateTimeFormatter dateFormat = DateTimeFormatter
 		// .ofPattern("yyyy/MM/dd");
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		Date parsedDate = null;
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String donnee;
 		while (id == null || computer == null) {
 			System.out.println("Enter computer id (Long) : ");
@@ -323,14 +309,10 @@ public class MainCLI {
 			System.out.println("Current computer introduced date : "
 					+ computer.getIntroduced());
 			System.out
-					.println("Enter new computer introduced date (yyyy/MM/dd) : ");
+					.println("Enter new computer introduced date (yyyy-MM-dd) : ");
 			donnee = scanner.next();
-			if (DateValidator.getInstance().isValid(donnee, "yyyy/MM/dd")) {
-				parsedDate = (Date) dateFormat.parse(donnee);
-				Instant instant = Instant.ofEpochMilli(parsedDate.getTime());
-				introduced = LocalDateTime.ofInstant(instant,
-						ZoneId.systemDefault());
-				// introduced = LocalDate.parse(donnee, dateFormat);
+			if (DateValidator.getInstance().isValid(donnee, "yyyy-MM-dd")) {
+				introduced = LocalDate.parse(donnee, dateFormat);
 			}
 		}
 		computer.setIntroduced(introduced);
@@ -339,23 +321,19 @@ public class MainCLI {
 			System.out.println("Current computer discontinued date : "
 					+ computer.getDiscontinued());
 			System.out
-					.println("Enter new computer discontinued date (yyyy/MM/dd) : ");
+					.println("Enter new computer discontinued date (yyyy-MM-ddd) : ");
 			donnee = scanner.next();
-			if (DateValidator.getInstance().isValid(donnee, "yyyy/MM/dd")) {
-				parsedDate = (Date) dateFormat.parse(donnee);
-				Instant instant = Instant.ofEpochMilli(parsedDate.getTime());
-				discontinued = LocalDateTime.ofInstant(instant,
-						ZoneId.systemDefault());
-				// discontinued = LocalDate.parse(donnee, dateFormat);
+			if (DateValidator.getInstance().isValid(donnee, "yyyy-MM-dd")) {
+				discontinued = LocalDate.parse(donnee, dateFormat);
 			}
 		}
 		computer.setDiscontinued(discontinued);
 
-		System.out.println("Current  company id  : " + computer.getCompanyId());
+		System.out.println("Current  company id  : " + computer.getCompany().getId());
 		System.out.println("Enter new company id (Long) : ");
 		companyId = scanner.nextLong();
 		if (companyId != null && companyId instanceof Long)
-			computer.setCompanyId(companyId);
+			computer.getCompany().setId(companyId);
 
 		try {
 			service.updateComputer(computer);

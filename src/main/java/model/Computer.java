@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -15,188 +15,96 @@ public class Computer {
 	private String name;
 
 	/** The introduced. */
-	private LocalDateTime introduced;
+	private LocalDate introduced;
 
 	/** The discontinued. */
-	private LocalDateTime discontinued;
+	private LocalDate discontinued;
 
-	/** The company id. */
-	private Long companyId;
 
-	/**
-	 * Instantiates a new computer.
-	 *
-	 * @param name
-	 *            the name
-	 */
-	public Computer(String name) {
-		super();
-		this.name = name;
-	}
+	/** The company. */
+	private Company company;
 
-	/**
-	 * Instantiates a new computer.
-	 */
+
+	
+	
 	public Computer() {
 		super();
 	}
 
-	/**
-	 * Instantiates a new computer.
-	 *
-	 * @param name
-	 *            the name
-	 * @param introduced
-	 *            the introduced
-	 * @param discontinued
-	 *            the discontinued
-	 * @param companyId
-	 *            the company id
-	 */
-	public Computer(String name, LocalDateTime introduced,
-			LocalDateTime discontinued, Long companyId) {
+
+	public Computer(String name, LocalDate introduced,
+			LocalDate discontinued, Company company) {
 		super();
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
-		this.companyId = companyId;
+		this.company = company;
 	}
 
-	/**
-	 * Sets the id.
-	 *
-	 * @param id
-	 *            the new id
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
 
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
 	public long getId() {
 		return id;
 	}
 
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * Sets the name.
-	 *
-	 * @param name
-	 *            the new name
-	 */
+
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/**
-	 * Gets the introduced.
-	 *
-	 * @return the introduced
-	 */
-	public LocalDateTime getIntroduced() {
+
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
 
-	/**
-	 * Sets the introduced.
-	 *
-	 * @param introduced
-	 *            the new introduced
-	 */
-	public void setIntroduced(LocalDateTime introduced) {
+
+	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
 
-	/**
-	 * Gets the discontinued.
-	 *
-	 * @return the discontinued
-	 */
-	public LocalDateTime getDiscontinued() {
+
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
 
-	/**
-	 * Sets the discontinued.
-	 *
-	 * @param discontinued
-	 *            the new discontinued
-	 */
-	public void setDiscontinued(LocalDateTime discontinued) {
+
+	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
 
-	/**
-	 * Gets the company id.
-	 *
-	 * @return the company id
-	 */
-	public Long getCompanyId() {
-		return companyId;
+
+	public Company getCompany() {
+		return company;
 	}
 
-	/**
-	 * Sets the company id.
-	 *
-	 * @param companyId
-	 *            the new company id
-	 */
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
+
 	@Override
 	public String toString() {
-
-		if (this.introduced != null && discontinued != null) {
-			return "Computer [id=" + id + ", name=" + name + ", introduced="
-					+ introduced.toLocalDate() + ", discontinued="
-					+ discontinued.toLocalDate() + ", companyId=" + companyId
-					+ "]";
-		} else if ((this.introduced == null && discontinued != null)) {
-			return "Computer [id=" + id + ", name=" + name + ", introduced="
-					+ introduced + ", discontinued="
-					+ discontinued.toLocalDate() + ", companyId=" + companyId
-					+ "]";
-		} else if (this.introduced != null && discontinued == null) {
-			return "Computer [id=" + id + ", name=" + name + ", introduced="
-					+ introduced.toLocalDate() + ", discontinued="
-					+ discontinued + ", companyId=" + companyId + "]";
-		} else
-			return "Computer [id=" + id + ", name=" + name + ", introduced="
-					+ introduced + ", discontinued=" + discontinued
-					+ ", companyId=" + companyId + "]";
-
+		return "Computer [id=" + id + ", name=" + name + ", introduced="
+				+ introduced + ", discontinued=" + discontinued + ", company="
+				+ company + "]";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((companyId == null) ? 0 : companyId.hashCode());
+		result = prime * result + ((company == null) ? 0 : company.hashCode());
 		result = prime * result
 				+ ((discontinued == null) ? 0 : discontinued.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
@@ -206,11 +114,7 @@ public class Computer {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -220,10 +124,10 @@ public class Computer {
 		if (getClass() != obj.getClass())
 			return false;
 		Computer other = (Computer) obj;
-		if (companyId == null) {
-			if (other.companyId != null)
+		if (company == null) {
+			if (other.company != null)
 				return false;
-		} else if (!companyId.equals(other.companyId))
+		} else if (!company.equals(other.company))
 			return false;
 		if (discontinued == null) {
 			if (other.discontinued != null)
@@ -244,5 +148,7 @@ public class Computer {
 			return false;
 		return true;
 	}
+	
+	
 
 }

@@ -1,7 +1,7 @@
 package servlets;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.Company;
 import model.Computer;
 
+import org.apache.commons.validator.routines.DateValidator;
 import org.slf4j.LoggerFactory;
 
 import service.Service;
@@ -57,8 +58,8 @@ public class EditComputer extends HttpServlet {
 		if (id != 0) {
 			Computer computer = service.findComputerById(id);
 			request.setAttribute("Computer", computer);
-			request.setAttribute("companyName",
-					service.findCompanyById(computer.getCompanyId()).getName());
+//			request.setAttribute("companyName",computer.getCompany().getName());
+//			request.setAttribute("companyId",computer.getCompany().getId());
 		}
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/WEB-INF/views/editComputer.jsp");
@@ -73,44 +74,39 @@ public class EditComputer extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		
+		Computer computer = new Computer();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		Service service = new Service();
+		Long id = (long) Long.valueOf(request.getParameter("id"));
+		computer.setId(id);
+		
 		String name = (String) request.getParameter("computerName");
-		LocalDateTime introduced = LocalDateTime.now(); // parse("1991/01/01", formatter);
-		LocalDateTime discontinued = LocalDateTime.now(); // parse("1991/01/02", formatter);
-		Long companyId = (long) Long.valueOf(request.getParameter("companyId"));
-		
-		
-//		
-//		System.out.println("Finalll  " + name);
-//		System.out.println("Finalll  " + introduced);
-//		System.out.println("Finalll  " + discontinued);
-		System.out.println("Finalll  " + companyId);
-//		
-		
-		Computer computer = new Computer();
 		computer.setName(name);
-		computer.setIntroduced(introduced);
-		computer.setDiscontinued(discontinued);
-		computer.setCompanyId(companyId);
-		//Computer insertion
+		
+		if (DateValidator.getInstance().isValid(
+				request.getParameter("introduced"), "yyyy-MM-dd")) {
+			LocalDate introduced = LocalDate.parse(
+					request.getParameter("introduced"), formatter);
+			computer.setIntroduced(introduced);
+		}else 
+			computer.setIntroduced(null);
+
+		if (DateValidator.getInstance().isValid(
+				request.getParameter("discontinued"), "yyyy-MM-dd")) {
+			LocalDate discontinued = LocalDate.parse(
+					request.getParameter("discontinued"), formatter);
+			computer.setDiscontinued(discontinued);
+		}else
+			computer.setDiscontinued(null);
+		computer.setCompany(service.findCompanyById((long) Long.valueOf(request.getParameter("companyId"))));
+		//Computer update
 		service.updateComputer(computer);
-		List<Computer> lisComputers = service.findAllComputers();
-		request.setAttribute("Computers", lisComputers);
+		//set parameter
+//		List<Computer> lisComputers = service.findAllComputers();
+//		request.setAttribute("Computers", lisComputers);
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
 		dispatcher.forward(request, response);
 		logger.info("Success editing, redirecting to the Dashboard page.");
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doPut(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
-	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPut(req, resp);
 	}
 }

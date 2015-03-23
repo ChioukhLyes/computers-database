@@ -2,7 +2,6 @@ package servlets;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -13,13 +12,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Company;
+import model.Computer;
+
 import org.apache.commons.validator.routines.DateValidator;
 import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.classic.Logger;
-import model.Company;
-import model.Computer;
 import service.Service;
+import ch.qos.logback.classic.Logger;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -43,7 +43,7 @@ public class AddComputer extends HttpServlet{
 	
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
-			.getLogger(EditComputer.class);
+			.getLogger(AddComputer.class);
 
 	
 	/* (non-Javadoc)
@@ -85,27 +85,27 @@ public class AddComputer extends HttpServlet{
 		computer.setName(name);
 		
 		
-		if(DateValidator.getInstance().isValid(request.getParameter("introduced"),"yyyy-MM-dd")){
-			System.out.println("I'am in");
-			LocalDate introduced = LocalDate.parse("2000-02-02", formatter);
-			System.out.println(LocalDateTime.of(introduced, null)+" 12 ");
-//			LocalDateTime introduced = LocalDateTime.parse("2000-02-02", formatter); 
-			//computer.setIntroduced(introduced);
+		if (DateValidator.getInstance().isValid(
+				request.getParameter("introduced"), "yyyy-MM-dd")) {
+			LocalDate introduced = LocalDate.parse(
+					request.getParameter("introduced"), formatter);
+			computer.setIntroduced(introduced);
 		}
-		
-		if(DateValidator.getInstance().isValid(request.getParameter("discontinued"),"yyyy-MM-dd")){
-			LocalDateTime discontinued = LocalDateTime.parse(request.getParameter("discontinued"), formatter); 
+
+		if (DateValidator.getInstance().isValid(
+				request.getParameter("discontinued"), "yyyy-MM-dd")) {
+			LocalDate discontinued = LocalDate.parse(
+					request.getParameter("discontinued"), formatter);
 			computer.setDiscontinued(discontinued);
 		}
 		
 		Long companyId = (long) Long.valueOf(request.getParameter("companyId"));
-		computer.setCompanyId(companyId);
-		System.out.println("Finalll  " + companyId);
-		
+		Company company =  service.findCompanyById(companyId);
+		computer.setCompany(company);
 		//Computer insertion
 		service.insertComputer(computer);
-		List<Computer> lisComputers = service.findAllComputers();
-		request.setAttribute("Computers", lisComputers);
+//		List<Computer> lisComputers = service.findAllComputers();
+//		request.setAttribute("Computers", lisComputers);
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
 		dispatcher.forward(request, response);

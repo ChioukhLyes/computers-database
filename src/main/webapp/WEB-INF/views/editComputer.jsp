@@ -24,27 +24,27 @@
 					<h1>Edit Computer</h1>
 
 					<form action="editComputer" method="POST">
-						<input type="hidden" value="0" />
+						<input type="hidden" name="id" value="${Computer.id}" />
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName">Computer name </label> <input
 									type="text" name="computerName" class="form-control" id="computerName"
-									placeholder="Computer name : ${Computer.name}" required="required">
+									placeholder="Computer name" value="${Computer.name}" required="required">
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
 									type="date" name="introduced" class="form-control" id="introduced"
-									placeholder="Introduced date : ${Computer.introduced}">
+									placeholder="Introduced date" value="${Computer.introduced}">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
 									type="date" name="discontinued" class="form-control" id="discontinued"
-									placeholder="Discontinued date : ${Computer.discontinued}">
+									placeholder="Discontinued date" value="${Computer.discontinued}">
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
 									class="form-control" name="companyId" id="companyId">
-									<option value="0">${companyName}</option>
+									<option value="${Computer.company.id}">${Computer.company.name}</option>
 									<c:forEach var="company" items="${Companies}">
 										<option value="${company.id}">${company.name}</option>
 									</c:forEach>
