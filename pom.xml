@@ -20,6 +20,9 @@
 		<JSTL>1.2</JSTL>
 		<TAGLIB>1.1.2</TAGLIB>
 		<SELENIUM>2.45.0</SELENIUM>
+		<MAVEN-WAR-PLUGIN>2.4</MAVEN-WAR-PLUGIN>
+		<MAVEN-COMPILER-PLUGIN>3.1</MAVEN-COMPILER-PLUGIN>
+		<MAVEN-COMPILER-PLUGIN-CONFIG>1.8</MAVEN-COMPILER-PLUGIN-CONFIG>
 	</properties>
 
 	<dependencies>
@@ -99,15 +102,15 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>${MAVEN-COMPILER-PLUGIN}</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>${MAVEN-COMPILER-PLUGIN-CONFIG}</source>
+					<target>${MAVEN-COMPILER-PLUGIN-CONFIG}</target>
 				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
+				<version>${MAVEN-WAR-PLUGIN}</version>
 			</plugin>
 		</plugins>
 	</build>
