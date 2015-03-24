@@ -1,4 +1,4 @@
-package servlets;
+package com.excilys.servlets;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Page;
-import persistence.ComputerDAO;
-import persistence.DaoFactory;
-import services.ServiceComputer;
-import dto.ComputerDTO;
+import com.excilys.dto.ComputerDTO;
+import com.excilys.model.Page;
+import com.excilys.persistence.ComputerDAO;
+import com.excilys.persistence.DaoFactory;
+import com.excilys.services.ServiceComputer;
 
 // TODO: Auto-generated Javadoc
 /**

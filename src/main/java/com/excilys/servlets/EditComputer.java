@@ -1,4 +1,4 @@
-package servlets;
+package com.excilys.servlets;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -12,15 +12,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Company;
-
 import org.apache.commons.validator.routines.DateValidator;
 import org.slf4j.LoggerFactory;
 
-import services.ServiceCompany;
-import services.ServiceComputer;
+import com.excilys.dto.ComputerDTO;
+import com.excilys.model.Company;
+import com.excilys.services.ServiceCompany;
+import com.excilys.services.ServiceComputer;
+
 import ch.qos.logback.classic.Logger;
-import dto.ComputerDTO;
 
 // TODO: Auto-generated Javadoc
 /**

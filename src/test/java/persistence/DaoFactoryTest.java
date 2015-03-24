@@ -5,6 +5,10 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
+import com.excilys.persistence.CompanyDAO;
+import com.excilys.persistence.ComputerDAO;
+import com.excilys.persistence.DaoFactory;
+
 import junit.framework.TestCase;
 
 public class DaoFactoryTest extends TestCase {

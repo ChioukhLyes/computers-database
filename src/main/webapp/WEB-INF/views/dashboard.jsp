@@ -1,19 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<title>Computer Database</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="utf-8">
-<!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="css/main.css" rel="stylesheet" media="screen">
-
-
-</head>
+<jsp:include page="common/header.jsp"></jsp:include>
 
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
@@ -90,48 +78,16 @@
 							<td>${item.companyName}</td>
 						</tr>
 					</c:forEach>
-					<%-- 					<c:forEach var="i" begin="0" end="${numberComputers}"> --%>
-					<!-- 						<tr> -->
-					<!-- 								<td class="editMode"><input type="checkbox" name="cb" -->
-					<!-- 									 class="cb" value="0"></td> -->
-					<%-- 								<td><a href="<c:url value="editComputer">                              --%>
-					<%-- 					 		       				<c:param name="id" value="${Computers.get(i).id}"/>                             
-<%-- 					 		       				</c:url>" onclick="">  --%>
-					<%-- 					 							${Computers.get(i).name}</a></td> --%>
-					<%-- 								<td>${Computers.get(i).introduced}</td> --%>
-					<%-- 								<td>${Computers.get(i).discontinued}</td> --%>
-					<%-- 								<td>${Computers.get(i).company.name}</td> --%>
-					<!-- 						</tr> -->
-					<%-- 					</c:forEach> --%>
 				</tbody>
 			</table>
 		</div>
 	</section>
 
 	<footer class="navbar-fixed-bottom">
-		<!-- 		<div class="container text-center"> -->
-		<!-- 			<ul class="pagination"> -->
-		<!-- 				<li><a href="#" aria-label="Previous"> <span -->
-		<!-- 						aria-hidden="true">&laquo;</span> -->
-		<!-- 				</a></li> -->
-		<%-- 				<c:forEach var="page" begin="1" end="${Computers.size()/100}"> --%>
-		<%-- 					<li><a href="#">${page}</a></li> --%>
-		<%-- 				</c:forEach> --%>
-		<!-- 				<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span> -->
-		<!-- 				</a></li> -->
-		<!-- 			</ul> -->
-		<!-- 		</div> -->
-		<!-- 		<div class="btn-group btn-group-sm pull-right" role="group"> -->
-		<!-- 			<button type="button" class="btn btn-default">10</button> -->
-		<!-- 			<button type="button" class="btn btn-default">50</button> -->
-		<!-- 			<button type="button" class="btn btn-default">100</button> -->
-		<!-- 		</div> -->
-
 		<mylib:paginator page="${currentPage}"  />
 	</footer>
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/dashboard.js"></script>
 
+	<jsp:include page="common/footer.jsp"></jsp:include>
+	
 </body>
 </html>

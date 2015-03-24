@@ -1,4 +1,4 @@
-package dto;
+package com.excilys.dto;
 
 import java.time.LocalDate;
 

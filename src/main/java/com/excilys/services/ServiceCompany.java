@@ -1,13 +1,13 @@
-package services;
+package com.excilys.services;
 
 import java.util.List;
 
-import model.Company;
-
 import org.slf4j.LoggerFactory;
 
-import persistence.CompanyDAO;
-import persistence.DaoFactory;
+import com.excilys.model.Company;
+import com.excilys.persistence.CompanyDAO;
+import com.excilys.persistence.DaoFactory;
+
 import ch.qos.logback.classic.Logger;
 
 // TODO: Auto-generated Javadoc

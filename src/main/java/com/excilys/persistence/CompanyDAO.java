@@ -1,8 +1,8 @@
-package persistence;
+package com.excilys.persistence;
 
 import java.util.List;
 
-import model.Company;
+import com.excilys.model.Company;
 
 // TODO: Auto-generated Javadoc
 /**

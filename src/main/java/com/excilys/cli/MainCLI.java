@@ -1,4 +1,4 @@
-package cli;
+package com.excilys.cli;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -7,15 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import model.Company;
-
 import org.apache.commons.validator.routines.DateValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import services.ServiceCompany;
-import services.ServiceComputer;
-import dto.ComputerDTO;
+import com.excilys.dto.ComputerDTO;
+import com.excilys.model.Company;
+import com.excilys.services.ServiceCompany;
+import com.excilys.services.ServiceComputer;
 
 // TODO: Auto-generated Javadoc
 /**

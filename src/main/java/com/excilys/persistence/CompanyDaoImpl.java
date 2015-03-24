@@ -1,4 +1,4 @@
-package persistence;
+package com.excilys.persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Company;
+import com.excilys.mapper.impl.CompanyMapperImpl;
+import com.excilys.model.Company;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -25,38 +26,25 @@ public class CompanyDaoImpl implements CompanyDAO {
 	public List<Company> findAllCompanies() {
 
 		List<Company> companies = new ArrayList<Company>();
-		Connection connexion = null;
+		Connection connection = null;
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
 
 		try {
-			connexion = DaoFactory.INSTANCE.getConnection();
-			preparedStatement = connexion
+			connection = DaoFactory.INSTANCE.getConnection();
+			preparedStatement = connection
 					.prepareStatement("SELECT id, name FROM company;");
 			resultSet = preparedStatement.executeQuery();
-
-			while (resultSet.next()) {
-				long id = resultSet.getLong("id");
-				String name = resultSet.getString("name");
-				Company company = new Company();
-				company.setId(id);
-				company.setName(name);
-				companies.add(company);
-			}
+			companies = CompanyMapperImpl.INSTANCE.MappCompanies(resultSet);
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			if (connexion != null) {
-				try {
-					connexion.close();
-				} catch (SQLException e) {
-					System.err.println(e.getMessage());
-				}
-			}
+			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,
+					resultSet);
 		}
 		return companies;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -66,36 +54,24 @@ public class CompanyDaoImpl implements CompanyDAO {
 	public List<Company> findAllCompanies(int limit, int offset) {
 
 		List<Company> companies = new ArrayList<Company>();
-		Connection connexion = null;
+		Connection connection = null;
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
 
 		try {
-			connexion = DaoFactory.INSTANCE.getConnection();
-			preparedStatement = connexion
+			connection = DaoFactory.INSTANCE.getConnection();
+			preparedStatement = connection
 					.prepareStatement("SELECT id, name FROM company limit ? offset ?;");
 			preparedStatement.setInt(1, limit);
 			preparedStatement.setInt(2, offset);
 			resultSet = preparedStatement.executeQuery();
+			companies = CompanyMapperImpl.INSTANCE.MappCompanies(resultSet);
 
-			while (resultSet.next()) {
-				long id = resultSet.getLong("id");
-				String name = resultSet.getString("name");
-				Company company = new Company();
-				company.setId(id);
-				company.setName(name);
-				companies.add(company);
-			}
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			if (connexion != null) {
-				try {
-					connexion.close();
-				} catch (SQLException e) {
-					System.err.println(e.getMessage());
-				}
-			}
+			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,
+					resultSet);
 		}
 		return companies;
 	}
@@ -108,44 +84,34 @@ public class CompanyDaoImpl implements CompanyDAO {
 	@Override
 	public Company findCompanyById(Long id) {
 		Company company = new Company();
-		Connection connexion = null;
+		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;
 
 		try {
-			connexion = DaoFactory.INSTANCE.getConnection();
-			statement = connexion.createStatement();
+			connection = DaoFactory.INSTANCE.getConnection();
+			statement = connection.createStatement();
 			resultSet = statement
 					.executeQuery("SELECT id, name FROM company WHERE id=" + id
 							+ ";");
-			if (resultSet.next()) {
-				Long idc = resultSet.getLong("id");
-				String name = resultSet.getString("name");
-				company.setId(idc);
-				company.setName(name);
-			}
+
+			company = CompanyMapperImpl.INSTANCE.MappCompany(resultSet);
 
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			if (connexion != null) {
-				try {
-					connexion.close();
-				} catch (SQLException e) {
-					System.err.println(e.getMessage());
-				}
-			}
+			DaoFactory.INSTANCE.CloseConnections(connection, null, resultSet);
 		}
 		return company;
 	}
 
 	@Override
 	public int getCountCompanies() {
-		
+
 		Connection connection = null;
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
-		int count=0;
+		int count = 0;
 		try {
 			connection = DaoFactory.INSTANCE.getConnection();
 			preparedStatement = connection
@@ -153,11 +119,12 @@ public class CompanyDaoImpl implements CompanyDAO {
 			resultSet = preparedStatement.executeQuery();
 			resultSet.next();
 			count = resultSet.getInt(1);
-			
+
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,null);
+			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,
+					null);
 		}
 		return count;
 	}

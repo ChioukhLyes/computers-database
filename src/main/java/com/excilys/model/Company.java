@@ -1,4 +1,4 @@
-package model;
+package com.excilys.model;
 
 // TODO: Auto-generated Javadoc
 /**

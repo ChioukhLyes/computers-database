@@ -1,8 +1,8 @@
-package persistence;
+package com.excilys.persistence;
 
 import java.util.List;
 
-import dto.ComputerDTO;
+import com.excilys.dto.ComputerDTO;
 
 // TODO: Auto-generated Javadoc
 /**
