@@ -23,8 +23,6 @@ public class Computer {
 
 	/** The company. */
 	private Company company;
-
-
 	
 	
 	public Computer() {

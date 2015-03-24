@@ -1,56 +1,54 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ attribute name="page" required="true" type="java.lang.Integer"
+<%@ attribute name="page" required="true" type="model.Page"
 	description="CurrentPage"%>
-<%@ attribute name="size" required="true" type="java.lang.String"
-	description="itemPerPage"%>
 
 <div class="container text-center">
 	<ul class="pagination">
 
-		<c:if test="${page != 1}">
+		<c:if test="${currentPage.pageNumber != 1}">
 			<li><a
 				href="
 			<c:url value="dashboard">
-			<c:param name="page" value="${page-1}" />
-			<c:param name="size" value="${size}" />
+			<c:param name="page" value="${currentPage.pageNumber-1}" />
+			<c:param name="size" value="${currentPage.pageSize}" />
 		</c:url>"
 				aria-label="Previous"> <span aria-hidden=true>&laquo;</span>
 			</a></li>
 		</c:if>
 
-		<c:if test="${page-2 > 0}">
+		<c:if test="${currentPage.pageNumber-2 > 0}">
 			<li><a	href="<c:url value="dashboard">
-			<c:param name="page" value="${page-2}" />
-			<c:param name="size" value="${size}" /></c:url>
-				">${page-2}</a></li>
+			<c:param name="page" value="${currentPage.pageNumber-2}" />
+			<c:param name="size" value="${currentPage.pageSize}" /></c:url>
+				">${currentPage.pageNumber-2}</a></li>
 		</c:if>
 
-		<c:if test="${page-1 > 0}">
+		<c:if test="${currentPage.pageNumber-1 > 0}">
 			<li><a 
 				href="<c:url value="dashboard">
-			<c:param name="page" value="${page-1}" />
-			<c:param name="size" value="${size}" /></c:url>">${page-1}</a></li>
+			<c:param name="page" value="${currentPage.pageNumber-1}" />
+			<c:param name="size" value="${currentPage.pageSize}" /></c:url>">${currentPage.pageNumber-1}</a></li>
 		</c:if>
 
-		<li class="active"><a href="#">${page}</a></li>
+		<li class="active"><a href="#">${currentPage.pageNumber}</a></li>
 		
-		<c:if test="${page+1 <= pageMax}">
+		<c:if test="${currentPage.pageNumber+1 <= currentPage.maxPage}">
 			<li><a href="<c:url value="dashboard">
-			<c:param name="page" value="${page+1}" />
-			<c:param name="size" value="${size}" /></c:url>">${page+1}</a></li>
+			<c:param name="page" value="${currentPage.pageNumber+1}" />
+			<c:param name="size" value="${currentPage.pageSize}" /></c:url>">${currentPage.pageNumber+1}</a></li>
 		</c:if>
 
-		<c:if test="${page+2 <= pageMax}">
+		<c:if test="${currentPage.pageNumber+2 <= currentPage.maxPage}">
 			<li><a href="<c:url value="dashboard">
-			<c:param name="page" value="${page+2}" />
-			<c:param name="size" value="${size}" /></c:url>">${page+2}</a></li>
+			<c:param name="page" value="${currentPage.pageNumber+2}" />
+			<c:param name="size" value="${currentPage.pageSize}" /></c:url>">${currentPage.pageNumber+2}</a></li>
 		</c:if>
 
-		<c:if test="${page != pageMax}">
+		<c:if test="${currentPage.pageNumber != currentPage.maxPage}">
 			<li><a href="<c:url value="dashboard">
-			<c:param name="page" value="${page+1}" />
-			<c:param name="size" value="${size}" /></c:url>"
+			<c:param name="page" value="${currentPage.pageNumber+1}" />
+			<c:param name="size" value="${currentPage.pageSize}" /></c:url>"
 				aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 			</a></li>
 		</c:if>

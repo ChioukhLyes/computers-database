@@ -44,7 +44,7 @@
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
 									class="form-control" name="companyId" id="companyId">
-									<option value="${Computer.company.id}">${Computer.company.name}</option>
+									<option value="${Computer.companyId}">${Computer.companyName}</option>
 									<c:forEach var="company" items="${Companies}">
 										<option value="${company.id}">${company.name}</option>
 									</c:forEach>

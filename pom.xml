@@ -7,39 +7,55 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>computers-database Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+
+	<!-- Version APIs -->
+	<properties>
+		<CH.QOS.LOGBACK>1.0.13</CH.QOS.LOGBACK>
+		<COMMONS-VALIDATOR>1.4.0</COMMONS-VALIDATOR>
+		<MYSQL>5.1.34</MYSQL>
+		<JUNIT>4.12</JUNIT>
+		<ORG.MOCKITO>1.9.5</ORG.MOCKITO>
+		<SERVLET.API>3.0.1</SERVLET.API>
+		<SERVLET.JSP>2.0</SERVLET.JSP>
+		<JSTL>1.2</JSTL>
+		<TAGLIB>1.1.2</TAGLIB>
+		<SELENIUM>2.45.0</SELENIUM>
+	</properties>
+
 	<dependencies>
 
 		<!-- Dependencies for Logger/Logging -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.0.13</version>
+			<version>${CH.QOS.LOGBACK}</version>
 		</dependency>
 
 		<!-- Dependencies for DateValidator -->
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
-			<version>1.4.0</version>
+			<version>${COMMONS-VALIDATOR}</version>
 		</dependency>
 
 		<!-- Dependencies for mysqlConnector -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.34</version>
+			<version>${MYSQL}</version>
 		</dependency>
 
 		<!-- Dependencies for test envirement -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${JUNIT}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.9.5</version>
+			<version>${ORG.MOCKITO}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -47,24 +63,24 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
+			<version>${SERVLET.API}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jsp-api</artifactId>
-			<version>2.0</version>
+			<version>${SERVLET.JSP}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version>
+			<version>${JSTL}</version>
 		</dependency>
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
-			<version>1.1.2</version>
+			<version>${TAGLIB}</version>
 		</dependency>
 
 		<!-- Dependencies selenium -->
@@ -72,13 +88,12 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>2.45.0</version>
+			<version>${SELENIUM}</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
 	<!-- Dependencies for web view -->
-
-
 
 	<build>
 		<plugins>

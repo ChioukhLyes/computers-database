@@ -142,13 +142,13 @@ public class CompanyDaoImpl implements CompanyDAO {
 	@Override
 	public int getCountCompanies() {
 		
-		Connection connexion = null;
+		Connection connection = null;
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
 		int count=0;
 		try {
-			connexion = DaoFactory.INSTANCE.getConnection();
-			preparedStatement = connexion
+			connection = DaoFactory.INSTANCE.getConnection();
+			preparedStatement = connection
 					.prepareStatement("SELECT count(*) FROM company;");
 			resultSet = preparedStatement.executeQuery();
 			resultSet.next();
@@ -157,7 +157,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnection(connexion);
+			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,null);
 		}
 		return count;
 	}

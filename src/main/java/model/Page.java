@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 // TODO: Auto-generated Javadoc
@@ -13,47 +12,49 @@ import java.util.List;
 public class Page<T> {
 
 	/** The entities. */
-	private List<T> entities = new ArrayList<T>();
+	private List<T> entities;
 
-	/** The from index. */
-	private int fromIndex = 0;
+	/** The page number. */
+	private int pageNumber;
 
-	/** The to index. */
-	private int toIndex = 0;
+	/** The page size. */
+	private int pageSize;
+
+	/** The max page. */
+	private int maxPage;
+
+	/** The order entities by. */
+	private String orderEntitiesBy;
 
 	/**
-	 * Paginate.
-	 *
-	 * @param entites
-	 *            the entites
-	 * @param fromIndex
-	 *            the from index
-	 * @param toIndex
-	 *            the to index
-	 * @return the list
+	 * Instantiates a new page.
 	 */
-	public List<T> paginate(List<T> entites, int fromIndex, int toIndex) {
-
-		if (toIndex > entites.size())
-			toIndex = entites.size();
-
-		if (fromIndex < 0 || fromIndex > toIndex) {
-			throw new IndexOutOfBoundsException();
-		}
-		return entites.subList(fromIndex, toIndex);
+	public Page() {
+		super();
 	}
 
 	/**
-	 * Show paginated list.
+	 * Instantiates a new page.
 	 *
 	 * @param entities
 	 *            the entities
+	 * @param pageNumber
+	 *            the page number
+	 * @param pageSize
+	 *            the page size
+	 * @param maxPage
+	 *            the max page
+	 * @param orderEntitiesBy
+	 *            the order entities by
 	 */
-	public void showPaginatedList(List<T> entities) {
-
-		for (int i = 0; i < entities.size(); i++) {
-			System.out.println(entities.get(i).toString());
-		}
+	public Page(List<T> entities, int pageNumber, int pageSize, int maxPage,
+			String orderEntitiesBy) {
+		super();
+		this.entities = entities;
+		this.pageNumber = pageNumber;
+		this.pageSize = pageSize;
+		this.maxPage = maxPage;
+		this.orderEntitiesBy = orderEntitiesBy;
 	}
 
 	/**
@@ -76,41 +77,143 @@ public class Page<T> {
 	}
 
 	/**
-	 * Gets the from index.
+	 * Gets the page number.
 	 *
-	 * @return the from index
+	 * @return the page number
 	 */
-	public int getFromIndex() {
-		return fromIndex;
+	public int getPageNumber() {
+		return pageNumber;
 	}
 
 	/**
-	 * Sets the from index.
+	 * Sets the page number.
 	 *
-	 * @param fromIndex
-	 *            the new from index
+	 * @param pageNumber
+	 *            the new page number
 	 */
-	public void setFromIndex(int fromIndex) {
-		this.fromIndex = fromIndex;
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
 	}
 
 	/**
-	 * Gets the to index.
+	 * Gets the page size.
 	 *
-	 * @return the to index
+	 * @return the page size
 	 */
-	public int getToIndex() {
-		return toIndex;
+	public int getPageSize() {
+		return pageSize;
 	}
 
 	/**
-	 * Sets the to index.
+	 * Sets the page size.
 	 *
-	 * @param toIndex
-	 *            the new to index
+	 * @param pageSize
+	 *            the new page size
 	 */
-	public void setToIndex(int toIndex) {
-		this.toIndex = toIndex;
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	/**
+	 * Gets the max page.
+	 *
+	 * @return the max page
+	 */
+	public int getMaxPage() {
+		return maxPage;
+	}
+
+	/**
+	 * Sets the max page.
+	 *
+	 * @param maxPage
+	 *            the new max page
+	 */
+	public void setMaxPage(int maxPage) {
+		this.maxPage = maxPage;
+	}
+
+	/**
+	 * Gets the order entities by.
+	 *
+	 * @return the order entities by
+	 */
+	public String getOrderEntitiesBy() {
+		return orderEntitiesBy;
+	}
+
+	/**
+	 * Sets the order entities by.
+	 *
+	 * @param orderEntitiesBy
+	 *            the new order entities by
+	 */
+	public void setOrderEntitiesBy(String orderEntitiesBy) {
+		this.orderEntitiesBy = orderEntitiesBy;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Page [entities=" + entities + ", pageNumber=" + pageNumber
+				+ ", pageSize=" + pageSize + ", maxPage=" + maxPage
+				+ ", orderEntitiesBy=" + orderEntitiesBy + "]";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((entities == null) ? 0 : entities.hashCode());
+		result = prime * result + maxPage;
+		result = prime * result
+				+ ((orderEntitiesBy == null) ? 0 : orderEntitiesBy.hashCode());
+		result = prime * result + pageNumber;
+		result = prime * result + pageSize;
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Page<?> other = (Page<?>) obj;
+		if (entities == null) {
+			if (other.entities != null)
+				return false;
+		} else if (!entities.equals(other.entities))
+			return false;
+		if (maxPage != other.maxPage)
+			return false;
+		if (orderEntitiesBy == null) {
+			if (other.orderEntitiesBy != null)
+				return false;
+		} else if (!orderEntitiesBy.equals(other.orderEntitiesBy))
+			return false;
+		if (pageNumber != other.pageNumber)
+			return false;
+		if (pageSize != other.pageSize)
+			return false;
+		return true;
 	}
 
 }

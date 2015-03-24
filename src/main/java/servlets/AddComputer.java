@@ -13,13 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Company;
-import model.Computer;
 
 import org.apache.commons.validator.routines.DateValidator;
 import org.slf4j.LoggerFactory;
 
-import service.Service;
+import services.ServiceCompany;
+import services.ServiceComputer;
 import ch.qos.logback.classic.Logger;
+import dto.ComputerDTO;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -54,8 +55,8 @@ public class AddComputer extends HttpServlet{
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		Service service = new Service();
-		List<Company> lisCompanies = service.findAllCompanies();
+		ServiceCompany serviceCompany = new ServiceCompany();
+		List<Company> lisCompanies = serviceCompany.findAllCompanies();
 		request.setAttribute("Companies", lisCompanies);
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/WEB-INF/views/addComputer.jsp");
@@ -77,10 +78,11 @@ public class AddComputer extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		Computer computer = new Computer();
+		ComputerDTO computer = new ComputerDTO();
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		Service service = new Service();
+		ServiceComputer serviceComputer = new ServiceComputer();
+		ServiceCompany serviceCompany = new ServiceCompany();
 		String name = (String) request.getParameter("computerName");
 		computer.setName(name);
 		
@@ -100,10 +102,11 @@ public class AddComputer extends HttpServlet{
 		}
 		
 		Long companyId = (long) Long.valueOf(request.getParameter("companyId"));
-		Company company =  service.findCompanyById(companyId);
-		computer.setCompany(company);
+		Company company =  serviceCompany.findCompanyById(companyId);
+		computer.setCompanyId(companyId);
+		computer.setCompanyName(company.getName());
 		//Computer insertion
-		service.insertComputer(computer);
+		serviceComputer.insertComputer(computer);
 //		List<Computer> lisComputers = service.findAllComputers();
 //		request.setAttribute("Computers", lisComputers);
 		RequestDispatcher dispatcher = getServletContext()

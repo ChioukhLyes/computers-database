@@ -76,7 +76,7 @@
 				</thead>
 				<!-- Browse attribute computers -->
 				<tbody id="results">
-					<c:forEach var="item" items="${Computers}">
+					<c:forEach var="item" items="${currentPage.entities}">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="0"></td>
@@ -87,7 +87,7 @@
 								onclick=""> ${item.name}</a></td>
 							<td>${item.introduced}</td>
 							<td>${item.discontinued}</td>
-							<td>${item.company.name}</td>
+							<td>${item.companyName}</td>
 						</tr>
 					</c:forEach>
 					<%-- 					<c:forEach var="i" begin="0" end="${numberComputers}"> --%>
@@ -127,7 +127,7 @@
 		<!-- 			<button type="button" class="btn btn-default">100</button> -->
 		<!-- 		</div> -->
 
-		<mylib:paginator page="${page}" size="${size}" />
+		<mylib:paginator page="${currentPage}"  />
 	</footer>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>

@@ -8,13 +8,14 @@ import java.util.List;
 import java.util.Scanner;
 
 import model.Company;
-import model.Computer;
 
 import org.apache.commons.validator.routines.DateValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import service.Service;
+import services.ServiceCompany;
+import services.ServiceComputer;
+import dto.ComputerDTO;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -23,7 +24,10 @@ import service.Service;
 public class MainCLI {
 
 	/** The service. */
-	static Service service = new Service();
+	static ServiceComputer serviceComputer = new ServiceComputer();
+	
+	/** The service. */
+	static ServiceCompany serviceCompany = new ServiceCompany();
 
 	/** The logger. */
 	static Logger logger = LoggerFactory.getLogger(Class.class);
@@ -101,7 +105,7 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	public static void showComputers() throws ParseException {
+	public static  void showComputers() throws ParseException {
 		int limit = 5;
 		int offset = 0;
 		@SuppressWarnings("resource")
@@ -119,12 +123,11 @@ public class MainCLI {
 		};
 
 		System.out.println("List computers (pages of 5 computers) :");
-		List<Computer> computers;
+		List<ComputerDTO> computers;
 		// Page<Computer> pagination = new Page<Computer>();
 		while (true) {
-			computers = service.findAllComputers(limit, offset);
-			System.out.println(computers.size() + " okok");
-			for (Computer computer : computers) {
+			computers = serviceComputer.findAllComputers(limit, offset);
+			for (ComputerDTO computer : computers) {
 				System.out.println(computer.toString());
 			}
 
@@ -175,7 +178,7 @@ public class MainCLI {
 		List<Company> companies;
 		// Page<Computer> pagination = new Page<Computer>();
 		while (true) {
-			companies = service.findAllCompanies(limit, offset);
+			companies = serviceCompany.findAllCompanies(limit, offset);
 			for (Company company : companies) {
 				System.out.println(company.toString());
 			}
@@ -214,7 +217,7 @@ public class MainCLI {
 			choice = scanner.nextLong();
 		}
 		System.out.println("Computer details :");
-		System.out.println(service.findComputerById(choice).toString());
+		System.out.println(serviceComputer.findComputerById(choice).toString());
 		mainCLI();
 	}
 
@@ -264,7 +267,7 @@ public class MainCLI {
 		companyId = scanner.nextLong();
 
 		try {
-			service.insertComputer(new Computer(name, introduced, discontinued,	new Company(companyId, null)));
+			serviceComputer.insertComputer(new ComputerDTO(name, introduced, discontinued,	companyId));
 			System.out.println("Computer inserted");
 		} catch (Exception e) {
 			System.out.println("Computer not inserted" + e.getMessage());
@@ -281,7 +284,7 @@ public class MainCLI {
 	public static void updateComputer() throws ParseException {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
-		Computer computer = null;
+		ComputerDTO computerDTO = null;
 		Long id = null;
 		String name = null;
 		LocalDate introduced = null;
@@ -291,23 +294,23 @@ public class MainCLI {
 		// .ofPattern("yyyy/MM/dd");
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String donnee;
-		while (id == null || computer == null) {
+		while (id == null || computerDTO == null) {
 			System.out.println("Enter computer id (Long) : ");
 			id = scanner.nextLong();
-			computer = service.findComputerById(id);
+			computerDTO = serviceComputer.findComputerById(id);
 		}
 
 		while (name == null) {
-			System.out.println("Current computer name : " + computer.getName());
+			System.out.println("Current computer name : " + computerDTO.getName());
 			System.out.println("Enter new computer name : \t");
 			scanner.nextLine();
 			name = scanner.nextLine();
 		}
-		computer.setName(name);
+		computerDTO.setName(name);
 
 		while (introduced == null) {
 			System.out.println("Current computer introduced date : "
-					+ computer.getIntroduced());
+					+ computerDTO.getIntroduced());
 			System.out
 					.println("Enter new computer introduced date (yyyy-MM-dd) : ");
 			donnee = scanner.next();
@@ -315,11 +318,11 @@ public class MainCLI {
 				introduced = LocalDate.parse(donnee, dateFormat);
 			}
 		}
-		computer.setIntroduced(introduced);
+		computerDTO.setIntroduced(introduced);
 
 		while (discontinued == null) {
 			System.out.println("Current computer discontinued date : "
-					+ computer.getDiscontinued());
+					+ computerDTO.getDiscontinued());
 			System.out
 					.println("Enter new computer discontinued date (yyyy-MM-ddd) : ");
 			donnee = scanner.next();
@@ -327,16 +330,16 @@ public class MainCLI {
 				discontinued = LocalDate.parse(donnee, dateFormat);
 			}
 		}
-		computer.setDiscontinued(discontinued);
+		computerDTO.setDiscontinued(discontinued);
 
-		System.out.println("Current  company id  : " + computer.getCompany().getId());
+		System.out.println("Current  company id  : " + computerDTO.getCompanyId());
 		System.out.println("Enter new company id (Long) : ");
 		companyId = scanner.nextLong();
 		if (companyId != null && companyId instanceof Long)
-			computer.getCompany().setId(companyId);
+			computerDTO.setCompanyId(companyId);
 
 		try {
-			service.updateComputer(computer);
+			serviceComputer.updateComputer(computerDTO);
 			System.out.println("Computer updated");
 		} catch (Exception e) {
 			System.out.println("Computer not updated" + e.getMessage());
@@ -353,21 +356,21 @@ public class MainCLI {
 	public static void deleteComputer() throws ParseException {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
-		Computer computer = null;
+		ComputerDTO computerDTO = null;
 		Long id = null;
-		while (id == null || computer == null) {
+		while (id == null || computerDTO == null) {
 			System.out.println("Enter computer id (Long) : ");
 			scanner.next();
 			if (scanner.hasNextLong()) {
 				id = scanner.nextLong();
-				computer = service.findComputerById(id);
+				computerDTO = serviceComputer.findComputerById(id);
 			}
 		}
 
 		try {
-			service.deleteComputer(computer);
+			serviceComputer.deleteComputer(computerDTO);
 			System.out.println("The following computer has been deleted : "
-					+ computer.toString());
+					+ computerDTO.toString());
 		} catch (Exception e) {
 			System.err.println("Computer not deleted" + e.getMessage());
 		}
@@ -384,6 +387,7 @@ public class MainCLI {
 	 *             the parse exception
 	 */
 	public static void main(String[] args) throws ParseException {
+		
 		mainCLI();
 	}
 }

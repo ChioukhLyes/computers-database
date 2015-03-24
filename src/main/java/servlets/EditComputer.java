@@ -13,13 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Company;
-import model.Computer;
 
 import org.apache.commons.validator.routines.DateValidator;
 import org.slf4j.LoggerFactory;
 
-import service.Service;
+import services.ServiceCompany;
+import services.ServiceComputer;
 import ch.qos.logback.classic.Logger;
+import dto.ComputerDTO;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -52,11 +53,12 @@ public class EditComputer extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		Long id = (long) Long.valueOf(request.getParameter("id"));
-		Service service = new Service();
-		List<Company> lisCompanies = service.findAllCompanies();
+		ServiceComputer serviceComputer = new ServiceComputer();
+		ServiceCompany serviceCompany = new ServiceCompany();
+		List<Company> lisCompanies = serviceCompany.findAllCompanies();
 		request.setAttribute("Companies", lisCompanies);
 		if (id != 0) {
-			Computer computer = service.findComputerById(id);
+			ComputerDTO computer = serviceComputer.findComputerById(id);
 			request.setAttribute("Computer", computer);
 //			request.setAttribute("companyName",computer.getCompany().getName());
 //			request.setAttribute("companyId",computer.getCompany().getId());
@@ -74,9 +76,10 @@ public class EditComputer extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		Computer computer = new Computer();
+		ComputerDTO computer = new ComputerDTO();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		Service service = new Service();
+		ServiceComputer serviceComputer = new ServiceComputer();
+		ServiceCompany serviceCompany = new ServiceCompany();
 		Long id = (long) Long.valueOf(request.getParameter("id"));
 		computer.setId(id);
 		
@@ -98,9 +101,14 @@ public class EditComputer extends HttpServlet {
 			computer.setDiscontinued(discontinued);
 		}else
 			computer.setDiscontinued(null);
-		computer.setCompany(service.findCompanyById((long) Long.valueOf(request.getParameter("companyId"))));
+		
+		Company company = serviceCompany.findCompanyById((long) Long.valueOf(request.getParameter("companyId")));
+		computer.setCompanyId(company.getId());
+		computer.setCompanyName(company.getName());
+		
 		//Computer update
-		service.updateComputer(computer);
+		serviceComputer.updateComputer(computer);
+		
 		//set parameter
 //		List<Computer> lisComputers = service.findAllComputers();
 //		request.setAttribute("Computers", lisComputers);

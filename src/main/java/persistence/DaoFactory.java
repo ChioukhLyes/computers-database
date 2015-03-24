@@ -5,8 +5,16 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
 import java.util.Properties;
+
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.Logger;
+
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -22,6 +30,10 @@ public enum DaoFactory {
 
 	/** The config prop. */
 	private Properties configProp = new Properties();
+
+	/** The logger. */
+	private static Logger logger = (Logger) LoggerFactory
+			.getLogger(DaoFactory.class);
 
 	// /** The Constant MYSQL_DATABASE_URL. */
 	// private static final String MYSQL_DATABASE_URL =
@@ -43,16 +55,15 @@ public enum DaoFactory {
 	public Connection getConnection() {
 		Connection connection;
 
-		
 		try {
 			Driver monDriver = new com.mysql.jdbc.Driver();
 			DriverManager.registerDriver(monDriver);
-			
+
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			System.err.println(e2.getMessage());
 		}
-		
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (InstantiationException | IllegalAccessException
@@ -77,23 +88,47 @@ public enum DaoFactory {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.err.println(e.getMessage());
+			logger.error("Failed to get connection.");
 		}
 		return null;
 	}
 
 	/**
-	 * Close connection.
+	 * Close connections.
 	 *
 	 * @param connection
 	 *            the connection
+	 * @param preparedStatement
+	 *            the prepared statement
+	 * @param resultSet
+	 *            the result set
 	 */
-	public void CloseConnection(Connection connection) {
+	public void CloseConnections(Connection connection,
+			PreparedStatement preparedStatement, ResultSet resultSet) {
 
 		if (connection != null) {
 			try {
 				connection.close();
 			} catch (SQLException e) {
 				System.err.println(e.getMessage());
+				logger.error("Impossible to close connection.");
+			}
+		}
+
+		if (preparedStatement != null) {
+			try {
+				preparedStatement.close();
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+				logger.error("Impossible to close preparedStatement.");
+			}
+		}
+		if (resultSet != null) {
+			try {
+				resultSet.close();
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+				logger.error("Impossible to close resultSet.");
 			}
 		}
 	}

@@ -9,8 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Company;
-import model.Computer;
+import dto.ComputerDTO;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -24,8 +23,8 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * @see persistance.ComputerDAO#findAllComputers()
 	 */
 	@Override
-	public List<Computer> findAllComputers() {
-		List<Computer> computers = new ArrayList<Computer>();
+	public List<ComputerDTO> findAllComputers() {
+		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
 		Connection connection = null;
 		// Statement statement = null;
 		ResultSet resultSet = null;
@@ -51,20 +50,19 @@ public class ComputerDaoImpl implements ComputerDAO {
 
 				Long idcompany = resultSet.getLong("company_id");
 				String companyName = resultSet.getString("compa.name");
-				
-				Company company = new Company(idcompany, companyName);
-				Computer computer = new Computer();
-				computer.setId(id);
-				computer.setName(name);
-				computer.setIntroduced(introduced);
-				computer.setDiscontinued(discontinued);
-				computer.setCompany(company);
-				computers.add(computer);
+				ComputerDTO computerDTO = new ComputerDTO();
+				computerDTO.setId(id);
+				computerDTO.setName(name);
+				computerDTO.setIntroduced(introduced);
+				computerDTO.setDiscontinued(discontinued);
+				computerDTO.setCompanyId(idcompany);
+				computerDTO.setCompanyName(companyName);
+				computers.add(computerDTO);
 			}
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnection(connection);
+			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,resultSet);
 		}
 		return computers;
 	}
@@ -75,14 +73,12 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * @see persistence.ComputerDAO#findAllComputers(int, int)
 	 */
 	@Override
-	public List<Computer> findAllComputers(int limit, int offset) {
-		List<Computer> computers = new ArrayList<Computer>();
+	public List<ComputerDTO> findAllComputers(int limit, int offset) {
+		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
 		Connection connection = null;
 		// Statement statement = null;
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
-		LocalDate introduced = null;
-		LocalDate discontinued = null;
 
 		try {
 			connection = DaoFactory.INSTANCE.getConnection();
@@ -94,29 +90,31 @@ public class ComputerDaoImpl implements ComputerDAO {
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
 				String name = resultSet.getString("name");
+				LocalDate introduced=null;
+				LocalDate discontinued=null;
 				if (resultSet.getTimestamp("introduced") != null)
 					introduced = resultSet.getTimestamp("introduced")
 							.toLocalDateTime().toLocalDate();
 				if (resultSet.getTimestamp("discontinued") != null)
 					discontinued = resultSet.getTimestamp("discontinued")
 							.toLocalDateTime().toLocalDate();
+				
 
 				Long idcompany = resultSet.getLong("company_id");
 				String companyName = resultSet.getString("compa.name");
-				
-				Company company = new Company(idcompany, companyName);
-				Computer computer = new Computer();
-				computer.setId(id);
-				computer.setName(name);
-				computer.setIntroduced(introduced);
-				computer.setDiscontinued(discontinued);
-				computer.setCompany(company);
-				computers.add(computer);
+				ComputerDTO computerDTO = new ComputerDTO();
+				computerDTO.setId(id);
+				computerDTO.setName(name);
+				computerDTO.setIntroduced(introduced);
+				computerDTO.setDiscontinued(discontinued);
+				computerDTO.setCompanyId(idcompany);
+				computerDTO.setCompanyName(companyName);
+				computers.add(computerDTO);
 			}
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnection(connection);
+			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,resultSet);
 		}
 		return computers;
 	}
@@ -127,8 +125,8 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * @see persistance.ComputerDAO#findComputerById(java.lang.Long)
 	 */
 	@Override
-	public Computer findComputerById(Long id) {
-		Computer computer = new Computer();
+	public ComputerDTO findComputerById(Long id) {
+		ComputerDTO computerDTO = new ComputerDTO();
 		Connection connection = null;
 		// Statement statement = null;
 		ResultSet resultSet = null;
@@ -145,7 +143,6 @@ public class ComputerDaoImpl implements ComputerDAO {
 			preparedStatement.executeQuery();
 			resultSet = preparedStatement.getResultSet();
 			if (resultSet.next()) {
-//				int idc = resultSet.getInt("id");
 				String name = resultSet.getString("name");
 				if (resultSet.getTimestamp("introduced") != null)
 					introduced = resultSet.getTimestamp("introduced")
@@ -156,21 +153,20 @@ public class ComputerDaoImpl implements ComputerDAO {
 
 				Long idcompany = resultSet.getLong("company_id");
 				String companyName = resultSet.getString("compa.name");
-				
-				Company company = new Company(idcompany, companyName);
-				computer.setId(id);
-				computer.setName(name);
-				computer.setIntroduced(introduced);
-				computer.setDiscontinued(discontinued);
-				computer.setCompany(company);
+				computerDTO.setId(id);
+				computerDTO.setName(name);
+				computerDTO.setIntroduced(introduced);
+				computerDTO.setDiscontinued(discontinued);
+				computerDTO.setCompanyId(idcompany);
+				computerDTO.setCompanyName(companyName); 
 			}
 
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnection(connection);
+			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,resultSet);
 		}
-		return computer;
+		return computerDTO;
 	}
 
 	/*
@@ -179,7 +175,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * @see persistance.ComputerDAO#insertComputer(model.Computer)
 	 */
 	@Override
-	public boolean insertComputer(Computer computer) {
+	public boolean insertComputer(ComputerDTO computer) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -201,8 +197,8 @@ public class ComputerDaoImpl implements ComputerDAO {
 			else
 				preparedStatement.setDate(3, null);
 
-			if(computer.getCompany().getId() > 0)
-			preparedStatement.setLong(4, computer.getCompany().getId());
+			if(computer.getCompanyId() > 0)
+			preparedStatement.setLong(4, computer.getCompanyId());
 			else
 				preparedStatement.setLong(4, 0);
 			
@@ -212,7 +208,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			System.err.println(e.getMessage());
 			return false;
 		} finally {
-			DaoFactory.INSTANCE.CloseConnection(connection);
+			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,null);
 		}
 	}
 
@@ -222,7 +218,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * @see persistance.ComputerDAO#deleteComputer(model.Computer)
 	 */
 	@Override
-	public boolean deleteComputer(Computer computer) {
+	public boolean deleteComputer(ComputerDTO computer) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
@@ -236,7 +232,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			System.err.println(e.getMessage());
 			return false;
 		} finally {
-			DaoFactory.INSTANCE.CloseConnection(connection);
+			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,null);
 		}
 	}
 
@@ -246,7 +242,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * @see persistance.ComputerDAO#updateComputer(model.Computer)
 	 */
 	@Override
-	public boolean updateComputer(Computer computer) {
+	public boolean updateComputer(ComputerDTO computer) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -268,8 +264,8 @@ public class ComputerDaoImpl implements ComputerDAO {
 			else
 				preparedStatement.setDate(3, null);			
 			
-			if(computer.getCompany().getId() > 0)
-				preparedStatement.setLong(4, computer.getCompany().getId());
+			if(computer.getCompanyId() > 0)
+				preparedStatement.setLong(4, computer.getCompanyId());
 				else
 					preparedStatement.setLong(4, 0);
 			
@@ -280,7 +276,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			System.err.println(e.getMessage());
 			return false;
 		} finally {
-			DaoFactory.INSTANCE.CloseConnection(connection);
+			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,null);
 		}
 	}
 
@@ -291,14 +287,14 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 */
 	@Override
 	public int getCountComputers() {
-		Connection connexion = null;
+		Connection connection = null;
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
 		int count = 0;
 
 		try {
-			connexion = DaoFactory.INSTANCE.getConnection();
-			preparedStatement = connexion
+			connection = DaoFactory.INSTANCE.getConnection();
+			preparedStatement = connection
 					.prepareStatement("SELECT count(*) FROM computer;");
 			resultSet = preparedStatement.executeQuery();
 			resultSet.next();
@@ -306,7 +302,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnection(connexion);
+			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,resultSet);
 		}
 		return count;
 	}

@@ -43,7 +43,7 @@ public class DaoFactoryTest extends TestCase {
 		// Given
 		Connection connection = DaoFactory.INSTANCE.getConnection();
 		// Whene
-		daoFactory.CloseConnection(connection);
+		daoFactory.CloseConnections(connection,null,null);
 		try {
 			isClosed = connection.isClosed();
 		} catch (SQLException e) {

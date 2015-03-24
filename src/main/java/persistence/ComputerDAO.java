@@ -2,7 +2,7 @@ package persistence;
 
 import java.util.List;
 
-import model.Computer;
+import dto.ComputerDTO;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -15,7 +15,7 @@ public interface ComputerDAO {
 	 *
 	 * @return the list
 	 */
-	List<Computer> findAllComputers();
+	List<ComputerDTO> findAllComputers();
 	
 	/**
 	 * Find all computers.
@@ -24,7 +24,7 @@ public interface ComputerDAO {
 	 * @param toIndex the to index
 	 * @return the list
 	 */
-	List<Computer> findAllComputers(int fromIndex, int toIndex);
+	List<ComputerDTO> findAllComputers(int fromIndex, int toIndex);
 	/**
 	 * Find computer by id.
 	 *
@@ -32,7 +32,7 @@ public interface ComputerDAO {
 	 *            the id
 	 * @return the computer
 	 */
-	Computer findComputerById(Long id);
+	ComputerDTO findComputerById(Long id);
 
 	/**
 	 * Insert computer.
@@ -41,7 +41,7 @@ public interface ComputerDAO {
 	 *            the computer
 	 * @return true, if successful
 	 */
-	boolean insertComputer(Computer computer);
+	boolean insertComputer(ComputerDTO computer);
 
 	/**
 	 * Delete computer.
@@ -50,7 +50,7 @@ public interface ComputerDAO {
 	 *            the computer
 	 * @return true, if successful
 	 */
-	boolean deleteComputer(Computer computer);
+	boolean deleteComputer(ComputerDTO computer);
 
 	/**
 	 * Update computer.
@@ -59,7 +59,7 @@ public interface ComputerDAO {
 	 *            the computer
 	 * @return true, if successful
 	 */
-	boolean updateComputer(Computer computer);
+	boolean updateComputer(ComputerDTO computer);
 	
 	/**
 	 * Gets the count computers.
