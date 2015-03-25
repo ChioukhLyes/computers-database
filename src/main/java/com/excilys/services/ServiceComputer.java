@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.dto.ComputerDTO;
+import com.excilys.model.Company;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.persistence.impl.DaoFactory;
 
@@ -98,6 +99,19 @@ public class ServiceComputer {
 		return computerDAO.deleteComputer(computer);
 	}
 
+	
+	/**
+	 * Delete computer by company id.
+	 *
+	 * @param company the company
+	 * @return true, if successful
+	 */
+	public boolean deleteComputerByCompanyId(Company company){
+		if (company == null) {
+			throw new IllegalArgumentException("Delete : Company bean is null");
+		}
+		return computerDAO.deleteComputerByCompanyId(company);
+	}
 	/**
 	 * Update computer.
 	 *

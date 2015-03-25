@@ -22,7 +22,7 @@
 			<c:param name="page" value="${currentPage.pageNumber-1}" />
 			<c:param name="size" value="${currentPage.pageSize}" />
 		</c:url>"
-				aria-label="Previous"> <span class="glyphicon glyphicon-chevron-left" aria-hidden=true></span>
+				aria-label="Previous"> <span class="" aria-hidden=true>Previous</span>
 			</a></li>
 			
 		</c:if>
@@ -60,7 +60,7 @@
 			<c:param name="page" value="${currentPage.pageNumber+1}" />
 			<c:param name="size" value="${currentPage.pageSize}" /></c:url>"
 			
-			aria-label="Next"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			aria-label="Next"> <span class="" aria-hidden="true">Next</span>
 <!-- 				aria-label="Next"> <span aria-hidden="true">&raquo;</span> -->
 			</a></li>
 			

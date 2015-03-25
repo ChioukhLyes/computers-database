@@ -51,6 +51,7 @@ public class MainCLI {
 				add("d");
 				add("e");
 				add("f");
+				add("g");
 				add("exit");
 			}
 		};
@@ -61,6 +62,7 @@ public class MainCLI {
 		System.out.println("	- d) Create a computer");
 		System.out.println("	- e) Update a computer");
 		System.out.println("	- f) Delete a computer");
+		System.out.println("	- g) Delete a company");
 		System.out.println("	- Type \"exit\" to finish prgram");
 		System.out.println("	************************");
 
@@ -90,6 +92,9 @@ public class MainCLI {
 			break;
 		case "f":
 			deleteComputer();
+			break;
+		case "g":
+			deleteCompany();
 			break;
 		case "exit":
 			System.out.println("Program ended.");
@@ -372,6 +377,31 @@ public class MainCLI {
 					+ computerDTO.toString());
 		} catch (Exception e) {
 			System.err.println("Computer not deleted" + e.getMessage());
+		}
+		mainCLI();
+
+	}
+	
+	
+	public static void deleteCompany() throws ParseException {
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner(System.in);
+		Company company = null;
+		Long id = null;
+		while (id == null || company == null) {
+			System.out.println("Enter company id (Long) : ");
+			if (scanner.hasNextLong()) {
+				id = scanner.nextLong();
+				company = serviceCompany.findCompanyById(id);
+			}
+		}
+
+		try {
+			serviceCompany.deleteCompany(company);
+			System.out.println("The following company has been deleted : "
+					+ company.toString());
+		} catch (Exception e) {
+			System.err.println("Company not deleted" + e.getMessage());
 		}
 		mainCLI();
 

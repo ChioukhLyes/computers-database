@@ -74,6 +74,7 @@ public enum ComputerDTOmapperImpl implements ComputerDTOMapper {
 	@Override
 	public List<ComputerDTO> MappComputers(ResultSet resultSet) {
 		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
+		
 		try {
 			while (resultSet.next()) {
 				LocalDate introduced = null;

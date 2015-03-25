@@ -35,6 +35,14 @@ public interface CompanyDAO {
 	 */
 	Company findCompanyById(Long id);
 	
+	/**
+	 * Delete company.
+	 *
+	 * @param company the company
+	 * @return true, if successful
+	 */
+	boolean deleteCompany(Company company);
+	
 	
 	/**
 	 * Gets the count companies.

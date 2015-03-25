@@ -3,6 +3,7 @@ package com.excilys.persistence;
 import java.util.List;
 
 import com.excilys.dto.ComputerDTO;
+import com.excilys.model.Company;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -52,6 +53,18 @@ public interface ComputerDAO {
 	 */
 	boolean deleteComputer(ComputerDTO computer);
 
+	
+	
+	
+	/**
+	 * Delete computer by company id.
+	 *
+	 * @param company the company
+	 * @return true, if successful
+	 */
+	boolean deleteComputerByCompanyId(Company company);
+	
+	
 	/**
 	 * Update computer.
 	 *

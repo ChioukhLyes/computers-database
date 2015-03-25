@@ -35,7 +35,7 @@
 			</div>
 		</div>
 
-		<form id="deleteForm" action="#" method="POST">
+		<form id="deleteForm" action="dashboard" method="POST">
 			<input type="hidden" name="selection" value="">
 		</form>
 
@@ -67,7 +67,7 @@
 					<c:forEach var="item" items="${currentPage.entities}">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
-								class="cb" value="0"></td>
+								class="cb" value="${item.id}"></td>
 							<td><a
 								href="<c:url value="editComputer">                            
 							       				<c:param name="id" value="${item.id}"/>                            

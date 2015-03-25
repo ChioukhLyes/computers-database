@@ -13,6 +13,7 @@ import ch.qos.logback.classic.Logger;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.impl.ComputerDTOmapperImpl;
+import com.excilys.model.Company;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.services.ServiceComputer;
 
@@ -153,6 +154,38 @@ public class ComputerDaoImpl implements ComputerDAO {
 		}
 	}
 
+	
+	
+	/* (non-Javadoc)
+	 * @see com.excilys.persistence.ComputerDAO#deleteComputerByCompanyId(com.excilys.model.Company)
+	 */
+	@Override
+	public boolean deleteComputerByCompanyId(Company company) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = daoFactory.getConnection();
+			connection.setAutoCommit(false);
+			preparedStatement = connection
+					.prepareStatement("DELETE FROM computer WHERE company_id=?;");
+			preparedStatement.setLong(1, company.getId());
+			preparedStatement.execute();
+			connection.commit();
+			return true;
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				logger.error(e1.getMessage());
+			}
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			daoFactory.CloseConnections(connection, preparedStatement, null);
+		}
+	}
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 

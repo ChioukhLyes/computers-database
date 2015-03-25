@@ -2,6 +2,7 @@ package com.excilys.servlets;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Page;
-import com.excilys.persistence.ComputerDAO;
-import com.excilys.persistence.impl.DaoFactory;
 import com.excilys.services.ServiceComputer;
 
 // TODO: Auto-generated Javadoc
@@ -98,14 +97,19 @@ public class Dashboard extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		DaoFactory daoFactory = DaoFactory.getInstance();
-		ComputerDAO computerDAO = daoFactory.getComputerDAO();
-		List<ComputerDTO> lisComputers = computerDAO.findAllComputers();
-		request.setAttribute("Computers", lisComputers);
+		
+		String computersIds = request.getParameter("selection");
+		StringTokenizer stringTokenizer = new StringTokenizer(computersIds, ",");
+		ServiceComputer serviceComputer = new ServiceComputer();
+		
+		while(stringTokenizer.hasMoreTokens()){
+			ComputerDTO computer = new ComputerDTO();
+			computer.setId(Long.valueOf(stringTokenizer.nextToken()));
+			serviceComputer.deleteComputer(computer);
+			computer=null;
+		}
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
 		dispatcher.forward(request, response);
-
 	}
 }

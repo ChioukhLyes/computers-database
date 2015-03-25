@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.classic.Logger;
+
 import com.excilys.model.Company;
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.impl.DaoFactory;
-
-import ch.qos.logback.classic.Logger;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -16,6 +16,7 @@ import ch.qos.logback.classic.Logger;
  */
 public class ServiceCompany {
 	
+	/** The dao factory. */
 	DaoFactory daoFactory = DaoFactory.getInstance();
 
 	/** The company dao. */
@@ -55,6 +56,24 @@ public class ServiceCompany {
 		return companyDAO.findAllCompanies(limit, offset);
 	}
 
+	
+
+	/**
+	 * Delete company.
+	 *
+	 * @param company the company
+	 * @return true, if successful
+	 */
+	public boolean deleteCompany(Company company) {
+		if (company == null) {
+			throw new IllegalArgumentException("Delete : company bean is null");
+		}
+		ServiceComputer serviceComputer = new ServiceComputer();
+		serviceComputer.deleteComputerByCompanyId(company);
+		return companyDAO.deleteCompany(company);
+	}
+	
+	
 	/**
 	 * Find company by id.
 	 *

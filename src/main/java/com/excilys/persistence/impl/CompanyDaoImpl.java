@@ -120,6 +120,36 @@ public class CompanyDaoImpl implements CompanyDAO {
 		return company;
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see com.excilys.persistence.CompanyDAO#deleteCompany(com.excilys.model.Company)
+	 */
+	@Override
+	public boolean deleteCompany(Company company) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = daoFactory.getConnection();
+			connection.setAutoCommit(false);
+			preparedStatement = connection
+					.prepareStatement("DELETE FROM company WHERE id=?;");
+			preparedStatement.setLong(1, company.getId());
+			preparedStatement.execute();
+			connection.commit();
+			return true;
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				logger.error(e1.getMessage());
+			}
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			daoFactory.CloseConnections(connection, preparedStatement, null);
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -148,5 +178,6 @@ public class CompanyDaoImpl implements CompanyDAO {
 		}
 		return count;
 	}
+
 
 }
