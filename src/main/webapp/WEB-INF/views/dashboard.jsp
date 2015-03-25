@@ -84,10 +84,10 @@
 	</section>
 
 	<footer class="navbar-fixed-bottom">
-		<mylib:paginator page="${currentPage}"  />
+		<mylib:paginator page="${currentPage}" />
 	</footer>
 
 	<jsp:include page="common/footer.jsp"></jsp:include>
-	
+
 </body>
 </html>
