@@ -7,18 +7,18 @@ import org.junit.Test;
 
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ComputerDAO;
-import com.excilys.persistence.DaoFactory;
+import com.excilys.persistence.impl.DaoFactory;
 
 import junit.framework.TestCase;
 
 public class DaoFactoryTest extends TestCase {
 
-	DaoFactory daoFactory;
+	DaoFactory daoFactory; 
 	
 	@Override
 	protected void setUp() throws Exception {
 		// TODO Auto-generated method stub
-		this.daoFactory = DaoFactory.INSTANCE;
+		this.daoFactory = DaoFactory.getInstance();
 		super.setUp();
 	}
 
@@ -45,7 +45,7 @@ public class DaoFactoryTest extends TestCase {
 
 		boolean isClosed = false;
 		// Given
-		Connection connection = DaoFactory.INSTANCE.getConnection();
+		Connection connection = daoFactory.getConnection();
 		// Whene
 		daoFactory.CloseConnections(connection,null,null);
 		try {

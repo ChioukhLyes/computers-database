@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Page;
 import com.excilys.persistence.ComputerDAO;
-import com.excilys.persistence.DaoFactory;
+import com.excilys.persistence.impl.DaoFactory;
 import com.excilys.services.ServiceComputer;
 
 // TODO: Auto-generated Javadoc
@@ -54,8 +54,8 @@ public class Dashboard extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		ServiceComputer serviceComputer = new ServiceComputer();
-		Page<ComputerDTO>  currentPage = new Page<ComputerDTO>();
-		
+		Page<ComputerDTO> currentPage = new Page<ComputerDTO>();
+
 		// Default values
 		int size = 10;
 		int page = 1;
@@ -73,10 +73,10 @@ public class Dashboard extends HttpServlet {
 		currentPage.setPageNumber(page);
 		currentPage.setPageSize(size);
 		currentPage.setOrderEntitiesBy(null);
-		
+
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("numberComputers", numberComputers);
-		
+
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
 		dispatcher.forward(request, response);
@@ -99,8 +99,8 @@ public class Dashboard extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
-		ComputerDAO computerDAO = DaoFactory.INSTANCE.getComputerDAO();
+		DaoFactory daoFactory = DaoFactory.getInstance();
+		ComputerDAO computerDAO = daoFactory.getComputerDAO();
 		List<ComputerDTO> lisComputers = computerDAO.findAllComputers();
 		request.setAttribute("Computers", lisComputers);
 		RequestDispatcher dispatcher = getServletContext()

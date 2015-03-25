@@ -27,28 +27,29 @@ import ch.qos.logback.classic.Logger;
  * The Class AddComputer.
  */
 @WebServlet("/addComputer")
-public class AddComputer extends HttpServlet{
+public class AddComputer extends HttpServlet {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	/**
 	 * Instantiates a new adds the computer.
 	 */
-	public 	AddComputer() {
+	public AddComputer() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(AddComputer.class);
 
-	
-	/* (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest
+	 * , javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request,
@@ -61,32 +62,28 @@ public class AddComputer extends HttpServlet{
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/WEB-INF/views/addComputer.jsp");
 		dispatcher.forward(request, response);
-
-		// if ("include".equalsIgnoreCase(action)) {
-		// rd.include(request, response);
-		// } else if ("forward".equalsIgnoreCase(action)) {
-		// rd.forward(request, response);
-		// }
-
+		logger.trace("Redirecting to the AddComputer page.");
 	}
 
-	
-	/* (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest
+	 * , javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
 		ComputerDTO computer = new ComputerDTO();
-		
+
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		ServiceComputer serviceComputer = new ServiceComputer();
 		ServiceCompany serviceCompany = new ServiceCompany();
 		String name = (String) request.getParameter("computerName");
 		computer.setName(name);
-		
-		
+
 		if (DateValidator.getInstance().isValid(
 				request.getParameter("introduced"), "yyyy-MM-dd")) {
 			LocalDate introduced = LocalDate.parse(
@@ -100,19 +97,17 @@ public class AddComputer extends HttpServlet{
 					request.getParameter("discontinued"), formatter);
 			computer.setDiscontinued(discontinued);
 		}
-		
+
 		Long companyId = (long) Long.valueOf(request.getParameter("companyId"));
-		Company company =  serviceCompany.findCompanyById(companyId);
+		Company company = serviceCompany.findCompanyById(companyId);
 		computer.setCompanyId(companyId);
 		computer.setCompanyName(company.getName());
-		//Computer insertion
+		// Computer insertion
 		serviceComputer.insertComputer(computer);
-//		List<Computer> lisComputers = service.findAllComputers();
-//		request.setAttribute("Computers", lisComputers);
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
 		dispatcher.forward(request, response);
-		logger.info("Computer created with success, redirecting to the Dashboard page.");
+		logger.trace("Computer created with success, redirecting to the Dashboard page.");
 	}
-	
+
 }

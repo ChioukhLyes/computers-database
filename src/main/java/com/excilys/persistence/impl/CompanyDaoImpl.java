@@ -1,4 +1,4 @@
-package com.excilys.persistence;
+package com.excilys.persistence.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,14 +8,26 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.Logger;
+
 import com.excilys.mapper.impl.CompanyMapperImpl;
 import com.excilys.model.Company;
+import com.excilys.persistence.CompanyDAO;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class CompanyDaoImplementation.
  */
 public class CompanyDaoImpl implements CompanyDAO {
+
+	/** The logger. */
+	private static Logger logger = (Logger) LoggerFactory
+			.getLogger(DaoFactory.class);
+
+	/** The dao factory. */
+	DaoFactory daoFactory = DaoFactory.getInstance();
 
 	/*
 	 * (non-Javadoc)
@@ -31,15 +43,16 @@ public class CompanyDaoImpl implements CompanyDAO {
 		PreparedStatement preparedStatement = null;
 
 		try {
-			connection = DaoFactory.INSTANCE.getConnection();
+			connection = daoFactory.getConnection();
 			preparedStatement = connection
 					.prepareStatement("SELECT id, name FROM company;");
 			resultSet = preparedStatement.executeQuery();
 			companies = CompanyMapperImpl.INSTANCE.MappCompanies(resultSet);
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,
+			daoFactory.CloseConnections(connection, preparedStatement,
 					resultSet);
 		}
 		return companies;
@@ -59,7 +72,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 		PreparedStatement preparedStatement = null;
 
 		try {
-			connection = DaoFactory.INSTANCE.getConnection();
+			connection = daoFactory.getConnection();
 			preparedStatement = connection
 					.prepareStatement("SELECT id, name FROM company limit ? offset ?;");
 			preparedStatement.setInt(1, limit);
@@ -68,9 +81,10 @@ public class CompanyDaoImpl implements CompanyDAO {
 			companies = CompanyMapperImpl.INSTANCE.MappCompanies(resultSet);
 
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,
+			daoFactory.CloseConnections(connection, preparedStatement,
 					resultSet);
 		}
 		return companies;
@@ -89,7 +103,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 		ResultSet resultSet = null;
 
 		try {
-			connection = DaoFactory.INSTANCE.getConnection();
+			connection = daoFactory.getConnection();
 			statement = connection.createStatement();
 			resultSet = statement
 					.executeQuery("SELECT id, name FROM company WHERE id=" + id
@@ -98,13 +112,19 @@ public class CompanyDaoImpl implements CompanyDAO {
 			company = CompanyMapperImpl.INSTANCE.MappCompany(resultSet);
 
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnections(connection, null, resultSet);
+			daoFactory.CloseConnections(connection, null, resultSet);
 		}
 		return company;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.excilys.persistence.CompanyDAO#getCountCompanies()
+	 */
 	@Override
 	public int getCountCompanies() {
 
@@ -113,7 +133,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 		PreparedStatement preparedStatement = null;
 		int count = 0;
 		try {
-			connection = DaoFactory.INSTANCE.getConnection();
+			connection = daoFactory.getConnection();
 			preparedStatement = connection
 					.prepareStatement("SELECT count(*) FROM company;");
 			resultSet = preparedStatement.executeQuery();
@@ -121,10 +141,10 @@ public class CompanyDaoImpl implements CompanyDAO {
 			count = resultSet.getInt(1);
 
 		} catch (SQLException e) {
+			logger.error(e.getMessage());
 			System.err.println(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,
-					null);
+			daoFactory.CloseConnections(connection, preparedStatement, null);
 		}
 		return count;
 	}

@@ -23,6 +23,7 @@
 		<MAVEN-WAR-PLUGIN>2.4</MAVEN-WAR-PLUGIN>
 		<MAVEN-COMPILER-PLUGIN>3.1</MAVEN-COMPILER-PLUGIN>
 		<MAVEN-COMPILER-PLUGIN-CONFIG>1.8</MAVEN-COMPILER-PLUGIN-CONFIG>
+		<COM.JOLBOX>0.8.0.RELEASE</COM.JOLBOX>
 	</properties>
 
 	<dependencies>
@@ -41,13 +42,19 @@
 			<version>${COMMONS-VALIDATOR}</version>
 		</dependency>
 
-		<!-- Dependencies for mysqlConnector -->
+		<!-- Dependencies for Database -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${MYSQL}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.jolbox</groupId>
+			<artifactId>bonecp</artifactId>
+			<version>${COM.JOLBOX}</version>
+		</dependency>
+		
 		<!-- Dependencies for test envirement -->
 		<dependency>
 			<groupId>junit</groupId>

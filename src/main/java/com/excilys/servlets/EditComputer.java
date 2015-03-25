@@ -44,8 +44,12 @@ public class EditComputer extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest
+	 * , javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request,
@@ -60,8 +64,6 @@ public class EditComputer extends HttpServlet {
 		if (id != 0) {
 			ComputerDTO computer = serviceComputer.findComputerById(id);
 			request.setAttribute("Computer", computer);
-//			request.setAttribute("companyName",computer.getCompany().getName());
-//			request.setAttribute("companyId",computer.getCompany().getId());
 		}
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/WEB-INF/views/editComputer.jsp");
@@ -69,8 +71,12 @@ public class EditComputer extends HttpServlet {
 		logger.trace("Redirecting to the EditComputer page.");
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest
+	 * , javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request,
@@ -82,16 +88,16 @@ public class EditComputer extends HttpServlet {
 		ServiceCompany serviceCompany = new ServiceCompany();
 		Long id = (long) Long.valueOf(request.getParameter("id"));
 		computer.setId(id);
-		
+
 		String name = (String) request.getParameter("computerName");
 		computer.setName(name);
-		
+
 		if (DateValidator.getInstance().isValid(
 				request.getParameter("introduced"), "yyyy-MM-dd")) {
 			LocalDate introduced = LocalDate.parse(
 					request.getParameter("introduced"), formatter);
 			computer.setIntroduced(introduced);
-		}else 
+		} else
 			computer.setIntroduced(null);
 
 		if (DateValidator.getInstance().isValid(
@@ -99,22 +105,20 @@ public class EditComputer extends HttpServlet {
 			LocalDate discontinued = LocalDate.parse(
 					request.getParameter("discontinued"), formatter);
 			computer.setDiscontinued(discontinued);
-		}else
+		} else
 			computer.setDiscontinued(null);
-		
-		Company company = serviceCompany.findCompanyById((long) Long.valueOf(request.getParameter("companyId")));
+
+		Company company = serviceCompany.findCompanyById((long) Long
+				.valueOf(request.getParameter("companyId")));
 		computer.setCompanyId(company.getId());
 		computer.setCompanyName(company.getName());
-		
-		//Computer update
+
+		// Computer update
 		serviceComputer.updateComputer(computer);
-		
-		//set parameter
-//		List<Computer> lisComputers = service.findAllComputers();
-//		request.setAttribute("Computers", lisComputers);
+
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
 		dispatcher.forward(request, response);
-		logger.info("Success editing, redirecting to the Dashboard page.");
+		logger.trace("Success editing, redirecting to the Dashboard page.");
 	}
 }

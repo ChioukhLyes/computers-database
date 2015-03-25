@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.model.Company;
 import com.excilys.persistence.CompanyDAO;
-import com.excilys.persistence.DaoFactory;
+import com.excilys.persistence.impl.DaoFactory;
 
 import ch.qos.logback.classic.Logger;
 
@@ -15,9 +15,11 @@ import ch.qos.logback.classic.Logger;
  * The Class Service.
  */
 public class ServiceCompany {
+	
+	DaoFactory daoFactory = DaoFactory.getInstance();
 
 	/** The company dao. */
-	CompanyDAO companyDAO = DaoFactory.INSTANCE.getCompanyDAO();
+	CompanyDAO companyDAO = daoFactory.getCompanyDAO();
 
 
 	/** The logger. */

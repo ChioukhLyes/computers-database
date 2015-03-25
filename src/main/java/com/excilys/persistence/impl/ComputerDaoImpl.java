@@ -1,5 +1,4 @@
-
-package com.excilys.persistence;
+package com.excilys.persistence.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,10 +7,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.Logger;
+
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.impl.ComputerDTOmapperImpl;
+import com.excilys.persistence.ComputerDAO;
+import com.excilys.services.ServiceComputer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ComputerDaoImpl.
+ */
 public class ComputerDaoImpl implements ComputerDAO {
+
+	/** The logger. */
+	private static Logger logger = (Logger) LoggerFactory
+			.getLogger(ServiceComputer.class);
+
+	/** The dao factory. */
+	DaoFactory daoFactory = DaoFactory.getInstance();
 
 	/*
 	 * (non-Javadoc)
@@ -22,19 +38,20 @@ public class ComputerDaoImpl implements ComputerDAO {
 	public List<ComputerDTO> findAllComputers() {
 		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
 		Connection connection = null;
-		// Statement statement = null;
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
 		try {
-			connection = DaoFactory.INSTANCE.getConnection();
+			connection = daoFactory.getConnection();
 			preparedStatement = connection
 					.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id;");
 			resultSet = preparedStatement.executeQuery();
 			computers = ComputerDTOmapperImpl.INSTANCE.MappComputers(resultSet);
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,resultSet);
+			daoFactory.CloseConnections(connection, preparedStatement,
+					resultSet);
 		}
 		return computers;
 	}
@@ -53,7 +70,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 		PreparedStatement preparedStatement = null;
 
 		try {
-			connection = DaoFactory.INSTANCE.getConnection();
+			connection = daoFactory.getConnection();
 			preparedStatement = connection
 					.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id limit ? offset ?;");
 			preparedStatement.setInt(1, limit);
@@ -61,9 +78,11 @@ public class ComputerDaoImpl implements ComputerDAO {
 			resultSet = preparedStatement.executeQuery();
 			computers = ComputerDTOmapperImpl.INSTANCE.MappComputers(resultSet);
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,resultSet);
+			daoFactory.CloseConnections(connection, preparedStatement,
+					resultSet);
 		}
 		return computers;
 	}
@@ -82,19 +101,21 @@ public class ComputerDaoImpl implements ComputerDAO {
 		PreparedStatement preparedStatement = null;
 
 		try {
-			connection = DaoFactory.INSTANCE.getConnection();
+			connection = daoFactory.getConnection();
 			// statement = connection.createStatement();
 			preparedStatement = connection
 					.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.id=?;");
 			preparedStatement.setLong(1, id);
 			preparedStatement.executeQuery();
 			resultSet = preparedStatement.getResultSet();
-			computerDTO = ComputerDTOmapperImpl.INSTANCE.MappComputer(resultSet);
-
+			computerDTO = ComputerDTOmapperImpl.INSTANCE
+					.MappComputer(resultSet);
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,resultSet);
+			daoFactory.CloseConnections(connection, preparedStatement,
+					resultSet);
 		}
 		return computerDTO;
 	}
@@ -108,19 +129,27 @@ public class ComputerDaoImpl implements ComputerDAO {
 	public boolean insertComputer(ComputerDTO computer) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-
 		try {
-			connection = DaoFactory.INSTANCE.getConnection();
+			connection = daoFactory.getConnection();
+			connection.setAutoCommit(false);
 			preparedStatement = connection
 					.prepareStatement("INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?);");
-			
-			ComputerDTOmapperImpl.INSTANCE.MappComputerInPreparedStatemetInsert(preparedStatement, computer);
+
+			ComputerDTOmapperImpl.INSTANCE
+					.MappComputerInPreparedStatemetInsert(preparedStatement,
+							computer);
+			connection.commit();
 			return true;
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
-			return false;
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				logger.error(e1.getMessage());
+			}
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,null);
+			daoFactory.CloseConnections(connection, preparedStatement, null);
 		}
 	}
 
@@ -134,17 +163,24 @@ public class ComputerDaoImpl implements ComputerDAO {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
-			connection = DaoFactory.INSTANCE.getConnection();
+			connection = daoFactory.getConnection();
+			connection.setAutoCommit(false);
 			preparedStatement = connection
 					.prepareStatement("DELETE FROM computer WHERE id=?;");
 			preparedStatement.setLong(1, computer.getId());
 			preparedStatement.execute();
+			connection.commit();
 			return true;
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
-			return false;
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				logger.error(e1.getMessage());
+			}
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,null);
+			daoFactory.CloseConnections(connection, preparedStatement, null);
 		}
 	}
 
@@ -159,16 +195,25 @@ public class ComputerDaoImpl implements ComputerDAO {
 		PreparedStatement preparedStatement = null;
 
 		try {
-			connection = DaoFactory.INSTANCE.getConnection();
+			connection = daoFactory.getConnection();
+			connection.setAutoCommit(false);
 			preparedStatement = connection
 					.prepareStatement("UPDATE computer set name=?, introduced=?, discontinued=?, company_id=? WHERE id=?;");
-			ComputerDTOmapperImpl.INSTANCE.MappComputerInPreparedStatemetUpdate(preparedStatement, computer);
+			ComputerDTOmapperImpl.INSTANCE
+					.MappComputerInPreparedStatemetUpdate(preparedStatement,
+							computer);
+			connection.commit();
 			return true;
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
-			return false;
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				logger.error(e1.getMessage());
+			}
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,null);
+			daoFactory.CloseConnections(connection, preparedStatement, null);
 		}
 	}
 
@@ -185,16 +230,18 @@ public class ComputerDaoImpl implements ComputerDAO {
 		int count = 0;
 
 		try {
-			connection = DaoFactory.INSTANCE.getConnection();
+			connection = daoFactory.getConnection();
 			preparedStatement = connection
 					.prepareStatement("SELECT count(*) FROM computer;");
 			resultSet = preparedStatement.executeQuery();
 			resultSet.next();
 			count = resultSet.getInt(1);
 		} catch (SQLException e) {
+			logger.error(e.getMessage());
 			System.err.println(e.getMessage());
 		} finally {
-			DaoFactory.INSTANCE.CloseConnections(connection, preparedStatement,resultSet);
+			daoFactory.CloseConnections(connection, preparedStatement,
+					resultSet);
 		}
 		return count;
 	}

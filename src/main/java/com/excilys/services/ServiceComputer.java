@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.persistence.ComputerDAO;
-import com.excilys.persistence.DaoFactory;
+import com.excilys.persistence.impl.DaoFactory;
 
 import ch.qos.logback.classic.Logger;
 
@@ -16,9 +16,10 @@ import ch.qos.logback.classic.Logger;
  */
 public class ServiceComputer {
 
+	DaoFactory daoFactory = DaoFactory.getInstance();
 
 	/** The computer dao. */
-	ComputerDAO computerDAO = DaoFactory.INSTANCE.getComputerDAO();
+	ComputerDAO computerDAO = daoFactory.getComputerDAO();
 
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
