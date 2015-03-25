@@ -58,19 +58,34 @@ public class Dashboard extends HttpServlet {
 		// Default values
 		int size = 10;
 		int page = 1;
-
+		String search = null;
+		List<ComputerDTO> lisComputers;
+		
 		if (request.getParameter("page") != null)
 			page = Integer.valueOf(request.getParameter("page"));
 		if (request.getParameter("size") != null)
 			size = Integer.valueOf(request.getParameter("size"));
-		int numberComputers = serviceComputer.getCountComputers();
-		List<ComputerDTO> lisComputers = serviceComputer.findAllComputers(size,
-				((page - 1) * size));
 
+		int numberComputers = serviceComputer.getCountComputers();
+		
+		if (request.getParameter("search") != null) {
+			search = request.getParameter("search");
+			System.out.println(search = request.getParameter("search"));
+			
+			lisComputers = serviceComputer.findAllComputersCompaniesByName(size,
+					((page - 1) * size), search);
+		}
+		else {
+			lisComputers = serviceComputer.findAllComputers(size,
+					((page - 1) * size));
+		}
+		
+		
 		currentPage.setEntities(lisComputers);
 		currentPage.setMaxPage((numberComputers - 1) / size + 1);
 		currentPage.setPageNumber(page);
 		currentPage.setPageSize(size);
+		currentPage.setSearchString(search);
 		currentPage.setOrderEntitiesBy(null);
 
 		request.setAttribute("currentPage", currentPage);
@@ -97,16 +112,16 @@ public class Dashboard extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
+
 		String computersIds = request.getParameter("selection");
 		StringTokenizer stringTokenizer = new StringTokenizer(computersIds, ",");
 		ServiceComputer serviceComputer = new ServiceComputer();
-		
-		while(stringTokenizer.hasMoreTokens()){
+
+		while (stringTokenizer.hasMoreTokens()) {
 			ComputerDTO computer = new ComputerDTO();
 			computer.setId(Long.valueOf(stringTokenizer.nextToken()));
 			serviceComputer.deleteComputer(computer);
-			computer=null;
+			computer = null;
 		}
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");

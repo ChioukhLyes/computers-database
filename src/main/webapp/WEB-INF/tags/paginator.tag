@@ -12,6 +12,7 @@
 			<c:url value="dashboard">
 			<c:param name="page" value="1" />
 			<c:param name="size" value="${currentPage.pageSize}" />
+			<c:param name="search" value="${currentPage.searchString}" />
 		</c:url>"
 				aria-label="First"> <span class="glyphicon glyphicon-step-backward" aria-hidden=true></span>
 			</a></li>
@@ -21,6 +22,7 @@
 			<c:url value="dashboard">
 			<c:param name="page" value="${currentPage.pageNumber-1}" />
 			<c:param name="size" value="${currentPage.pageSize}" />
+			<c:param name="search" value="${currentPage.searchString}" />
 		</c:url>"
 				aria-label="Previous"> <span class="" aria-hidden=true>Previous</span>
 			</a></li>
@@ -30,15 +32,18 @@
 		<c:if test="${currentPage.pageNumber-2 > 0}">
 			<li><a	href="<c:url value="dashboard">
 			<c:param name="page" value="${currentPage.pageNumber-2}" />
-			<c:param name="size" value="${currentPage.pageSize}" /></c:url>
-				">${currentPage.pageNumber-2}</a></li>
+			<c:param name="size" value="${currentPage.pageSize}" />
+			<c:param name="search" value="${currentPage.searchString}" />
+			</c:url>">${currentPage.pageNumber-2}</a></li>
 		</c:if>
 
 		<c:if test="${currentPage.pageNumber-1 > 0}">
 			<li><a 
 				href="<c:url value="dashboard">
 			<c:param name="page" value="${currentPage.pageNumber-1}" />
-			<c:param name="size" value="${currentPage.pageSize}" /></c:url>">${currentPage.pageNumber-1}</a></li>
+			<c:param name="size" value="${currentPage.pageSize}" />
+			<c:param name="search" value="${currentPage.searchString}" />
+			</c:url>">${currentPage.pageNumber-1}</a></li>
 		</c:if>
 
 		<li class="active"><a href="#">${currentPage.pageNumber}</a></li>
@@ -46,19 +51,25 @@
 		<c:if test="${currentPage.pageNumber+1 <= currentPage.maxPage}">
 			<li><a href="<c:url value="dashboard">
 			<c:param name="page" value="${currentPage.pageNumber+1}" />
-			<c:param name="size" value="${currentPage.pageSize}" /></c:url>">${currentPage.pageNumber+1}</a></li>
+			<c:param name="size" value="${currentPage.pageSize}" />
+			<c:param name="search" value="${currentPage.searchString}" />
+			</c:url>">${currentPage.pageNumber+1}</a></li>
 		</c:if>
 
 		<c:if test="${currentPage.pageNumber+2 <= currentPage.maxPage}">
 			<li><a href="<c:url value="dashboard">
 			<c:param name="page" value="${currentPage.pageNumber+2}" />
-			<c:param name="size" value="${currentPage.pageSize}" /></c:url>">${currentPage.pageNumber+2}</a></li>
+			<c:param name="size" value="${currentPage.pageSize}" />
+			<c:param name="search" value="${currentPage.searchString}" />
+			</c:url>">${currentPage.pageNumber+2}</a></li>
 		</c:if>
 
 		<c:if test="${currentPage.pageNumber != currentPage.maxPage}">
 			<li><a href="<c:url value="dashboard">
 			<c:param name="page" value="${currentPage.pageNumber+1}" />
-			<c:param name="size" value="${currentPage.pageSize}" /></c:url>"
+			<c:param name="size" value="${currentPage.pageSize}" />
+			<c:param name="search" value="${currentPage.searchString}" />
+			</c:url>"
 			
 			aria-label="Next"> <span class="" aria-hidden="true">Next</span>
 <!-- 				aria-label="Next"> <span aria-hidden="true">&raquo;</span> -->
@@ -66,7 +77,9 @@
 			
 			<li><a href="<c:url value="dashboard">
 			<c:param name="page" value="${currentPage.maxPage}" />
-			<c:param name="size" value="${currentPage.pageSize}" /></c:url>"
+			<c:param name="size" value="${currentPage.pageSize}" />
+			<c:param name="search" value="${currentPage.searchString}" />
+			</c:url>"
 				aria-label="Last"> <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
 			</a></li>
 			

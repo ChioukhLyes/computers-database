@@ -23,6 +23,9 @@ public class Page<T> {
 	/** The max page. */
 	private int maxPage;
 
+	/** The search string. */
+	private String searchString;
+
 	/** The order entities by. */
 	private String orderEntitiesBy;
 
@@ -44,16 +47,19 @@ public class Page<T> {
 	 *            the page size
 	 * @param maxPage
 	 *            the max page
+	 * @param searchString
+	 *            the search string
 	 * @param orderEntitiesBy
 	 *            the order entities by
 	 */
 	public Page(List<T> entities, int pageNumber, int pageSize, int maxPage,
-			String orderEntitiesBy) {
+			String searchString, String orderEntitiesBy) {
 		super();
 		this.entities = entities;
 		this.pageNumber = pageNumber;
 		this.pageSize = pageSize;
 		this.maxPage = maxPage;
+		this.searchString = searchString;
 		this.orderEntitiesBy = orderEntitiesBy;
 	}
 
@@ -134,6 +140,25 @@ public class Page<T> {
 	}
 
 	/**
+	 * Gets the search string.
+	 *
+	 * @return the search string
+	 */
+	public String getSearchString() {
+		return searchString;
+	}
+
+	/**
+	 * Sets the search string.
+	 *
+	 * @param searchString
+	 *            the new search string
+	 */
+	public void setSearchString(String searchString) {
+		this.searchString = searchString;
+	}
+
+	/**
 	 * Gets the order entities by.
 	 *
 	 * @return the order entities by
@@ -161,7 +186,8 @@ public class Page<T> {
 	public String toString() {
 		return "Page [entities=" + entities + ", pageNumber=" + pageNumber
 				+ ", pageSize=" + pageSize + ", maxPage=" + maxPage
-				+ ", orderEntitiesBy=" + orderEntitiesBy + "]";
+				+ ", searchString=" + searchString + ", orderEntitiesBy="
+				+ orderEntitiesBy + "]";
 	}
 
 	/*
@@ -180,6 +206,8 @@ public class Page<T> {
 				+ ((orderEntitiesBy == null) ? 0 : orderEntitiesBy.hashCode());
 		result = prime * result + pageNumber;
 		result = prime * result + pageSize;
+		result = prime * result
+				+ ((searchString == null) ? 0 : searchString.hashCode());
 		return result;
 	}
 
@@ -212,6 +240,11 @@ public class Page<T> {
 		if (pageNumber != other.pageNumber)
 			return false;
 		if (pageSize != other.pageSize)
+			return false;
+		if (searchString == null) {
+			if (other.searchString != null)
+				return false;
+		} else if (!searchString.equals(other.searchString))
 			return false;
 		return true;
 	}

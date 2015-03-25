@@ -56,6 +56,13 @@ public class ServiceComputer {
 		return computerDAO.findAllComputers(limit, offset);	
 	}
 
+	
+	public List<ComputerDTO> findAllComputersCompaniesByName(int limit, int offset, String search){
+		return computerDAO.findAllComputersCompaniesByName(limit, offset, search);	
+	}
+	
+	
+	
 	/**
 	 * Find computer by id.
 	 *

@@ -279,4 +279,34 @@ public class ComputerDaoImpl implements ComputerDAO {
 		return count;
 	}
 
+	@Override
+	public List<ComputerDTO> findAllComputersCompaniesByName(int limit,
+			int offset, String search) {
+		
+		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
+		Connection connection = null;
+		// Statement statement = null;
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = daoFactory.getConnection();
+			preparedStatement = connection
+					.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE ? OR compa.name LIKE ? ORDER BY comp.name limit ? offset ?;");
+			preparedStatement.setString(1, search);
+			preparedStatement.setString(2, search);
+			preparedStatement.setInt(3, limit);
+			preparedStatement.setInt(4, offset);
+			resultSet = preparedStatement.executeQuery();
+			computers = ComputerDTOmapperImpl.INSTANCE.MappComputers(resultSet);
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			daoFactory.CloseConnections(connection, preparedStatement,
+					resultSet);
+		}
+		return computers;
+	}
+
 }
