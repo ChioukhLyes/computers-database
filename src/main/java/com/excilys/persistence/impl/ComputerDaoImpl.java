@@ -285,7 +285,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 
 	@Override
 	public List<ComputerDTO> findAllComputersCompaniesByName(int limit,
-			int offset, String orderBy, String search) {
+			int offset, String orderBy, String search, String orderOption) {
 		
 		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
 		Connection connection = null;
@@ -295,8 +295,12 @@ public class ComputerDaoImpl implements ComputerDAO {
 
 		try {
 			connection = daoFactory.getConnection();
+			if(orderBy.equals("companyname"))
+				preparedStatement = connection
+						.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE '%"+search+"%'  OR compa.name LIKE '%"+search+"%' ORDER BY compa.name "+orderOption+" limit ? offset ?;");			
+			else 
 			preparedStatement = connection
-					.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE '%"+search+"%'  OR compa.name LIKE '%"+search+"%' ORDER BY comp."+orderBy+" limit ? offset ?;");
+					.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE '%"+search+"%'  OR compa.name LIKE '%"+search+"%' ORDER BY comp."+orderBy+" "+orderOption+" limit ? offset ?;");
 			preparedStatement.setInt(1, limit);
 			preparedStatement.setInt(2, offset);
 			resultSet = preparedStatement.executeQuery();

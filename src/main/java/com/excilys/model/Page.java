@@ -29,6 +29,9 @@ public class Page<T> {
 	/** The order entities by. */
 	private String orderEntitiesBy;
 
+	/** The optionOrder. */
+	private String optionOrder;
+
 	/**
 	 * Instantiates a new page.
 	 */
@@ -51,9 +54,11 @@ public class Page<T> {
 	 *            the search string
 	 * @param orderEntitiesBy
 	 *            the order entities by
+	 * @param optionOrder
+	 *            the optionOrder
 	 */
 	public Page(List<T> entities, int pageNumber, int pageSize, int maxPage,
-			String searchString, String orderEntitiesBy) {
+			String searchString, String orderEntitiesBy, String optionOrder) {
 		super();
 		this.entities = entities;
 		this.pageNumber = pageNumber;
@@ -61,6 +66,7 @@ public class Page<T> {
 		this.maxPage = maxPage;
 		this.searchString = searchString;
 		this.orderEntitiesBy = orderEntitiesBy;
+		this.optionOrder = optionOrder;
 	}
 
 	/**
@@ -177,6 +183,25 @@ public class Page<T> {
 		this.orderEntitiesBy = orderEntitiesBy;
 	}
 
+	/**
+	 * Gets the optionOrder.
+	 *
+	 * @return the optionOrder
+	 */
+	public String getoptionOrder() {
+		return optionOrder;
+	}
+
+	/**
+	 * Sets the optionOrder.
+	 *
+	 * @param optionOrder
+	 *            the new optionOrder
+	 */
+	public void setoptionOrder(String optionOrder) {
+		this.optionOrder = optionOrder;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -187,7 +212,7 @@ public class Page<T> {
 		return "Page [entities=" + entities + ", pageNumber=" + pageNumber
 				+ ", pageSize=" + pageSize + ", maxPage=" + maxPage
 				+ ", searchString=" + searchString + ", orderEntitiesBy="
-				+ orderEntitiesBy + "]";
+				+ orderEntitiesBy + ", optionOrder=" + optionOrder + "]";
 	}
 
 	/*
@@ -202,6 +227,7 @@ public class Page<T> {
 		result = prime * result
 				+ ((entities == null) ? 0 : entities.hashCode());
 		result = prime * result + maxPage;
+		result = prime * result + ((optionOrder == null) ? 0 : optionOrder.hashCode());
 		result = prime * result
 				+ ((orderEntitiesBy == null) ? 0 : orderEntitiesBy.hashCode());
 		result = prime * result + pageNumber;
@@ -231,6 +257,11 @@ public class Page<T> {
 		} else if (!entities.equals(other.entities))
 			return false;
 		if (maxPage != other.maxPage)
+			return false;
+		if (optionOrder == null) {
+			if (other.optionOrder != null)
+				return false;
+		} else if (!optionOrder.equals(other.optionOrder))
 			return false;
 		if (orderEntitiesBy == null) {
 			if (other.orderEntitiesBy != null)

@@ -25,6 +25,15 @@ public class Dashboard extends HttpServlet {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	
+	/** The service computer. */
+	public ServiceComputer serviceComputer = new ServiceComputer();
+	
+	/** The current page. */
+	public Page<ComputerDTO> currentPage = new Page<ComputerDTO>();
+	
+	/** The number computers. */
+	public int  numberComputers;
 	/**
 	 * Instantiates a new dashboard.
 	 *
@@ -52,14 +61,12 @@ public class Dashboard extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		ServiceComputer serviceComputer = new ServiceComputer();
-		Page<ComputerDTO> currentPage = new Page<ComputerDTO>();
-
 		// Default values
 		int size = 10;
 		int page = 1;
 		String search = "";
-		String orderBy = "id";
+		String orderBy = "name";
+		String optionOrder="ASC";
 		
 		List<ComputerDTO> lisComputers;
 		
@@ -71,15 +78,19 @@ public class Dashboard extends HttpServlet {
 		if (request.getParameter("search") != null) {
 			search = request.getParameter("search");
 		}
-		
 		if (request.getParameter("orderby") != null) {
 			orderBy = request.getParameter("orderby");
 		}
+		if (request.getParameter("orderoption") != null) {
+			optionOrder = request.getParameter("orderoption");
+		}
 		
 		lisComputers = serviceComputer.findAllComputersCompaniesByName(size,
-				((page - 1) * size), orderBy, search);
+				((page - 1) * size), orderBy, search, optionOrder);
 		
-		int numberComputers = serviceComputer.getCountComputers(search);
+		numberComputers = serviceComputer.getCountComputers(search);
+		
+		System.out.println("option order"+optionOrder);
 		
 		currentPage.setEntities(lisComputers);
 		currentPage.setMaxPage((numberComputers - 1) / size + 1);
@@ -87,6 +98,7 @@ public class Dashboard extends HttpServlet {
 		currentPage.setPageSize(size);
 		currentPage.setSearchString(search);
 		currentPage.setOrderEntitiesBy(orderBy);
+		currentPage.setoptionOrder(optionOrder);
 
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("numberComputers", numberComputers);
@@ -123,6 +135,10 @@ public class Dashboard extends HttpServlet {
 			serviceComputer.deleteComputer(computer);
 			computer = null;
 		}
+		
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("numberComputers", numberComputers);
+		
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
 		dispatcher.forward(request, response);

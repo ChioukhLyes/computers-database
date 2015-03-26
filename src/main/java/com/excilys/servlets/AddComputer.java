@@ -104,9 +104,8 @@ public class AddComputer extends HttpServlet {
 		computer.setCompanyName(company.getName());
 		// Computer insertion
 		serviceComputer.insertComputer(computer);
-		RequestDispatcher dispatcher = getServletContext()
-				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
-		dispatcher.forward(request, response);
+		
+		response.sendRedirect("dashboard");
 		logger.trace("Computer created with success, redirecting to the Dashboard page.");
 	}
 

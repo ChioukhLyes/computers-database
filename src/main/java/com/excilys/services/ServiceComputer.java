@@ -57,8 +57,8 @@ public class ServiceComputer {
 	}
 
 	
-	public List<ComputerDTO> findAllComputersCompaniesByName(int limit, int offset, String orderBy, String search){
-		return computerDAO.findAllComputersCompaniesByName(limit, offset, orderBy, search);	
+	public List<ComputerDTO> findAllComputersCompaniesByName(int limit, int offset, String orderBy, String search, String orderOption){
+		return computerDAO.findAllComputersCompaniesByName(limit, offset, orderBy, search, orderOption);	
 	}
 	
 	

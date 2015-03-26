@@ -112,13 +112,10 @@ public class EditComputer extends HttpServlet {
 				.valueOf(request.getParameter("companyId")));
 		computer.setCompanyId(company.getId());
 		computer.setCompanyName(company.getName());
-
 		// Computer update
 		serviceComputer.updateComputer(computer);
 
-		RequestDispatcher dispatcher = getServletContext()
-				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
-		dispatcher.forward(request, response);
+		response.sendRedirect("dashboard");
 		logger.trace("Success editing, redirecting to the Dashboard page.");
 	}
 }

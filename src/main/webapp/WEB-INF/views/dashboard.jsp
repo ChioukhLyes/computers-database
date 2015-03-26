@@ -53,12 +53,149 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th>Computer name</th>
-						<th>Introduced date</th>
+						<th><a
+							href="<c:url value="dashboard">
+								<c:param name="page" value="${currentPage.pageNumber}" />
+								<c:param name="size" value="${currentPage.pageSize}" />
+								<c:param name="search" value="${currentPage.searchString}" />
+								<c:param name="orderby" value="name" />
+								<c:choose>
+									<c:when test="${currentPage.optionOrder == 'DESC' }">
+										<c:param name="orderoption" value="ASC" />
+									</c:when>
+									<c:when test="${currentPage.optionOrder == 'ASC' }">
+										<c:param name="orderoption" value="DESC" />
+									</c:when>
+									<c:otherwise>
+										<c:param name="orderoption" value="ASC" />
+									</c:otherwise>
+								</c:choose>
+								</c:url>"
+								aria-label="Last"> 
+								<c:choose>
+									<c:when test="${currentPage.optionOrder == 'DESC' }">
+										<span class="glyphicon glyphicon-sort-by-alphabet-alt"
+											aria-hidden="true"></span>
+									</c:when>
+									<c:when test="${currentPage.optionOrder == 'ASC' }">
+										<span class="glyphicon glyphicon-sort-by-alphabet"
+											aria-hidden="true"></span>
+									</c:when>
+									<c:otherwise>
+										<span
+											class="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
+											aria-hidden="true"></span>
+									</c:otherwise>
+								</c:choose>
+
+						</a> Computer name</th>
+						<th><a
+							href="<c:url value="dashboard">
+								<c:param name="page" value="${currentPage.pageNumber}" />
+								<c:param name="size" value="${currentPage.pageSize}" />
+								<c:param name="search" value="${currentPage.searchString}" />
+								<c:param name="orderby" value="introduced" />
+								<c:choose>
+									<c:when test="${currentPage.optionOrder == 'DESC' }">
+										<c:param name="orderoption" value="ASC" />
+									</c:when>
+									<c:when test="${currentPage.optionOrder == 'ASC' }">
+										<c:param name="orderoption" value="DESC" />
+									</c:when>
+									<c:otherwise>
+										<c:param name="orderoption" value="ASC" />
+									</c:otherwise>
+								</c:choose>
+								</c:url>"
+								aria-label="Last"> 
+								<c:choose>
+									<c:when test="${currentPage.optionOrder == 'DESC' }">
+										<span class="glyphicon glyphicon-sort-by-order-alt"
+											aria-hidden="true"></span>
+									</c:when>
+									<c:when test="${currentPage.optionOrder == 'ASC' }">
+										<span class="glyphicon glyphicon-sort-by-order"
+											aria-hidden="true"></span>
+									</c:when>
+									<c:otherwise>
+										<span
+											class="glyphicon glyphicon glyphicon-sort-by-order-alt"
+											aria-hidden="true"></span>
+									</c:otherwise>
+								</c:choose>
+						</a> Introduced date</th>
 						<!-- Table header for Discontinued Date -->
-						<th>Discontinued date</th>
+						<th><a
+							href="<c:url value="dashboard">
+								<c:param name="page" value="${currentPage.pageNumber}" />
+								<c:param name="size" value="${currentPage.pageSize}" />
+								<c:param name="search" value="${currentPage.searchString}" />
+								<c:param name="orderby" value="discontinued" />
+								<c:choose>
+									<c:when test="${currentPage.optionOrder == 'DESC' }">
+										<c:param name="orderoption" value="ASC" />
+									</c:when>
+									<c:when test="${currentPage.optionOrder == 'ASC' }">
+										<c:param name="orderoption" value="DESC" />
+									</c:when>
+									<c:otherwise>
+										<c:param name="orderoption" value="ASC" />
+									</c:otherwise>
+								</c:choose>
+								</c:url>"
+								aria-label="Last"> 
+								<c:choose>
+									<c:when test="${currentPage.optionOrder == 'DESC' }">
+										<span class="glyphicon glyphicon-sort-by-order-alt"
+											aria-hidden="true"></span>
+									</c:when>
+									<c:when test="${currentPage.optionOrder == 'ASC' }">
+										<span class="glyphicon glyphicon-sort-by-order"
+											aria-hidden="true"></span>
+									</c:when>
+									<c:otherwise>
+										<span
+											class="glyphicon glyphicon glyphicon-sort-by-order-alt"
+											aria-hidden="true"></span>
+									</c:otherwise>
+								</c:choose>
+						</a> Discontinued date</th>
 						<!-- Table header for Company -->
-						<th>Company</th>
+						<th><a
+							href="<c:url value="dashboard">
+								<c:param name="page" value="${currentPage.pageNumber}" />
+								<c:param name="size" value="${currentPage.pageSize}" />
+								<c:param name="search" value="${currentPage.searchString}" />
+								<c:param name="orderby" value="companyname" />
+								<c:choose>
+									<c:when test="${currentPage.optionOrder == 'DESC' }">
+										<c:param name="orderoption" value="ASC" />
+									</c:when>
+									<c:when test="${currentPage.optionOrder == 'ASC' }">
+										<c:param name="orderoption" value="DESC" />
+									</c:when>
+									<c:otherwise>
+										<c:param name="orderoption" value="ASC" />
+									</c:otherwise>
+								</c:choose>
+								</c:url>"
+								aria-label="Last"> 
+								<c:choose>
+									<c:when test="${currentPage.optionOrder == 'DESC' }">
+										<span class="glyphicon glyphicon-sort-by-alphabet-alt"
+											aria-hidden="true"></span>
+									</c:when>
+									<c:when test="${currentPage.optionOrder == 'ASC' }">
+										<span class="glyphicon glyphicon-sort-by-alphabet"
+											aria-hidden="true"></span>
+									</c:when>
+									<c:otherwise>
+										<span
+											class="glyphicon glyphicon glyphicon-sort-by-alphabet-alt"
+											aria-hidden="true"></span>
+									</c:otherwise>
+								</c:choose>
+						</a> Company</th>
 
 					</tr>
 				</thead>
