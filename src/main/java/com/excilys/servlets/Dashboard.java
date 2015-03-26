@@ -58,35 +58,35 @@ public class Dashboard extends HttpServlet {
 		// Default values
 		int size = 10;
 		int page = 1;
-		String search = null;
+		String search = "";
+		String orderBy = "id";
+		
 		List<ComputerDTO> lisComputers;
 		
 		if (request.getParameter("page") != null)
 			page = Integer.valueOf(request.getParameter("page"));
 		if (request.getParameter("size") != null)
 			size = Integer.valueOf(request.getParameter("size"));
-
-		int numberComputers = serviceComputer.getCountComputers();
 		
 		if (request.getParameter("search") != null) {
 			search = request.getParameter("search");
-			System.out.println(search = request.getParameter("search"));
-			
-			lisComputers = serviceComputer.findAllComputersCompaniesByName(size,
-					((page - 1) * size), search);
-		}
-		else {
-			lisComputers = serviceComputer.findAllComputers(size,
-					((page - 1) * size));
 		}
 		
+		if (request.getParameter("orderby") != null) {
+			orderBy = request.getParameter("orderby");
+		}
+		
+		lisComputers = serviceComputer.findAllComputersCompaniesByName(size,
+				((page - 1) * size), orderBy, search);
+		
+		int numberComputers = serviceComputer.getCountComputers(search);
 		
 		currentPage.setEntities(lisComputers);
 		currentPage.setMaxPage((numberComputers - 1) / size + 1);
 		currentPage.setPageNumber(page);
 		currentPage.setPageSize(size);
 		currentPage.setSearchString(search);
-		currentPage.setOrderEntitiesBy(null);
+		currentPage.setOrderEntitiesBy(orderBy);
 
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("numberComputers", numberComputers);

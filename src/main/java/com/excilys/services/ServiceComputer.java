@@ -31,8 +31,8 @@ public class ServiceComputer {
 	 *
 	 * @return the count computers
 	 */
-	public int getCountComputers() {
-		return computerDAO.getCountComputers();
+	public int getCountComputers(String search) {
+		return computerDAO.getCountComputers(search);
 	}
 
 	/**
@@ -57,8 +57,8 @@ public class ServiceComputer {
 	}
 
 	
-	public List<ComputerDTO> findAllComputersCompaniesByName(int limit, int offset, String search){
-		return computerDAO.findAllComputersCompaniesByName(limit, offset, search);	
+	public List<ComputerDTO> findAllComputersCompaniesByName(int limit, int offset, String orderBy, String search){
+		return computerDAO.findAllComputersCompaniesByName(limit, offset, orderBy, search);	
 	}
 	
 	

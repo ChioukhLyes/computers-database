@@ -256,16 +256,20 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * @see persistence.ComputerDAO#getCountComputers()
 	 */
 	@Override
-	public int getCountComputers() {
+	public int getCountComputers(String search) {
 		Connection connection = null;
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
 		int count = 0;
 
+		String query = new String("SELECT count(*) FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id");
+		if(search != null){
+			query += " WHERE comp.name LIKE '%" + search + "%' OR compa.name LIKE '%" + search + "%';";
+		}
 		try {
 			connection = daoFactory.getConnection();
 			preparedStatement = connection
-					.prepareStatement("SELECT count(*) FROM computer;");
+					.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			resultSet.next();
 			count = resultSet.getInt(1);
@@ -281,7 +285,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 
 	@Override
 	public List<ComputerDTO> findAllComputersCompaniesByName(int limit,
-			int offset, String search) {
+			int offset, String orderBy, String search) {
 		
 		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
 		Connection connection = null;
@@ -292,11 +296,9 @@ public class ComputerDaoImpl implements ComputerDAO {
 		try {
 			connection = daoFactory.getConnection();
 			preparedStatement = connection
-					.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE ? OR compa.name LIKE ? ORDER BY comp.name limit ? offset ?;");
-			preparedStatement.setString(1, search);
-			preparedStatement.setString(2, search);
-			preparedStatement.setInt(3, limit);
-			preparedStatement.setInt(4, offset);
+					.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE '%"+search+"%'  OR compa.name LIKE '%"+search+"%' ORDER BY comp."+orderBy+" limit ? offset ?;");
+			preparedStatement.setInt(1, limit);
+			preparedStatement.setInt(2, offset);
 			resultSet = preparedStatement.executeQuery();
 			computers = ComputerDTOmapperImpl.INSTANCE.MappComputers(resultSet);
 		} catch (SQLException e) {

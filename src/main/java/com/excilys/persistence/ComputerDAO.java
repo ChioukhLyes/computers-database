@@ -36,7 +36,7 @@ public interface ComputerDAO {
 	 * @param search the search
 	 * @return the list
 	 */
-	List<ComputerDTO> findAllComputersCompaniesByName(int fromIndex, int toIndex, String search);
+	List<ComputerDTO> findAllComputersCompaniesByName(int fromIndex, int toIndex, String orderBy, String search);
 	
 	/**
 	 * Find computer by id.
@@ -91,5 +91,5 @@ public interface ComputerDAO {
 	 *
 	 * @return the count computers
 	 */
-	int getCountComputers();
+	int getCountComputers(String search);
 }

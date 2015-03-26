@@ -13,6 +13,7 @@
 			<c:param name="page" value="1" />
 			<c:param name="size" value="${currentPage.pageSize}" />
 			<c:param name="search" value="${currentPage.searchString}" />
+			<c:param name="orderby" value="${currentPage.orderEntitiesBy}" />
 		</c:url>"
 				aria-label="First"> <span class="glyphicon glyphicon-step-backward" aria-hidden=true></span>
 			</a></li>
@@ -23,6 +24,7 @@
 			<c:param name="page" value="${currentPage.pageNumber-1}" />
 			<c:param name="size" value="${currentPage.pageSize}" />
 			<c:param name="search" value="${currentPage.searchString}" />
+			<c:param name="orderby" value="${currentPage.orderEntitiesBy}" />
 		</c:url>"
 				aria-label="Previous"> <span class="" aria-hidden=true>Previous</span>
 			</a></li>
@@ -34,6 +36,7 @@
 			<c:param name="page" value="${currentPage.pageNumber-2}" />
 			<c:param name="size" value="${currentPage.pageSize}" />
 			<c:param name="search" value="${currentPage.searchString}" />
+			<c:param name="orderby" value="${currentPage.orderEntitiesBy}" />
 			</c:url>">${currentPage.pageNumber-2}</a></li>
 		</c:if>
 
@@ -43,6 +46,7 @@
 			<c:param name="page" value="${currentPage.pageNumber-1}" />
 			<c:param name="size" value="${currentPage.pageSize}" />
 			<c:param name="search" value="${currentPage.searchString}" />
+			<c:param name="orderby" value="${currentPage.orderEntitiesBy}" />
 			</c:url>">${currentPage.pageNumber-1}</a></li>
 		</c:if>
 
@@ -53,6 +57,7 @@
 			<c:param name="page" value="${currentPage.pageNumber+1}" />
 			<c:param name="size" value="${currentPage.pageSize}" />
 			<c:param name="search" value="${currentPage.searchString}" />
+			<c:param name="orderby" value="${currentPage.orderEntitiesBy}" />
 			</c:url>">${currentPage.pageNumber+1}</a></li>
 		</c:if>
 
@@ -61,6 +66,7 @@
 			<c:param name="page" value="${currentPage.pageNumber+2}" />
 			<c:param name="size" value="${currentPage.pageSize}" />
 			<c:param name="search" value="${currentPage.searchString}" />
+			<c:param name="orderby" value="${currentPage.orderEntitiesBy}" />
 			</c:url>">${currentPage.pageNumber+2}</a></li>
 		</c:if>
 
@@ -69,6 +75,7 @@
 			<c:param name="page" value="${currentPage.pageNumber+1}" />
 			<c:param name="size" value="${currentPage.pageSize}" />
 			<c:param name="search" value="${currentPage.searchString}" />
+			<c:param name="orderby" value="${currentPage.orderEntitiesBy}" />
 			</c:url>"
 			
 			aria-label="Next"> <span class="" aria-hidden="true">Next</span>
@@ -79,6 +86,7 @@
 			<c:param name="page" value="${currentPage.maxPage}" />
 			<c:param name="size" value="${currentPage.pageSize}" />
 			<c:param name="search" value="${currentPage.searchString}" />
+			<c:param name="orderby" value="${currentPage.orderEntitiesBy}" />
 			</c:url>"
 				aria-label="Last"> <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
 			</a></li>
@@ -88,10 +96,10 @@
 	</ul>
 	<div class="btn-group btn-group-sm pull-right" role="group">
 		<button type="button" class="btn btn-default"
-			onclick="document.location.href='dashboard?size=10'">10</button>
+			onclick="document.location.href='dashboard?page=1&size=10&search=${currentPage.searchString}&orderby=${currentPage.orderEntitiesBy}'">10</button>
 		<button type="button" class="btn btn-default"
-			onclick="document.location.href='dashboard?size=50'">50</button>
+			onclick="document.location.href='dashboard?page=1&size=50&search=${currentPage.searchString}&orderby=${currentPage.orderEntitiesBy}'">50</button>
 		<button type="button" class="btn btn-default"
-			onclick="document.location.href='dashboard?size=100'">100</button>
+			onclick="document.location.href='dashboard?page=1&size=100&search=${currentPage.searchString}&orderby=${currentPage.orderEntitiesBy}'">100</button>
 	</div>
 </div>
