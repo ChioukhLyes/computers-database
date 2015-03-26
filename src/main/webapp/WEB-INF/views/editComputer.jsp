@@ -14,7 +14,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
-					<div class="label label-default pull-right">id :
+					<div id="idComputer" class="label label-default pull-right">id :
 						${Computer.id}</div>
 					<h1>Edit Computer</h1>
 
@@ -25,26 +25,26 @@
 								<label for="computerName">Computer name </label> <input
 									type="text" name="computerName" class="form-control"
 									id="computerName" placeholder="Computer name"
-									value="${Computer.name}">
+									value="<c:out value='${Computer.name}'></c:out>">
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
 									type="date" name="introduced" class="form-control"
 									id="introduced" placeholder="Introduced date"
-									value="${Computer.introduced}">
+									value="<c:out value='${Computer.introduced}'></c:out>">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
 									type="date" name="discontinued" class="form-control"
 									id="discontinued" placeholder="Discontinued date"
-									value="${Computer.discontinued}">
+									value="<c:out value='${Computer.discontinued}'></c:out>">
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
 									class="form-control" name="companyId" id="companyId">
-									<option value="${Computer.companyId}">${Computer.companyName}</option>
+									<option value="${Computer.companyId}"><c:out value='${Computer.companyName}'></c:out></option>
 									<c:forEach var="company" items="${Companies}">
-										<option value="${company.id}">${company.name}</option>
+										<option value="${company.id}"><c:out value='${company.name}'></c:out></option>
 									</c:forEach>
 								</select>
 							</div>

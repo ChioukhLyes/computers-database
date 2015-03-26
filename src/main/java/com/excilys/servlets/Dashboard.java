@@ -128,19 +128,23 @@ public class Dashboard extends HttpServlet {
 		ServiceComputer serviceComputer = new ServiceComputer();
 
 		while (stringTokenizer.hasMoreTokens()) {
+					
 			ComputerDTO computer = new ComputerDTO();
 			computer.setId(Long.valueOf(stringTokenizer.nextToken()));
 			serviceComputer.deleteComputer(computer);
+			numberComputers--;	
 			computer = null;
 		}
+		
+		currentPage.setEntities(serviceComputer.findAllComputersCompaniesByName(currentPage.getPageSize(),
+				((currentPage.getPageNumber() - 1) * currentPage.getPageSize()), currentPage.getOrderEntitiesBy(), 
+				currentPage.getSearchString(), currentPage.getoptionOrder()));
 		
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("numberComputers", numberComputers);
 		
-		response.setIntHeader("Refresh", 1);
-		
-//		RequestDispatcher dispatcher = getServletContext()
-//				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
-//		dispatcher.forward(request, response);
+		RequestDispatcher dispatcher = getServletContext()
+				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
+		dispatcher.forward(request, response);
 	}
 }

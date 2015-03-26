@@ -203,10 +203,10 @@
 								href="<c:url value="editComputer">                            
 							       				<c:param name="id" value="${item.id}"/>                            
 							       				</c:url>"
-								onclick=""> ${item.name}</a></td>
-							<td>${item.introduced}</td>
-							<td>${item.discontinued}</td>
-							<td>${item.companyName}</td>
+								onclick=""> <c:out value="${item.name}"></c:out> </a></td>
+							<td><c:out value="${item.introduced}"></c:out></td>
+							<td><c:out value="${item.discontinued}"></c:out></td>
+							<td><c:out value="${item.companyName}"></c:out></td>
 						</tr>
 					</c:forEach>
 				</tbody>

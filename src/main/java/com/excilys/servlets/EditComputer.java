@@ -115,7 +115,9 @@ public class EditComputer extends HttpServlet {
 		// Computer update
 		serviceComputer.updateComputer(computer);
 
-		response.sendRedirect("dashboard");
-		logger.trace("Success editing, redirecting to the Dashboard page.");
+		RequestDispatcher dispatcher = getServletContext()
+				.getRequestDispatcher("/WEB-INF/views/success.jsp");
+		dispatcher.forward(request, response);
+		logger.trace("Success editing, redirecting to the success page.");
 	}
 }

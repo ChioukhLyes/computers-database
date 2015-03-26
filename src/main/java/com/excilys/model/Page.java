@@ -88,6 +88,17 @@ public class Page<T> {
 		this.entities = entities;
 	}
 
+	
+	/**
+	 * Delete from entities.
+	 *
+	 * @param object the object
+	 */
+	public void deleteFromEntities(Object object){
+		this.entities.remove(object);
+	}
+	
+	
 	/**
 	 * Gets the page number.
 	 *
