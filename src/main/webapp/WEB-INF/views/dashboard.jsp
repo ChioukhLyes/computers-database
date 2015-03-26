@@ -71,8 +71,7 @@
 									</c:otherwise>
 								</c:choose>
 								</c:url>"
-								aria-label="Last"> 
-								<c:choose>
+							aria-label="Last"> <c:choose>
 									<c:when test="${currentPage.optionOrder == 'DESC' }">
 										<span class="glyphicon glyphicon-sort-by-alphabet-alt"
 											aria-hidden="true"></span>
@@ -107,8 +106,7 @@
 									</c:otherwise>
 								</c:choose>
 								</c:url>"
-								aria-label="Last"> 
-								<c:choose>
+							aria-label="Last"> <c:choose>
 									<c:when test="${currentPage.optionOrder == 'DESC' }">
 										<span class="glyphicon glyphicon-sort-by-order-alt"
 											aria-hidden="true"></span>
@@ -118,8 +116,7 @@
 											aria-hidden="true"></span>
 									</c:when>
 									<c:otherwise>
-										<span
-											class="glyphicon glyphicon glyphicon-sort-by-order-alt"
+										<span class="glyphicon glyphicon glyphicon-sort-by-order-alt"
 											aria-hidden="true"></span>
 									</c:otherwise>
 								</c:choose>
@@ -143,8 +140,7 @@
 									</c:otherwise>
 								</c:choose>
 								</c:url>"
-								aria-label="Last"> 
-								<c:choose>
+							aria-label="Last"> <c:choose>
 									<c:when test="${currentPage.optionOrder == 'DESC' }">
 										<span class="glyphicon glyphicon-sort-by-order-alt"
 											aria-hidden="true"></span>
@@ -154,8 +150,7 @@
 											aria-hidden="true"></span>
 									</c:when>
 									<c:otherwise>
-										<span
-											class="glyphicon glyphicon glyphicon-sort-by-order-alt"
+										<span class="glyphicon glyphicon glyphicon-sort-by-order-alt"
 											aria-hidden="true"></span>
 									</c:otherwise>
 								</c:choose>
@@ -179,8 +174,7 @@
 									</c:otherwise>
 								</c:choose>
 								</c:url>"
-								aria-label="Last"> 
-								<c:choose>
+							aria-label="Last"> <c:choose>
 									<c:when test="${currentPage.optionOrder == 'DESC' }">
 										<span class="glyphicon glyphicon-sort-by-alphabet-alt"
 											aria-hidden="true"></span>

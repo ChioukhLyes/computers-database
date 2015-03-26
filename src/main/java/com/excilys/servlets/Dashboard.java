@@ -90,8 +90,6 @@ public class Dashboard extends HttpServlet {
 		
 		numberComputers = serviceComputer.getCountComputers(search);
 		
-		System.out.println("option order"+optionOrder);
-		
 		currentPage.setEntities(lisComputers);
 		currentPage.setMaxPage((numberComputers - 1) / size + 1);
 		currentPage.setPageNumber(page);
@@ -139,8 +137,10 @@ public class Dashboard extends HttpServlet {
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("numberComputers", numberComputers);
 		
-		RequestDispatcher dispatcher = getServletContext()
-				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
-		dispatcher.forward(request, response);
+		response.setIntHeader("Refresh", 1);
+		
+//		RequestDispatcher dispatcher = getServletContext()
+//				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
+//		dispatcher.forward(request, response);
 	}
 }

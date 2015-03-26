@@ -5,3 +5,4 @@
 <script src="js/dashboard.js"></script>
 <script src="js/jquery.validate.min.js"></script>
 <script src="js/inputValidate.js"></script>
+<script src="js/bootbox.min.js"></script>

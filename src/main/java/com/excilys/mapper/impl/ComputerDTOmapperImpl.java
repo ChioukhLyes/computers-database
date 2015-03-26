@@ -131,10 +131,10 @@ public enum ComputerDTOmapperImpl implements ComputerDTOMapper {
 			else
 				preparedStatement.setDate(3, null);
 
-			if (computerDTO.getCompanyId() > 0)
+			if (computerDTO.getCompanyId() !=null && computerDTO.getCompanyId() > 0)
 				preparedStatement.setLong(4, computerDTO.getCompanyId());
 			else
-				preparedStatement.setLong(4, 0);
+				preparedStatement.setString(4, null);
 
 			preparedStatement.executeUpdate();
 

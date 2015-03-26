@@ -24,7 +24,7 @@ public class MainCLI {
 
 	/** The service. */
 	static ServiceComputer serviceComputer = new ServiceComputer();
-	
+
 	/** The service. */
 	static ServiceCompany serviceCompany = new ServiceCompany();
 
@@ -109,7 +109,7 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	public static  void showComputers() throws ParseException {
+	public static void showComputers() throws ParseException {
 		int limit = 5;
 		int offset = 0;
 		@SuppressWarnings("resource")
@@ -240,7 +240,8 @@ public class MainCLI {
 		Long companyId = null;
 		// SimpleDateFormat dateFormat =
 		// SimpleDateFormat.ofPattern("yyyy/MM/dd");
-		DateTimeFormatter dateFormat =  DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter dateFormat = DateTimeFormatter
+				.ofPattern("yyyy-MM-dd");
 		String donnee;
 
 		while (name == null) {
@@ -271,7 +272,8 @@ public class MainCLI {
 		companyId = scanner.nextLong();
 
 		try {
-			serviceComputer.insertComputer(new ComputerDTO(name, introduced, discontinued,	companyId));
+			serviceComputer.insertComputer(new ComputerDTO(name, introduced,
+					discontinued, companyId));
 			System.out.println("Computer inserted");
 		} catch (Exception e) {
 			System.out.println("Computer not inserted" + e.getMessage());
@@ -296,7 +298,8 @@ public class MainCLI {
 		Long companyId = null;
 		// DateTimeFormatter dateFormat = DateTimeFormatter
 		// .ofPattern("yyyy/MM/dd");
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter dateFormat = DateTimeFormatter
+				.ofPattern("yyyy-MM-dd");
 		String donnee;
 		while (id == null || computerDTO == null) {
 			System.out.println("Enter computer id (Long) : ");
@@ -305,7 +308,8 @@ public class MainCLI {
 		}
 
 		while (name == null) {
-			System.out.println("Current computer name : " + computerDTO.getName());
+			System.out.println("Current computer name : "
+					+ computerDTO.getName());
 			System.out.println("Enter new computer name : \t");
 			scanner.nextLine();
 			name = scanner.nextLine();
@@ -336,7 +340,8 @@ public class MainCLI {
 		}
 		computerDTO.setDiscontinued(discontinued);
 
-		System.out.println("Current  company id  : " + computerDTO.getCompanyId());
+		System.out.println("Current  company id  : "
+				+ computerDTO.getCompanyId());
 		System.out.println("Enter new company id (Long) : ");
 		companyId = scanner.nextLong();
 		if (companyId != null && companyId instanceof Long)
@@ -381,8 +386,7 @@ public class MainCLI {
 		mainCLI();
 
 	}
-	
-	
+
 	public static void deleteCompany() throws ParseException {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
@@ -416,7 +420,6 @@ public class MainCLI {
 	 *             the parse exception
 	 */
 	public static void main(String[] args) throws ParseException {
-		
 		mainCLI();
 	}
 }

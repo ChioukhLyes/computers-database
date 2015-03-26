@@ -2,7 +2,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
 
 <jsp:include page="common/header.jsp"></jsp:include>
-
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
@@ -13,14 +12,24 @@
 
 	<section id="main">
 		<div class="container">
-			<div class="alert alert-danger">
-				Error 500: An error has occured! WTF! <br />
+			<div class="alert alert-success">
+				<h1>
+					<strong>computer database</strong>
+				</h1>
+				<br />
+				<!-- stacktrace -->
+			</div>
+			
+			<div class="alert alert-success">
+				<h2>
+					Computer updated/added with success.
+				</h2>
+				<br />
 				<!-- stacktrace -->
 			</div>
 		</div>
 	</section>
 
 	<jsp:include page="common/footer.jsp"></jsp:include>
-
 </body>
 </html>

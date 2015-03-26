@@ -77,7 +77,9 @@ public class AddComputer extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		ComputerDTO computer = new ComputerDTO();
-
+		
+		Long companyId=null;
+		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		ServiceComputer serviceComputer = new ServiceComputer();
 		ServiceCompany serviceCompany = new ServiceCompany();
@@ -97,16 +99,23 @@ public class AddComputer extends HttpServlet {
 					request.getParameter("discontinued"), formatter);
 			computer.setDiscontinued(discontinued);
 		}
+		
+		if(Long.valueOf(request.getParameter("companyId"))!=0){
+			companyId = (long) Long.valueOf(request.getParameter("companyId"));
+			Company company = serviceCompany.findCompanyById(companyId);
+			computer.setCompanyId(companyId);
+			computer.setCompanyName(company.getName());
+		}
+		
+		computer.setCompanyId(null);
+		computer.setCompanyName(null);
 
-		Long companyId = (long) Long.valueOf(request.getParameter("companyId"));
-		Company company = serviceCompany.findCompanyById(companyId);
-		computer.setCompanyId(companyId);
-		computer.setCompanyName(company.getName());
 		// Computer insertion
 		serviceComputer.insertComputer(computer);
-		
-		response.sendRedirect("dashboard");
-		logger.trace("Computer created with success, redirecting to the Dashboard page.");
+		RequestDispatcher dispatcher = getServletContext()
+				.getRequestDispatcher("/WEB-INF/views/success.jsp");
+		dispatcher.forward(request, response);
+		logger.trace("Computer created with success, redirecting to the success page.");
 	}
 
 }
