@@ -46,7 +46,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			preparedStatement = connection
 					.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id;");
 			resultSet = preparedStatement.executeQuery();
-			computers = ComputerDTOmapperImpl.INSTANCE.MappComputers(resultSet);
+			computers = ComputerDTOmapperImpl.INSTANCE.mappComputers(resultSet);
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
@@ -77,7 +77,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			preparedStatement.setInt(1, limit);
 			preparedStatement.setInt(2, offset);
 			resultSet = preparedStatement.executeQuery();
-			computers = ComputerDTOmapperImpl.INSTANCE.MappComputers(resultSet);
+			computers = ComputerDTOmapperImpl.INSTANCE.mappComputers(resultSet);
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
@@ -110,7 +110,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			preparedStatement.executeQuery();
 			resultSet = preparedStatement.getResultSet();
 			computerDTO = ComputerDTOmapperImpl.INSTANCE
-					.MappComputer(resultSet);
+					.mappComputer(resultSet);
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
@@ -137,7 +137,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 					.prepareStatement("INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?);");
 
 			ComputerDTOmapperImpl.INSTANCE
-					.MappComputerInPreparedStatemetInsert(preparedStatement,
+					.mappComputerInPreparedStatemetInsert(preparedStatement,
 							computer);
 			connection.commit();
 			return true;
@@ -233,7 +233,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			preparedStatement = connection
 					.prepareStatement("UPDATE computer set name=?, introduced=?, discontinued=?, company_id=? WHERE id=?;");
 			ComputerDTOmapperImpl.INSTANCE
-					.MappComputerInPreparedStatemetUpdate(preparedStatement,
+					.mappComputerInPreparedStatemetUpdate(preparedStatement,
 							computer);
 			connection.commit();
 			return true;
@@ -304,7 +304,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			preparedStatement.setInt(1, limit);
 			preparedStatement.setInt(2, offset);
 			resultSet = preparedStatement.executeQuery();
-			computers = ComputerDTOmapperImpl.INSTANCE.MappComputers(resultSet);
+			computers = ComputerDTOmapperImpl.INSTANCE.mappComputers(resultSet);
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());

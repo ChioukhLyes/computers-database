@@ -3,4 +3,8 @@
 .classpath
 target/*
 *.iml
-/target/
+/target
+*.jar
+*.war
+*.ear
+*.class

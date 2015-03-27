@@ -56,8 +56,6 @@ public class ServiceCompany {
 		return companyDAO.findAllCompanies(limit, offset);
 	}
 
-	
-
 	/**
 	 * Delete company.
 	 *
@@ -73,7 +71,6 @@ public class ServiceCompany {
 		return companyDAO.deleteCompany(company);
 	}
 	
-	
 	/**
 	 * Find company by id.
 	 *
@@ -85,7 +82,7 @@ public class ServiceCompany {
 		if (id == null) {
 			throw new IllegalArgumentException("Id company is null");
 		}
-		logger.info("Founded company by id");
+		logger.trace("Founded company by id");
 		return companyDAO.findCompanyById(id);
 	}
 

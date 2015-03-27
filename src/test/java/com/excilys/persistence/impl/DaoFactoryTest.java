@@ -1,32 +1,31 @@
-package persistence;
+package com.excilys.persistence.impl;
+
+import static org.junit.Assert.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ComputerDAO;
-import com.excilys.persistence.impl.DaoFactory;
 
-import junit.framework.TestCase;
-
-public class DaoFactoryTest extends TestCase {
+public class DaoFactoryTest {
 
 	DaoFactory daoFactory; 
 	
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp()  {
 		// TODO Auto-generated method stub
 		this.daoFactory = DaoFactory.getInstance();
-		super.setUp();
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() {
 		// TODO Auto-generated method stub
 		this.daoFactory = null;
-		super.tearDown();
 	}
 	
 	@Test

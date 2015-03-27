@@ -33,9 +33,10 @@ public enum CompanyMapperImpl implements CompanyMapper {
 	public Company MappCompany(ResultSet resultSet) {
 		Company company = new Company();
 		try {
-			if (resultSet.next()) {
+			if (resultSet!=null && resultSet.next()) {
 				company.setId(resultSet.getLong("id"));
 				company.setName(resultSet.getString("name"));
+				
 			}
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
@@ -55,7 +56,7 @@ public enum CompanyMapperImpl implements CompanyMapper {
 		List<Company> companies = new ArrayList<Company>();
 
 		try {
-			while (resultSet.next()) {
+			while (resultSet!=null && resultSet.next()) {
 				Company company = new Company();
 				company.setId(resultSet.getLong("id"));
 				company.setName(resultSet.getString("name"));

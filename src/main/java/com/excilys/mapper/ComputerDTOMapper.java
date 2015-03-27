@@ -19,7 +19,7 @@ public interface ComputerDTOMapper {
 	 *            the result set
 	 * @return the computer dto
 	 */
-	public ComputerDTO MappComputer(ResultSet resultSet);
+	public ComputerDTO mappComputer(ResultSet resultSet);
 
 	/**
 	 * Mapp computers.
@@ -28,7 +28,7 @@ public interface ComputerDTOMapper {
 	 *            the result set
 	 * @return the list
 	 */
-	public List<ComputerDTO> MappComputers(ResultSet resultSet);
+	public List<ComputerDTO> mappComputers(ResultSet resultSet);
 
 	
 	/**
@@ -37,7 +37,7 @@ public interface ComputerDTOMapper {
 	 * @param preparedStatement the prepared statement
 	 * @param computerDTO the computer dto
 	 */
-	public void MappComputerInPreparedStatemetInsert(
+	public void mappComputerInPreparedStatemetInsert(
 			PreparedStatement preparedStatement, ComputerDTO computerDTO);
 	
 	/**
@@ -46,7 +46,7 @@ public interface ComputerDTOMapper {
 	 * @param preparedStatement the prepared statement
 	 * @param computerDTO the computer dto
 	 */
-	public void MappComputerInPreparedStatemetUpdate(
+	public void mappComputerInPreparedStatemetUpdate(
 			PreparedStatement preparedStatement, ComputerDTO computerDTO);
 
 }

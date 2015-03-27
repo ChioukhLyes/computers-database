@@ -34,10 +34,10 @@ public enum ComputerDTOmapperImpl implements ComputerDTOMapper {
 	 * com.excilys.mapper.ComputerDTOMapper#MappComputer(java.sql.ResultSet)
 	 */
 	@Override
-	public ComputerDTO MappComputer(ResultSet resultSet) {
+	public ComputerDTO mappComputer(ResultSet resultSet) {
 		ComputerDTO computerDTO = new ComputerDTO();
 		try {
-			if (resultSet.next()) {
+			if (resultSet != null && resultSet.next()) {
 				LocalDate introduced = null;
 				LocalDate discontinued = null;
 				String name = resultSet.getString("name");
@@ -72,11 +72,11 @@ public enum ComputerDTOmapperImpl implements ComputerDTOMapper {
 	 * com.excilys.mapper.ComputerDTOMapper#MappComputers(java.sql.ResultSet)
 	 */
 	@Override
-	public List<ComputerDTO> MappComputers(ResultSet resultSet) {
+	public List<ComputerDTO> mappComputers(ResultSet resultSet) {
 		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
-		
+
 		try {
-			while (resultSet.next()) {
+			while (resultSet != null && resultSet.next()) {
 				LocalDate introduced = null;
 				LocalDate discontinued = null;
 				Long id = resultSet.getLong("id");
@@ -114,7 +114,7 @@ public enum ComputerDTOmapperImpl implements ComputerDTOMapper {
 	 * (java.sql.PreparedStatement, com.excilys.dto.ComputerDTO)
 	 */
 	@Override
-	public void MappComputerInPreparedStatemetInsert(
+	public void mappComputerInPreparedStatemetInsert(
 			PreparedStatement preparedStatement, ComputerDTO computerDTO) {
 
 		try {
@@ -131,7 +131,8 @@ public enum ComputerDTOmapperImpl implements ComputerDTOMapper {
 			else
 				preparedStatement.setDate(3, null);
 
-			if (computerDTO.getCompanyId() !=null && computerDTO.getCompanyId() > 0)
+			if (computerDTO.getCompanyId() != null
+					&& computerDTO.getCompanyId() > 0)
 				preparedStatement.setLong(4, computerDTO.getCompanyId());
 			else
 				preparedStatement.setString(4, null);
@@ -153,7 +154,7 @@ public enum ComputerDTOmapperImpl implements ComputerDTOMapper {
 	 * (java.sql.PreparedStatement, com.excilys.dto.ComputerDTO)
 	 */
 	@Override
-	public void MappComputerInPreparedStatemetUpdate(
+	public void mappComputerInPreparedStatemetUpdate(
 			PreparedStatement preparedStatement, ComputerDTO computerDTO) {
 		try {
 			preparedStatement.setString(1, computerDTO.getName());
@@ -170,14 +171,15 @@ public enum ComputerDTOmapperImpl implements ComputerDTOMapper {
 			else
 				preparedStatement.setDate(3, null);
 
-			if (computerDTO.getCompanyId() > 0)
+			if (computerDTO.getCompanyId() != null
+					&& computerDTO.getCompanyId() > 0)
 				preparedStatement.setLong(4, computerDTO.getCompanyId());
 			else
 				preparedStatement.setLong(4, 0);
 
 			preparedStatement.setLong(5, computerDTO.getId());
 			preparedStatement.executeUpdate();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			System.err.println(e.getMessage());
 		}

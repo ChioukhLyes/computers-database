@@ -88,17 +88,20 @@ public class Page<T> {
 		this.entities = entities;
 	}
 
-	
 	/**
 	 * Delete from entities.
 	 *
-	 * @param object the object
+	 * @param object
+	 *            the object
 	 */
-	public void deleteFromEntities(Object object){
-		this.entities.remove(object);
+	public boolean deleteFromEntities(Object object) {
+		if (this.entities != null) {
+			this.entities.remove(object);
+			return true;
+		}
+		return false;
 	}
-	
-	
+
 	/**
 	 * Gets the page number.
 	 *
@@ -238,7 +241,8 @@ public class Page<T> {
 		result = prime * result
 				+ ((entities == null) ? 0 : entities.hashCode());
 		result = prime * result + maxPage;
-		result = prime * result + ((optionOrder == null) ? 0 : optionOrder.hashCode());
+		result = prime * result
+				+ ((optionOrder == null) ? 0 : optionOrder.hashCode());
 		result = prime * result
 				+ ((orderEntitiesBy == null) ? 0 : orderEntitiesBy.hashCode());
 		result = prime * result + pageNumber;

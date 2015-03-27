@@ -1,29 +1,37 @@
-package persistence;
+package com.excilys.persistence.impl;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
-public class ComputerDaoImplTest extends TestCase {
+import org.junit.Test;
 
+
+public class ComputerDaoImplTest {
+
+	@Test
 	public final void testFindAllComputers() {
 //		fail("Not yet implemented"); // TODO
 		assertTrue( true );
 	}
 
+	@Test
 	public final void testFindComputerById() {
 //		fail("Not yet implemented"); // TODO
 		assertTrue( true );
 	}
 
+	@Test
 	public final void testInsertComputer() {
 //		fail("Not yet implemented"); // TODO
 		assertTrue( true );
 	}
 
+	@Test
 	public final void testDeleteComputer() {
 //		fail("Not yet implemented"); // TODO
 		assertTrue( true );
 	}
 
+	@Test
 	public final void testUpdateComputer() {
 //		fail("Not yet implemented"); // TODO
 		assertTrue( true );
