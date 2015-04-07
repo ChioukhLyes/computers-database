@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.excilys.persistence.impl;
 
 import java.io.IOException;
@@ -40,6 +43,9 @@ public class DaoFactory {
 
 	/** The connection pool. */
 	private BoneCP connectionPool;
+
+	/** The Constant threadConnection. */
+	private static final ThreadLocal<Connection> threadConnection = new ThreadLocal<Connection>();
 
 	/**
 	 * Instantiates a new dao factory.
@@ -110,12 +116,16 @@ public class DaoFactory {
 	 * @return the connection
 	 */
 	public Connection getConnection() {
-		try {
-			return this.connectionPool.getConnection();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new RuntimeException(e.getMessage());
-		}
+
+		if (threadConnection.get() == null) {
+			try {
+				return this.connectionPool.getConnection();
+			} catch (SQLException e) {
+				logger.error(e.getMessage());
+				throw new RuntimeException(e.getMessage());
+			}
+		} else
+			return threadConnection.get();
 	}
 
 	/**
