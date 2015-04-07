@@ -119,7 +119,8 @@ public class DaoFactory {
 
 		if (threadConnection.get() == null) {
 			try {
-				return this.connectionPool.getConnection();
+				threadConnection.set(this.connectionPool.getConnection());
+				return threadConnection.get();
 			} catch (SQLException e) {
 				logger.error(e.getMessage());
 				throw new RuntimeException(e.getMessage());
