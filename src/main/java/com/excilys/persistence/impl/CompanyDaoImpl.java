@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import ch.qos.logback.classic.Logger;
 
@@ -20,6 +22,7 @@ import com.excilys.persistence.CompanyDAO;
 /**
  * The Class CompanyDaoImplementation.
  */
+@Repository
 public class CompanyDaoImpl implements CompanyDAO {
 
 	/** The logger. */
@@ -27,7 +30,8 @@ public class CompanyDaoImpl implements CompanyDAO {
 			.getLogger(DaoFactory.class);
 
 	/** The dao factory. */
-	DaoFactory daoFactory = DaoFactory.getInstance();
+	@Autowired
+	DaoFactory daoFactory;
 
 	/*
 	 * (non-Javadoc)
@@ -52,7 +56,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
-			daoFactory.CloseConnections(connection, preparedStatement,
+			daoFactory.closeConnections(connection, preparedStatement,
 					resultSet);
 		}
 		return companies;
@@ -84,7 +88,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
-			daoFactory.CloseConnections(connection, preparedStatement,
+			daoFactory.closeConnections(connection, preparedStatement,
 					resultSet);
 		}
 		return companies;
@@ -115,7 +119,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
-			daoFactory.CloseConnections(connection, null, resultSet);
+			daoFactory.closeConnections(connection, null, resultSet);
 		}
 		return company;
 	}
@@ -146,7 +150,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
-			daoFactory.CloseConnections(connection, preparedStatement, null);
+			daoFactory.closeConnections(connection, preparedStatement, null);
 		}
 	}
 	
@@ -174,7 +178,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 			logger.error(e.getMessage());
 			System.err.println(e.getMessage());
 		} finally {
-			daoFactory.CloseConnections(connection, preparedStatement, null);
+			daoFactory.closeConnections(connection, preparedStatement, null);
 		}
 		return count;
 	}

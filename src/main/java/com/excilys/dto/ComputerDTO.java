@@ -2,10 +2,13 @@ package com.excilys.dto;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class ComputerDTO.
  */
+@Component
 public class ComputerDTO {
 
 	/** The id. */

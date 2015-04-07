@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Page;
 import com.excilys.services.ServiceComputer;
@@ -19,15 +23,20 @@ import com.excilys.services.ServiceComputer;
 /**
  * Servlet implementation class Dashboard.
  */
+
+@Controller
 @WebServlet("/dashboard")
 public class Dashboard extends HttpServlet {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	
+	@Autowired
 	/** The service computer. */
-	public ServiceComputer serviceComputer = new ServiceComputer();
+	public ServiceComputer serviceComputer;
+	
+	@Autowired	
+	ComputerDTO computer;
 	
 	/** The current page. */
 	public Page<ComputerDTO> currentPage = new Page<ComputerDTO>();
@@ -85,6 +94,7 @@ public class Dashboard extends HttpServlet {
 			optionOrder = request.getParameter("orderoption");
 		}
 		
+		
 		lisComputers = serviceComputer.findAllComputersCompaniesByName(size,
 				((page - 1) * size), orderBy, search, optionOrder);
 		
@@ -125,11 +135,9 @@ public class Dashboard extends HttpServlet {
 
 		String computersIds = request.getParameter("selection");
 		StringTokenizer stringTokenizer = new StringTokenizer(computersIds, ",");
-		ServiceComputer serviceComputer = new ServiceComputer();
-
+		
 		while (stringTokenizer.hasMoreTokens()) {
 					
-			ComputerDTO computer = new ComputerDTO();
 			computer.setId(Long.valueOf(stringTokenizer.nextToken()));
 			serviceComputer.deleteComputer(computer);
 			numberComputers--;	

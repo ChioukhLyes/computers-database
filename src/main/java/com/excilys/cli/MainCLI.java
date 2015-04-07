@@ -10,6 +10,7 @@ import java.util.Scanner;
 import org.apache.commons.validator.routines.DateValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
@@ -20,13 +21,16 @@ import com.excilys.services.ServiceComputer;
 /**
  * The Class MainCLI.
  */
+@Controller
 public class MainCLI {
 
 	/** The service. */
-	static ServiceComputer serviceComputer = new ServiceComputer();
+	
+	static ServiceComputer serviceComputer;
 
 	/** The service. */
-	static ServiceCompany serviceCompany = new ServiceCompany();
+	
+	static ServiceCompany serviceCompany;
 
 	/** The logger. */
 	static Logger logger = LoggerFactory.getLogger(Class.class);

@@ -7,6 +7,22 @@
 	<display-name>Computers database - Training project</display-name>
 
 	<display-name>Computer Database</display-name>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/application-context.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Solution 1 - Context Tomcat -->
+	
+	
+
+	<!-- End solution 1 -->
+
 	<error-page>
 		<error-code>403</error-code>
 		<location>/WEB-INF/views/403.jsp</location>

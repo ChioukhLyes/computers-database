@@ -3,54 +3,61 @@
  */
 package com.excilys.persistence.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
+
+import javax.sql.DataSource;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ch.qos.logback.classic.Logger;
 
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ComputerDAO;
-import com.jolbox.bonecp.BoneCP;
-import com.jolbox.bonecp.BoneCPConfig;
 
 // TODO: Auto-generated Javadoc
 /**
  * A factory for creating Dao objects.
  */
+@Component
 public class DaoFactory {
 
 	/** The Constant FILE_NAME. */
-	private static final String FILE_NAME = "/MySqlProperties.properties";
+	// private static final String FILE_NAME = "/MySqlProperties.properties";
 
-	/** The config prop. */
-	private Properties configProp = new Properties();
+	@Autowired
+	private DataSource dataSource;
+	@Autowired
+	CompanyDaoImpl companyDaoImpl;
+	@Autowired 
+	ComputerDaoImpl computerDaoImpl;
+	// /** The config prop. */
+	// private Properties configProp = new Properties();
 
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(DaoFactory.class);
 
-	/** The dao factory. */
-	private static DaoFactory daoFactory;
+//	/** The dao factory. */
+//	private static DaoFactory daoFactory;
 
-	/** The connection pool. */
-	private BoneCP connectionPool;
+	// /** The connection pool. */
+	// private BoneCP connectionPool;
 
 	/** The Constant threadConnection. */
 	private static final ThreadLocal<Connection> threadConnection = new ThreadLocal<Connection>();
 
+	
 	/**
 	 * Instantiates a new dao factory.
 	 */
-	private DaoFactory() {
+	public DaoFactory() {
 		try {
 			Driver monDriver = new com.mysql.jdbc.Driver();
 			DriverManager.registerDriver(monDriver);
@@ -68,46 +75,6 @@ public class DaoFactory {
 			System.err.println(e1.getMessage());
 		}
 
-		InputStream ips = DaoFactory.class.getResourceAsStream(FILE_NAME);
-		try {
-			configProp.load(ips);
-		} catch (IOException e) {
-			logger.error(e.getMessage());
-			System.err.println(e.getMessage());
-		}
-		String url = configProp.getProperty("MYSQL_DATABASE_URL");
-		String user = configProp.getProperty("USER_NAME");
-		String password = configProp.getProperty("PASSWORD");
-
-		try {
-			// Creation and configuration of pool object
-			BoneCPConfig config = new BoneCPConfig();
-			config.setJdbcUrl(url);
-			config.setUsername(user);
-			config.setPassword(password);
-			// Pool size
-			config.setMinConnectionsPerPartition(4);
-			config.setMaxConnectionsPerPartition(10);
-			config.setPartitionCount(4);
-			connectionPool = new BoneCP(config);
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new RuntimeException("Unable to set up pool connections.", e);
-		}
-	}
-
-	/**
-	 * Gets the single instance of DaoFactory.
-	 *
-	 * @return single instance of DaoFactory
-	 */
-	public static DaoFactory getInstance() {
-		if (daoFactory == null) {
-			daoFactory = new DaoFactory();
-			return daoFactory;
-		} else {
-			return daoFactory;
-		}
 	}
 
 	/**
@@ -116,17 +83,18 @@ public class DaoFactory {
 	 * @return the connection
 	 */
 	public Connection getConnection() {
-
-		if (threadConnection.get() == null) {
-			try {
-				threadConnection.set(this.connectionPool.getConnection());
+		try {
+			if (threadConnection.get() == null
+					|| threadConnection.get().isClosed()) {
+				threadConnection.set(dataSource.getConnection());
 				return threadConnection.get();
-			} catch (SQLException e) {
-				logger.error(e.getMessage());
-				throw new RuntimeException(e.getMessage());
-			}
-		} else
-			return threadConnection.get();
+			} else
+				return threadConnection.get();
+
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 	/**
@@ -139,12 +107,12 @@ public class DaoFactory {
 	 * @param resultSet
 	 *            the result set
 	 */
-	public void CloseConnections(Connection connection,
+	public void closeConnections(Connection connection,
 			PreparedStatement preparedStatement, ResultSet resultSet) {
 
-		if (connection != null) {
+		if (threadConnection.get() != null) {
 			try {
-				connection.close();
+				threadConnection.get().close();
 			} catch (SQLException e) {
 				System.err.println(e.getMessage());
 				logger.error("Impossible to close connection.");
@@ -170,12 +138,31 @@ public class DaoFactory {
 	}
 
 	/**
+	 * Gets the data source.
+	 *
+	 * @return the data source
+	 */
+	public DataSource getDataSource() {
+		return dataSource;
+	}
+
+	/**
+	 * Sets the data source.
+	 *
+	 * @param dataSource
+	 *            the new data source
+	 */
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
+	/**
 	 * Gets the company dao.
 	 *
 	 * @return the company dao
 	 */
 	public CompanyDAO getCompanyDAO() {
-		return new CompanyDaoImpl();
+		return companyDaoImpl;
 	}
 
 	/**
@@ -184,6 +171,6 @@ public class DaoFactory {
 	 * @return the computer dao
 	 */
 	public ComputerDAO getComputerDAO() {
-		return new ComputerDaoImpl();
+		return computerDaoImpl;
 	}
 }

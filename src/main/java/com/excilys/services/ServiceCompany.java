@@ -3,6 +3,8 @@ package com.excilys.services;
 import java.util.List;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ch.qos.logback.classic.Logger;
 
@@ -14,13 +16,15 @@ import com.excilys.persistence.impl.DaoFactory;
 /**
  * The Class Service.
  */
+@Service
 public class ServiceCompany {
 	
 	/** The dao factory. */
-	DaoFactory daoFactory = DaoFactory.getInstance();
+	@Autowired
+	DaoFactory daoFactory;
 
-	/** The company dao. */
-	CompanyDAO companyDAO = daoFactory.getCompanyDAO();
+	@Autowired
+	CompanyDAO companyDAO;
 
 
 	/** The logger. */

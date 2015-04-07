@@ -3,24 +3,29 @@ package com.excilys.services;
 import java.util.List;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import ch.qos.logback.classic.Logger;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
 import com.excilys.persistence.ComputerDAO;
 import com.excilys.persistence.impl.DaoFactory;
 
-import ch.qos.logback.classic.Logger;
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class Service.
  */
+
+@Component
 public class ServiceComputer {
 
-	DaoFactory daoFactory = DaoFactory.getInstance();
+	@Autowired
+	DaoFactory daoFactory;
 
-	/** The computer dao. */
-	ComputerDAO computerDAO = daoFactory.getComputerDAO();
+	@Autowired
+	ComputerDAO computerDAO;
 
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
@@ -58,6 +63,7 @@ public class ServiceComputer {
 
 	
 	public List<ComputerDTO> findAllComputersCompaniesByName(int limit, int offset, String orderBy, String search, String orderOption){
+		System.out.println(computerDAO.findAllComputersCompaniesByName(limit, offset, orderBy, search, orderOption).toString());
 		return computerDAO.findAllComputersCompaniesByName(limit, offset, orderBy, search, orderOption);	
 	}
 	

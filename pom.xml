@@ -25,6 +25,8 @@
 		<MAVEN-COMPILER-PLUGIN-CONFIG>1.8</MAVEN-COMPILER-PLUGIN-CONFIG>
 		<COM.JOLBOX>0.8.0.RELEASE</COM.JOLBOX>
 		<JOOK>3.5.0</JOOK>
+		<SPRING.VERSION>4.1.5.RELEASE</SPRING.VERSION>
+		<SLF4J.VERSION>1.7.10</SLF4J.VERSION>
 	</properties>
 
 	<dependencies>
@@ -70,6 +72,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${SPRING.VERSION}</version>
+		</dependency>
+
 		<!-- Dependencies for web view -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -109,9 +117,55 @@
 			<artifactId>jooq</artifactId>
 			<version>${JOOK}</version>
 		</dependency>
-		
-	</dependencies>
 
+		<!-- Dependencies Spring 4 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${SPRING.VERSION}</version>
+
+			<!-- To bridge Spring to SLF4J -->
+
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${SPRING.VERSION}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${SPRING.VERSION}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${SPRING.VERSION}</version>
+		</dependency>
+
+		<!-- Dependencies for SLF4J : Bridge Spring to SLF4J -->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${SLF4J.VERSION}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${SLF4J.VERSION}</version>
+		</dependency>
+		
+		
+
+	</dependencies>
 
 	<build>
 		<plugins>

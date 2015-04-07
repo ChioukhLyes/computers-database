@@ -8,18 +8,20 @@ import java.sql.SQLException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.ComputerDAO;
-
+@Service
 public class DaoFactoryTest {
 
+	@Autowired
 	DaoFactory daoFactory; 
 	
 	@Before
 	public void setUp()  {
 		// TODO Auto-generated method stub
-		this.daoFactory = DaoFactory.getInstance();
 	}
 
 	@After
@@ -46,7 +48,7 @@ public class DaoFactoryTest {
 		// Given
 		Connection connection = daoFactory.getConnection();
 		// Whene
-		daoFactory.CloseConnections(connection,null,null);
+		daoFactory.closeConnections(connection,null,null);
 		try {
 			isClosed = connection.isClosed();
 		} catch (SQLException e) {

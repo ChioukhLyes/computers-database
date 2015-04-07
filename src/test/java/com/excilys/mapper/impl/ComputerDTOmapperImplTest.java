@@ -15,6 +15,8 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
@@ -24,10 +26,14 @@ import com.excilys.persistence.impl.DaoFactory;
 /**
  * The Class ComputerDTOmapperImplTest.
  */
+@Service
 public class ComputerDTOmapperImplTest {
 
 	/** The computer dt omapper impl. */
 	ComputerDTOmapperImpl computerDTOmapperImpl;
+
+	@Autowired
+	DaoFactory daoFactory;
 
 	/**
 	 * Sets the up.
@@ -54,7 +60,7 @@ public class ComputerDTOmapperImplTest {
 	public final void testMappComputerTrue() {
 
 		// GIVEN
-		DaoFactory daoFactory = DaoFactory.getInstance();
+
 		Connection connection = null;
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
@@ -81,7 +87,7 @@ public class ComputerDTOmapperImplTest {
 		assertEquals(computerDTO.getId(), 1);
 		assertEquals(computerDTO.getName(), name);
 		assertEquals(computerDTO.getIntroduced(), introduced);
-		daoFactory.CloseConnections(connection, preparedStatement, resultSet);
+		daoFactory.closeConnections(connection, preparedStatement, resultSet);
 	}
 
 	/**
@@ -91,7 +97,6 @@ public class ComputerDTOmapperImplTest {
 	public final void testMappComputerEmptyResulset() {
 
 		// GIVEN
-		DaoFactory daoFactory = DaoFactory.getInstance();
 		ResultSet resultSet = null;
 		ComputerDTO computerDTO;
 		// WHENE
@@ -100,7 +105,7 @@ public class ComputerDTOmapperImplTest {
 		assertEquals(computerDTO, new ComputerDTO());
 		assertEquals(computerDTO.getId(), 0);
 		assertEquals(computerDTO.getName(), null);
-		daoFactory.CloseConnections(null, null, resultSet);
+		daoFactory.closeConnections(null, null, resultSet);
 	}
 
 	/**
@@ -110,7 +115,6 @@ public class ComputerDTOmapperImplTest {
 	public final void testMappCompaniesTrue() {
 
 		// GIVEN
-		DaoFactory daoFactory = DaoFactory.getInstance();
 		Connection connection = null;
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
@@ -134,7 +138,7 @@ public class ComputerDTOmapperImplTest {
 		// THEN
 		assertNotNull(computers);
 		assertEquals(compte, computers.size());
-		daoFactory.CloseConnections(connection, preparedStatement, resultSet);
+		daoFactory.closeConnections(connection, preparedStatement, resultSet);
 	}
 
 	/**
@@ -144,7 +148,6 @@ public class ComputerDTOmapperImplTest {
 	public final void testMappCompaniesEmptyResulset() {
 
 		// GIVEN
-		DaoFactory daoFactory = DaoFactory.getInstance();
 		ResultSet resultSet = null;
 		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
 		// WHENE
@@ -152,7 +155,7 @@ public class ComputerDTOmapperImplTest {
 		// THEN
 		assertEquals(computers, new ArrayList<Company>());
 		assertTrue(computers.isEmpty());
-		daoFactory.CloseConnections(null, null, resultSet);
+		daoFactory.closeConnections(null, null, resultSet);
 	}
 
 	/**
@@ -162,7 +165,6 @@ public class ComputerDTOmapperImplTest {
 	public final void testmappComputerInPreparedStatemetInsertNull() {
 
 		// GIVEN
-		DaoFactory daoFactory = DaoFactory.getInstance();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ComputerDTO computerDTO = null;
@@ -187,7 +189,6 @@ public class ComputerDTOmapperImplTest {
 	public final void testmappComputerInPreparedStatemetInsertSql() {
 
 		// GIVEN
-		DaoFactory daoFactory = DaoFactory.getInstance();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ComputerDTO computerDTO = new ComputerDTO();
@@ -212,7 +213,6 @@ public class ComputerDTOmapperImplTest {
 	public final void testmappComputerInPreparedStatemetUpdateNull() {
 
 		// GIVEN
-		DaoFactory daoFactory = DaoFactory.getInstance();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ComputerDTO computerDTO = null;
@@ -237,7 +237,6 @@ public class ComputerDTOmapperImplTest {
 	public final void testmappComputerInPreparedStatemetUpdateSql() {
 
 		// GIVEN
-		DaoFactory daoFactory = DaoFactory.getInstance();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ComputerDTO computerDTO = new ComputerDTO();

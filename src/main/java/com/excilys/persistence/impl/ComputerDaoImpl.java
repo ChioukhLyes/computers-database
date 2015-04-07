@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import ch.qos.logback.classic.Logger;
 
@@ -21,6 +23,7 @@ import com.excilys.services.ServiceComputer;
 /**
  * The Class ComputerDaoImpl.
  */
+@Repository
 public class ComputerDaoImpl implements ComputerDAO {
 
 	/** The logger. */
@@ -28,7 +31,11 @@ public class ComputerDaoImpl implements ComputerDAO {
 			.getLogger(ServiceComputer.class);
 
 	/** The dao factory. */
-	DaoFactory daoFactory = DaoFactory.getInstance();
+	@Autowired
+	DaoFactory daoFactory;
+	
+	@Autowired
+	ComputerDTO computerDTO;
 
 	/*
 	 * (non-Javadoc)
@@ -51,7 +58,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
-			daoFactory.CloseConnections(connection, preparedStatement,
+			daoFactory.closeConnections(connection, preparedStatement,
 					resultSet);
 		}
 		return computers;
@@ -82,7 +89,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
-			daoFactory.CloseConnections(connection, preparedStatement,
+			daoFactory.closeConnections(connection, preparedStatement,
 					resultSet);
 		}
 		return computers;
@@ -94,8 +101,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * @see persistance.ComputerDAO#findComputerById(java.lang.Long)
 	 */
 	@Override
-	public ComputerDTO findComputerById(Long id) {
-		ComputerDTO computerDTO = new ComputerDTO();
+	public ComputerDTO findComputerById(Long id) {		
 		Connection connection = null;
 		// Statement statement = null;
 		ResultSet resultSet = null;
@@ -115,7 +121,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
-			daoFactory.CloseConnections(connection, preparedStatement,
+			daoFactory.closeConnections(connection, preparedStatement,
 					resultSet);
 		}
 		return computerDTO;
@@ -150,7 +156,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
-			daoFactory.CloseConnections(connection, preparedStatement, null);
+			daoFactory.closeConnections(connection, preparedStatement, null);
 		}
 	}
 
@@ -181,7 +187,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
-			daoFactory.CloseConnections(connection, preparedStatement, null);
+			daoFactory.closeConnections(connection, preparedStatement, null);
 		}
 	}
 	
@@ -213,7 +219,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
-			daoFactory.CloseConnections(connection, preparedStatement, null);
+			daoFactory.closeConnections(connection, preparedStatement, null);
 		}
 	}
 
@@ -246,7 +252,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
-			daoFactory.CloseConnections(connection, preparedStatement, null);
+			daoFactory.closeConnections(connection, preparedStatement, null);
 		}
 	}
 
@@ -277,7 +283,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			logger.error(e.getMessage());
 			System.err.println(e.getMessage());
 		} finally {
-			daoFactory.CloseConnections(connection, preparedStatement,
+			daoFactory.closeConnections(connection, preparedStatement,
 					resultSet);
 		}
 		return count;
@@ -309,7 +315,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
-			daoFactory.CloseConnections(connection, preparedStatement,
+			daoFactory.closeConnections(connection, preparedStatement,
 					resultSet);
 		}
 		return computers;

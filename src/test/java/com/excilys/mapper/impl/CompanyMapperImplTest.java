@@ -14,6 +14,8 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.excilys.model.Company;
 import com.excilys.persistence.impl.DaoFactory;
@@ -22,10 +24,14 @@ import com.excilys.persistence.impl.DaoFactory;
 /**
  * The Class CompanyMapperImplTest.
  */
+@Service
 public class CompanyMapperImplTest {
 
 	/** The company mapper impl. */
 	CompanyMapperImpl companyMapperImpl;
+
+	@Autowired
+	DaoFactory daoFactory;
 
 	/*
 	 * (non-Javadoc)
@@ -62,7 +68,7 @@ public class CompanyMapperImplTest {
 	public final void testMappCompanyTrue() {
 
 		// GIVEN
-		DaoFactory daoFactory = DaoFactory.getInstance();
+
 		Connection connection = null;
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
@@ -81,7 +87,7 @@ public class CompanyMapperImplTest {
 		// THEN
 		assertNotNull(company);
 		assertEquals(company.getId(), 1);
-		daoFactory.CloseConnections(connection, preparedStatement, resultSet);
+		daoFactory.closeConnections(connection, preparedStatement, resultSet);
 	}
 
 	/**
@@ -91,7 +97,7 @@ public class CompanyMapperImplTest {
 	public final void testMappCompanyEmptyResulset() {
 
 		// GIVEN
-		DaoFactory daoFactory = DaoFactory.getInstance();
+
 		ResultSet resultSet = null;
 		Company company;
 		// WHENE
@@ -100,7 +106,7 @@ public class CompanyMapperImplTest {
 		assertEquals(company, new Company());
 		assertEquals(company.getId(), 0);
 		assertEquals(company.getName(), null);
-		daoFactory.CloseConnections(null, null, resultSet);
+		daoFactory.closeConnections(null, null, resultSet);
 	}
 
 	/**
@@ -110,7 +116,7 @@ public class CompanyMapperImplTest {
 	public final void testMappCompaniesTrue() {
 
 		// GIVEN
-		DaoFactory daoFactory = DaoFactory.getInstance();
+
 		Connection connection = null;
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
@@ -135,7 +141,7 @@ public class CompanyMapperImplTest {
 		// THEN
 		assertNotNull(companies);
 		assertEquals(compte, companies.size());
-		daoFactory.CloseConnections(connection, preparedStatement, resultSet);
+		daoFactory.closeConnections(connection, preparedStatement, resultSet);
 	}
 
 	/**
@@ -145,7 +151,7 @@ public class CompanyMapperImplTest {
 	public final void testMappCompaniesEmptyResulset() {
 
 		// GIVEN
-		DaoFactory daoFactory = DaoFactory.getInstance();
+
 		ResultSet resultSet = null;
 		List<Company> companies = new ArrayList<Company>();
 		// WHENE
@@ -153,7 +159,7 @@ public class CompanyMapperImplTest {
 		// THEN
 		assertEquals(companies, new ArrayList<Company>());
 		assertTrue(companies.isEmpty());
-		daoFactory.CloseConnections(null, null, resultSet);
+		daoFactory.closeConnections(null, null, resultSet);
 	}
 
 }
