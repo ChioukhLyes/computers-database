@@ -1,36 +1,34 @@
+/*
+ * 
+ */
 package com.excilys.services;
 
 import java.util.List;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import ch.qos.logback.classic.Logger;
 
 import com.excilys.model.Company;
 import com.excilys.persistence.CompanyDAO;
-import com.excilys.persistence.impl.DaoFactory;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Service.
  */
-@Service
+@Component
 public class ServiceCompany {
-	
+
 	/** The dao factory. */
 	@Autowired
-	DaoFactory daoFactory;
-
-	@Autowired
 	CompanyDAO companyDAO;
-
 
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(ServiceCompany.class);
-	
+
 	/**
 	 * Gets the count companies.
 	 *
@@ -39,7 +37,7 @@ public class ServiceCompany {
 	public int getCountCompanies() {
 		return companyDAO.getCountCompanies();
 	}
-	
+
 	/**
 	 * Find all companies.
 	 *
@@ -48,12 +46,14 @@ public class ServiceCompany {
 	public List<Company> findAllCompanies() {
 		return companyDAO.findAllCompanies();
 	}
-	
+
 	/**
 	 * Find all companies.
 	 *
-	 * @param limit the limit
-	 * @param offset the offset
+	 * @param limit
+	 *            the limit
+	 * @param offset
+	 *            the offset
 	 * @return the list
 	 */
 	public List<Company> findAllCompanies(int limit, int offset) {
@@ -63,7 +63,8 @@ public class ServiceCompany {
 	/**
 	 * Delete company.
 	 *
-	 * @param company the company
+	 * @param company
+	 *            the company
 	 * @return true, if successful
 	 */
 	public boolean deleteCompany(Company company) {
@@ -74,7 +75,7 @@ public class ServiceCompany {
 		serviceComputer.deleteComputerByCompanyId(company);
 		return companyDAO.deleteCompany(company);
 	}
-	
+
 	/**
 	 * Find company by id.
 	 *

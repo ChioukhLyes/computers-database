@@ -33,9 +33,13 @@ public class DaoFactory {
 
 	@Autowired
 	private DataSource dataSource;
+
+	/** The company dao impl. */
 	@Autowired
 	CompanyDaoImpl companyDaoImpl;
-	@Autowired 
+
+	/** The computer dao impl. */
+	@Autowired
 	ComputerDaoImpl computerDaoImpl;
 	// /** The config prop. */
 	// private Properties configProp = new Properties();
@@ -44,8 +48,8 @@ public class DaoFactory {
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(DaoFactory.class);
 
-//	/** The dao factory. */
-//	private static DaoFactory daoFactory;
+	// /** The dao factory. */
+	// private static DaoFactory daoFactory;
 
 	// /** The connection pool. */
 	// private BoneCP connectionPool;
@@ -53,7 +57,6 @@ public class DaoFactory {
 	/** The Constant threadConnection. */
 	private static final ThreadLocal<Connection> threadConnection = new ThreadLocal<Connection>();
 
-	
 	/**
 	 * Instantiates a new dao factory.
 	 */

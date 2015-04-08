@@ -30,6 +30,7 @@ import com.excilys.persistence.impl.DaoFactory;
 public class ComputerDTOmapperImplTest {
 
 	/** The computer dt omapper impl. */
+	@Autowired
 	ComputerDTOmapperImpl computerDTOmapperImpl;
 
 	@Autowired
@@ -41,7 +42,6 @@ public class ComputerDTOmapperImplTest {
 	@Before
 	public void setUp() {
 		// TODO Auto-generated method stub
-		computerDTOmapperImpl = ComputerDTOmapperImpl.INSTANCE;
 	}
 
 	/**

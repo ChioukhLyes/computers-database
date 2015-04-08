@@ -28,6 +28,7 @@ import com.excilys.persistence.impl.DaoFactory;
 public class CompanyMapperImplTest {
 
 	/** The company mapper impl. */
+	@Autowired
 	CompanyMapperImpl companyMapperImpl;
 
 	@Autowired
@@ -44,7 +45,6 @@ public class CompanyMapperImplTest {
 	@Before
 	public void setUp() {
 		// TODO Auto-generated method stub
-		companyMapperImpl = CompanyMapperImpl.INSTANCE;
 	}
 
 	/*

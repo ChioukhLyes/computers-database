@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,20 +13,53 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.validator.routines.DateValidator;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
+import ch.qos.logback.classic.Logger;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
 import com.excilys.services.ServiceCompany;
 import com.excilys.services.ServiceComputer;
 
-import ch.qos.logback.classic.Logger;
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class EditComputer.
  */
+@Controller
 @WebServlet("/editComputer")
 public class EditComputer extends HttpServlet {
+
+	/** The service company. */
+	@Autowired
+	private ServiceCompany serviceCompany;
+
+	/** The computer. */
+	@Autowired
+	private ComputerDTO computer;
+
+	/** The service computer. */
+	@Autowired
+	private ServiceComputer serviceComputer;
+
+	/** The company. */
+	@Autowired
+	private Company company;
+	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.GenericServlet#init()
+	 */
+	@Override
+	public void init() throws ServletException {
+		// TODO Auto-generated method stub
+		super.init();
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+	}
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -57,17 +89,14 @@ public class EditComputer extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		Long id = (long) Long.valueOf(request.getParameter("id"));
-		ServiceComputer serviceComputer = new ServiceComputer();
-		ServiceCompany serviceCompany = new ServiceCompany();
 		List<Company> lisCompanies = serviceCompany.findAllCompanies();
 		request.setAttribute("Companies", lisCompanies);
 		if (id != 0) {
-			ComputerDTO computer = serviceComputer.findComputerById(id);
+			computer = serviceComputer.findComputerById(id);
 			request.setAttribute("Computer", computer);
 		}
-		RequestDispatcher dispatcher = getServletContext()
-				.getRequestDispatcher("/WEB-INF/views/editComputer.jsp");
-		dispatcher.forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/editComputer.jsp")
+				.forward(request, response);
 		logger.trace("Redirecting to the EditComputer page.");
 	}
 
@@ -82,10 +111,7 @@ public class EditComputer extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		ComputerDTO computer = new ComputerDTO();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		ServiceComputer serviceComputer = new ServiceComputer();
-		ServiceCompany serviceCompany = new ServiceCompany();
 		Long id = (long) Long.valueOf(request.getParameter("id"));
 		computer.setId(id);
 
@@ -108,16 +134,15 @@ public class EditComputer extends HttpServlet {
 		} else
 			computer.setDiscontinued(null);
 
-		Company company = serviceCompany.findCompanyById((long) Long
+		company = serviceCompany.findCompanyById((long) Long
 				.valueOf(request.getParameter("companyId")));
 		computer.setCompanyId(company.getId());
 		computer.setCompanyName(company.getName());
 		// Computer update
 		serviceComputer.updateComputer(computer);
 
-		RequestDispatcher dispatcher = getServletContext()
-				.getRequestDispatcher("/WEB-INF/views/success.jsp");
-		dispatcher.forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/success.jsp").forward(
+				request, response);
 		logger.trace("Success editing, redirecting to the success page.");
 	}
 }

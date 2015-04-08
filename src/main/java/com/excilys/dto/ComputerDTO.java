@@ -59,8 +59,7 @@ public class ComputerDTO {
 		this.discontinued = discontinued;
 		this.companyId = companyId;
 	}
-	
-	
+
 	/**
 	 * Instantiates a new computer dto.
 	 *

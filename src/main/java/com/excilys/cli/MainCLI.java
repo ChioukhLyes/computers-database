@@ -10,7 +10,10 @@ import java.util.Scanner;
 import org.apache.commons.validator.routines.DateValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
@@ -21,19 +24,30 @@ import com.excilys.services.ServiceComputer;
 /**
  * The Class MainCLI.
  */
-@Controller
+
+@Component
 public class MainCLI {
 
 	/** The service. */
-	
-	static ServiceComputer serviceComputer;
+	@Autowired
+	private ServiceComputer serviceComputer;
 
+	/** The service company. */
+	@Autowired
 	/** The service. */
-	
-	static ServiceCompany serviceCompany;
+	private ServiceCompany serviceCompany;
+
+	/** The computer dto. */
+	@Autowired
+	private ComputerDTO computerDTO;
+
+	/** The company. */
+	@Autowired
+	private Company company;
 
 	/** The logger. */
-	static Logger logger = LoggerFactory.getLogger(Class.class);
+	@SuppressWarnings("unused")
+	private Logger logger = LoggerFactory.getLogger(Class.class);
 
 	/**
 	 * Main cli.
@@ -41,7 +55,7 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	private static void mainCLI() throws ParseException {
+	private void mainCLI() throws ParseException {
 
 		ArrayList<String> choices = new ArrayList<String>() {
 			/**
@@ -113,7 +127,7 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	public static void showComputers() throws ParseException {
+	public void showComputers() throws ParseException {
 		int limit = 5;
 		int offset = 0;
 		@SuppressWarnings("resource")
@@ -165,7 +179,7 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	public static void showCompanies() throws ParseException {
+	public void showCompanies() throws ParseException {
 		int limit = 5;
 		int offset = 0;
 		@SuppressWarnings("resource")
@@ -214,7 +228,7 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	public static void showComputerDetails() throws ParseException {
+	public void showComputerDetails() throws ParseException {
 
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
@@ -235,7 +249,7 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	public static void createComputer() throws ParseException {
+	public void createComputer() throws ParseException {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		String name = null;
@@ -276,8 +290,12 @@ public class MainCLI {
 		companyId = scanner.nextLong();
 
 		try {
-			serviceComputer.insertComputer(new ComputerDTO(name, introduced,
-					discontinued, companyId));
+			computerDTO.setName(name);
+			computerDTO.setIntroduced(introduced);
+			computerDTO.setDiscontinued(discontinued);
+			computerDTO.setCompanyId(companyId);
+			serviceComputer.insertComputer(computerDTO);
+
 			System.out.println("Computer inserted");
 		} catch (Exception e) {
 			System.out.println("Computer not inserted" + e.getMessage());
@@ -291,10 +309,10 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	public static void updateComputer() throws ParseException {
+	public void updateComputer() throws ParseException {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
-		ComputerDTO computerDTO = null;
+		computerDTO = null;
 		Long id = null;
 		String name = null;
 		LocalDate introduced = null;
@@ -366,10 +384,10 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	public static void deleteComputer() throws ParseException {
+	public void deleteComputer() throws ParseException {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
-		ComputerDTO computerDTO = null;
+		computerDTO = null;
 		Long id = null;
 		while (id == null || computerDTO == null) {
 			System.out.println("Enter computer id (Long) : ");
@@ -391,10 +409,16 @@ public class MainCLI {
 
 	}
 
-	public static void deleteCompany() throws ParseException {
+	/**
+	 * Delete company.
+	 *
+	 * @throws ParseException
+	 *             the parse exception
+	 */
+	public void deleteCompany() throws ParseException {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
-		Company company = null;
+		company = null;
 		Long id = null;
 		while (id == null || company == null) {
 			System.out.println("Enter company id (Long) : ");
@@ -424,6 +448,11 @@ public class MainCLI {
 	 *             the parse exception
 	 */
 	public static void main(String[] args) throws ParseException {
-		mainCLI();
+
+		@SuppressWarnings("resource")
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"./applicationContext.xml");
+		MainCLI mc = context.getBean(MainCLI.class);
+		mc.mainCLI();
 	}
 }

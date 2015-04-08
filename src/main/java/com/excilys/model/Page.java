@@ -93,6 +93,7 @@ public class Page<T> {
 	 *
 	 * @param object
 	 *            the object
+	 * @return true, if successful
 	 */
 	public boolean deleteFromEntities(Object object) {
 		if (this.entities != null) {

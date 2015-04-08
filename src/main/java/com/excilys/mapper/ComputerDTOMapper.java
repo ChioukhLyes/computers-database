@@ -30,21 +30,24 @@ public interface ComputerDTOMapper {
 	 */
 	public List<ComputerDTO> mappComputers(ResultSet resultSet);
 
-	
 	/**
 	 * Mapp computer in prepared statemet insert.
 	 *
-	 * @param preparedStatement the prepared statement
-	 * @param computerDTO the computer dto
+	 * @param preparedStatement
+	 *            the prepared statement
+	 * @param computerDTO
+	 *            the computer dto
 	 */
 	public void mappComputerInPreparedStatemetInsert(
 			PreparedStatement preparedStatement, ComputerDTO computerDTO);
-	
+
 	/**
 	 * Mapp computer in prepared statemet update.
 	 *
-	 * @param preparedStatement the prepared statement
-	 * @param computerDTO the computer dto
+	 * @param preparedStatement
+	 *            the prepared statement
+	 * @param computerDTO
+	 *            the computer dto
 	 */
 	public void mappComputerInPreparedStatemetUpdate(
 			PreparedStatement preparedStatement, ComputerDTO computerDTO);

@@ -20,27 +20,36 @@ public interface ComputerDAO {
 	 * @return the list
 	 */
 	List<ComputerDTO> findAllComputers();
-	
+
 	/**
 	 * Find all computers.
 	 *
-	 * @param fromIndex the from index
-	 * @param toIndex the to index
+	 * @param fromIndex
+	 *            the from index
+	 * @param toIndex
+	 *            the to index
 	 * @return the list
 	 */
 	List<ComputerDTO> findAllComputers(int fromIndex, int toIndex);
-	
-	
+
 	/**
 	 * Find all computers companies by name.
 	 *
-	 * @param fromIndex the from index
-	 * @param toIndex the to index
-	 * @param search the search
+	 * @param fromIndex
+	 *            the from index
+	 * @param toIndex
+	 *            the to index
+	 * @param orderBy
+	 *            the order by
+	 * @param search
+	 *            the search
+	 * @param orderOtion
+	 *            the order otion
 	 * @return the list
 	 */
-	List<ComputerDTO> findAllComputersCompaniesByName(int fromIndex, int toIndex, String orderBy, String search, String orderOtion);
-	
+	List<ComputerDTO> findAllComputersCompaniesByName(int fromIndex,
+			int toIndex, String orderBy, String search, String orderOtion);
+
 	/**
 	 * Find computer by id.
 	 *
@@ -68,18 +77,15 @@ public interface ComputerDAO {
 	 */
 	boolean deleteComputer(ComputerDTO computer);
 
-	
-	
-	
 	/**
 	 * Delete computer by company id.
 	 *
-	 * @param company the company
+	 * @param company
+	 *            the company
 	 * @return true, if successful
 	 */
 	boolean deleteComputerByCompanyId(Company company);
-	
-	
+
 	/**
 	 * Update computer.
 	 *
@@ -88,10 +94,12 @@ public interface ComputerDAO {
 	 * @return true, if successful
 	 */
 	boolean updateComputer(ComputerDTO computer);
-	
+
 	/**
 	 * Gets the count computers.
 	 *
+	 * @param search
+	 *            the search
 	 * @return the count computers
 	 */
 	int getCountComputers(String search);

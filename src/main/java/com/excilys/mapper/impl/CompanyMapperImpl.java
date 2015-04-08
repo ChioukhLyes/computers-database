@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import ch.qos.logback.classic.Logger;
 
@@ -16,10 +17,9 @@ import com.excilys.model.Company;
 /**
  * The Enum CompanyMapperImpl.
  */
-public enum CompanyMapperImpl implements CompanyMapper {
 
-	/** The instance. */
-	INSTANCE;
+@Service
+public class CompanyMapperImpl implements CompanyMapper {
 
 	/** The logger. */
 	Logger logger = (Logger) LoggerFactory.getLogger(CompanyMapperImpl.class);
@@ -33,10 +33,10 @@ public enum CompanyMapperImpl implements CompanyMapper {
 	public Company MappCompany(ResultSet resultSet) {
 		Company company = new Company();
 		try {
-			if (resultSet!=null && resultSet.next()) {
+			if (resultSet != null && resultSet.next()) {
 				company.setId(resultSet.getLong("id"));
 				company.setName(resultSet.getString("name"));
-				
+
 			}
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
@@ -56,7 +56,7 @@ public enum CompanyMapperImpl implements CompanyMapper {
 		List<Company> companies = new ArrayList<Company>();
 
 		try {
-			while (resultSet!=null && resultSet.next()) {
+			while (resultSet != null && resultSet.next()) {
 				Company company = new Company();
 				company.setId(resultSet.getLong("id"));
 				company.setName(resultSet.getString("name"));

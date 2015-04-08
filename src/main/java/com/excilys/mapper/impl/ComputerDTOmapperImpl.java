@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import ch.qos.logback.classic.Logger;
 
@@ -19,13 +20,18 @@ import com.excilys.mapper.ComputerDTOMapper;
 /**
  * The Enum ComputerDTOmapperImpl.
  */
-public enum ComputerDTOmapperImpl implements ComputerDTOMapper {
-
-	/** The instance. */
-	INSTANCE;
+@Service
+public class ComputerDTOmapperImpl implements ComputerDTOMapper {
 
 	/** The logger. */
 	Logger logger = (Logger) LoggerFactory.getLogger(CompanyMapperImpl.class);
+
+	/**
+	 * Instantiates a new computer dt omapper impl.
+	 */
+	public ComputerDTOmapperImpl() {
+		super();
+	}
 
 	/*
 	 * (non-Javadoc)

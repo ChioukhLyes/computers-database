@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Page;
@@ -31,18 +30,24 @@ public class Dashboard extends HttpServlet {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	// private ApplicationContext ctxt = new
+	// ClassPathXmlApplicationContext("./applicationContext.xml");
+
+	/** The service computer. */
 	@Autowired
 	/** The service computer. */
-	public ServiceComputer serviceComputer;
-	
-	@Autowired	
-	ComputerDTO computer;
-	
+	private ServiceComputer serviceComputer;
+
+	/** The computer. */
+	@Autowired
+	private ComputerDTO computer;
+
 	/** The current page. */
-	public Page<ComputerDTO> currentPage = new Page<ComputerDTO>();
-	
+	private Page<ComputerDTO> currentPage = new Page<ComputerDTO>();
+
 	/** The number computers. */
-	public int  numberComputers;
+	private int numberComputers;
+
 	/**
 	 * Instantiates a new dashboard.
 	 *
@@ -50,7 +55,20 @@ public class Dashboard extends HttpServlet {
 	 */
 	public Dashboard() {
 		super();
+
 		// TODO Auto-generated constructor stub
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.GenericServlet#init()
+	 */
+	@Override
+	public void init() throws ServletException {
+		// TODO Auto-generated method stub
+		super.init();
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
 
 	/**
@@ -75,15 +93,15 @@ public class Dashboard extends HttpServlet {
 		int page = 1;
 		String search = "";
 		String orderBy = "name";
-		String optionOrder="ASC";
-		
+		String optionOrder = "ASC";
+
 		List<ComputerDTO> lisComputers;
-		
+
 		if (request.getParameter("page") != null)
 			page = Integer.valueOf(request.getParameter("page"));
 		if (request.getParameter("size") != null)
 			size = Integer.valueOf(request.getParameter("size"));
-		
+
 		if (request.getParameter("search") != null) {
 			search = request.getParameter("search");
 		}
@@ -93,13 +111,13 @@ public class Dashboard extends HttpServlet {
 		if (request.getParameter("orderoption") != null) {
 			optionOrder = request.getParameter("orderoption");
 		}
-		
-		
+
+		System.out.println(serviceComputer);
 		lisComputers = serviceComputer.findAllComputersCompaniesByName(size,
 				((page - 1) * size), orderBy, search, optionOrder);
-		
+
 		numberComputers = serviceComputer.getCountComputers(search);
-		
+
 		currentPage.setEntities(lisComputers);
 		currentPage.setMaxPage((numberComputers - 1) / size + 1);
 		currentPage.setPageNumber(page);
@@ -111,9 +129,8 @@ public class Dashboard extends HttpServlet {
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("numberComputers", numberComputers);
 
-		RequestDispatcher dispatcher = getServletContext()
-				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
-		dispatcher.forward(request, response);
+		request.getRequestDispatcher("WEB-INF/views/dashboard.jsp").forward(
+				request, response);
 	}
 
 	/**
@@ -135,24 +152,27 @@ public class Dashboard extends HttpServlet {
 
 		String computersIds = request.getParameter("selection");
 		StringTokenizer stringTokenizer = new StringTokenizer(computersIds, ",");
-		
+
 		while (stringTokenizer.hasMoreTokens()) {
-					
+
 			computer.setId(Long.valueOf(stringTokenizer.nextToken()));
 			serviceComputer.deleteComputer(computer);
-			numberComputers--;	
+			numberComputers--;
 			computer = null;
 		}
-		
-		currentPage.setEntities(serviceComputer.findAllComputersCompaniesByName(currentPage.getPageSize(),
-				((currentPage.getPageNumber() - 1) * currentPage.getPageSize()), currentPage.getOrderEntitiesBy(), 
-				currentPage.getSearchString(), currentPage.getoptionOrder()));
-		
+
+		currentPage.setEntities(serviceComputer
+				.findAllComputersCompaniesByName(currentPage.getPageSize(),
+						((currentPage.getPageNumber() - 1) * currentPage
+								.getPageSize()), currentPage
+								.getOrderEntitiesBy(), currentPage
+								.getSearchString(), currentPage
+								.getoptionOrder()));
+
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("numberComputers", numberComputers);
-		
-		RequestDispatcher dispatcher = getServletContext()
-				.getRequestDispatcher("/WEB-INF/views/dashboard.jsp");
-		dispatcher.forward(request, response);
+
+		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(
+				request, response);
 	}
 }

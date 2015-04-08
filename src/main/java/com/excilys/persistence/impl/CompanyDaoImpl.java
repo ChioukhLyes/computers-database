@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import ch.qos.logback.classic.Logger;
 
-import com.excilys.mapper.impl.CompanyMapperImpl;
+import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
 import com.excilys.persistence.CompanyDAO;
 
@@ -32,6 +32,17 @@ public class CompanyDaoImpl implements CompanyDAO {
 	/** The dao factory. */
 	@Autowired
 	DaoFactory daoFactory;
+
+	/** The company mapper. */
+	@Autowired
+	CompanyMapper companyMapper;
+
+	/**
+	 * Instantiates a new company dao impl.
+	 */
+	public CompanyDaoImpl() {
+		super();
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -51,7 +62,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 			preparedStatement = connection
 					.prepareStatement("SELECT id, name FROM company;");
 			resultSet = preparedStatement.executeQuery();
-			companies = CompanyMapperImpl.INSTANCE.MappCompanies(resultSet);
+			companies = companyMapper.MappCompanies(resultSet);
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
@@ -82,7 +93,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 			preparedStatement.setInt(1, limit);
 			preparedStatement.setInt(2, offset);
 			resultSet = preparedStatement.executeQuery();
-			companies = CompanyMapperImpl.INSTANCE.MappCompanies(resultSet);
+			companies = companyMapper.MappCompanies(resultSet);
 
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
@@ -113,7 +124,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 					.executeQuery("SELECT id, name FROM company WHERE id=" + id
 							+ ";");
 
-			company = CompanyMapperImpl.INSTANCE.MappCompany(resultSet);
+			company = companyMapper.MappCompany(resultSet);
 
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
@@ -124,9 +135,12 @@ public class CompanyDaoImpl implements CompanyDAO {
 		return company;
 	}
 
-	
-	/* (non-Javadoc)
-	 * @see com.excilys.persistence.CompanyDAO#deleteCompany(com.excilys.model.Company)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.excilys.persistence.CompanyDAO#deleteCompany(com.excilys.model.Company
+	 * )
 	 */
 	@Override
 	public boolean deleteCompany(Company company) {
@@ -153,7 +167,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 			daoFactory.closeConnections(connection, preparedStatement, null);
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -182,6 +196,5 @@ public class CompanyDaoImpl implements CompanyDAO {
 		}
 		return count;
 	}
-
 
 }

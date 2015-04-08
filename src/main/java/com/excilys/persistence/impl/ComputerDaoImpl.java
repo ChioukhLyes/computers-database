@@ -33,9 +33,14 @@ public class ComputerDaoImpl implements ComputerDAO {
 	/** The dao factory. */
 	@Autowired
 	DaoFactory daoFactory;
-	
+
+	/** The computer dto. */
 	@Autowired
 	ComputerDTO computerDTO;
+
+	/** The computer mapper. */
+	@Autowired
+	ComputerDTOmapperImpl computerMapper;
 
 	/*
 	 * (non-Javadoc)
@@ -53,7 +58,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			preparedStatement = connection
 					.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id;");
 			resultSet = preparedStatement.executeQuery();
-			computers = ComputerDTOmapperImpl.INSTANCE.mappComputers(resultSet);
+			computers = computerMapper.mappComputers(resultSet);
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
@@ -84,7 +89,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			preparedStatement.setInt(1, limit);
 			preparedStatement.setInt(2, offset);
 			resultSet = preparedStatement.executeQuery();
-			computers = ComputerDTOmapperImpl.INSTANCE.mappComputers(resultSet);
+			computers = computerMapper.mappComputers(resultSet);
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
@@ -101,7 +106,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * @see persistance.ComputerDAO#findComputerById(java.lang.Long)
 	 */
 	@Override
-	public ComputerDTO findComputerById(Long id) {		
+	public ComputerDTO findComputerById(Long id) {
 		Connection connection = null;
 		// Statement statement = null;
 		ResultSet resultSet = null;
@@ -115,8 +120,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			preparedStatement.setLong(1, id);
 			preparedStatement.executeQuery();
 			resultSet = preparedStatement.getResultSet();
-			computerDTO = ComputerDTOmapperImpl.INSTANCE
-					.mappComputer(resultSet);
+			computerDTO = computerMapper.mappComputer(resultSet);
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
@@ -142,9 +146,8 @@ public class ComputerDaoImpl implements ComputerDAO {
 			preparedStatement = connection
 					.prepareStatement("INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?);");
 
-			ComputerDTOmapperImpl.INSTANCE
-					.mappComputerInPreparedStatemetInsert(preparedStatement,
-							computer);
+			computerMapper.mappComputerInPreparedStatemetInsert(
+					preparedStatement, computer);
 			connection.commit();
 			return true;
 		} catch (SQLException e) {
@@ -160,10 +163,12 @@ public class ComputerDaoImpl implements ComputerDAO {
 		}
 	}
 
-	
-	
-	/* (non-Javadoc)
-	 * @see com.excilys.persistence.ComputerDAO#deleteComputerByCompanyId(com.excilys.model.Company)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.excilys.persistence.ComputerDAO#deleteComputerByCompanyId(com.excilys
+	 * .model.Company)
 	 */
 	@Override
 	public boolean deleteComputerByCompanyId(Company company) {
@@ -190,8 +195,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 			daoFactory.closeConnections(connection, preparedStatement, null);
 		}
 	}
-	
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -238,9 +242,8 @@ public class ComputerDaoImpl implements ComputerDAO {
 			connection.setAutoCommit(false);
 			preparedStatement = connection
 					.prepareStatement("UPDATE computer set name=?, introduced=?, discontinued=?, company_id=? WHERE id=?;");
-			ComputerDTOmapperImpl.INSTANCE
-					.mappComputerInPreparedStatemetUpdate(preparedStatement,
-							computer);
+			computerMapper.mappComputerInPreparedStatemetUpdate(
+					preparedStatement, computer);
 			connection.commit();
 			return true;
 		} catch (SQLException e) {
@@ -268,14 +271,15 @@ public class ComputerDaoImpl implements ComputerDAO {
 		PreparedStatement preparedStatement = null;
 		int count = 0;
 
-		String query = new String("SELECT count(*) FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id");
-		if(search != null){
-			query += " WHERE comp.name LIKE '%" + search + "%' OR compa.name LIKE '%" + search + "%';";
+		String query = new String(
+				"SELECT count(*) FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id");
+		if (search != null) {
+			query += " WHERE comp.name LIKE '%" + search
+					+ "%' OR compa.name LIKE '%" + search + "%';";
 		}
 		try {
 			connection = daoFactory.getConnection();
-			preparedStatement = connection
-					.prepareStatement(query);
+			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			resultSet.next();
 			count = resultSet.getInt(1);
@@ -289,10 +293,17 @@ public class ComputerDaoImpl implements ComputerDAO {
 		return count;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.excilys.persistence.ComputerDAO#findAllComputersCompaniesByName(int,
+	 * int, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public List<ComputerDTO> findAllComputersCompaniesByName(int limit,
 			int offset, String orderBy, String search, String orderOption) {
-		
+
 		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
 		Connection connection = null;
 		// Statement statement = null;
@@ -301,16 +312,29 @@ public class ComputerDaoImpl implements ComputerDAO {
 
 		try {
 			connection = daoFactory.getConnection();
-			if(orderBy.equals("companyname"))
+			if (orderBy.equals("companyname"))
 				preparedStatement = connection
-						.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE '%"+search+"%'  OR compa.name LIKE '%"+search+"%' ORDER BY compa.name "+orderOption+" limit ? offset ?;");			
-			else 
-			preparedStatement = connection
-					.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE '%"+search+"%'  OR compa.name LIKE '%"+search+"%' ORDER BY comp."+orderBy+" "+orderOption+" limit ? offset ?;");
+						.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE '%"
+								+ search
+								+ "%'  OR compa.name LIKE '%"
+								+ search
+								+ "%' ORDER BY compa.name "
+								+ orderOption
+								+ " limit ? offset ?;");
+			else
+				preparedStatement = connection
+						.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE '%"
+								+ search
+								+ "%'  OR compa.name LIKE '%"
+								+ search
+								+ "%' ORDER BY comp."
+								+ orderBy
+								+ " "
+								+ orderOption + " limit ? offset ?;");
 			preparedStatement.setInt(1, limit);
 			preparedStatement.setInt(2, offset);
 			resultSet = preparedStatement.executeQuery();
-			computers = ComputerDTOmapperImpl.INSTANCE.mappComputers(resultSet);
+			computers = computerMapper.mappComputers(resultSet);
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());

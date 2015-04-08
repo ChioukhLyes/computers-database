@@ -1,6 +1,11 @@
+/*
+ * 
+ */
 package com.excilys.persistence;
 
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.excilys.model.Company;
 
@@ -8,6 +13,7 @@ import com.excilys.model.Company;
 /**
  * The Interface CompanyDAO.
  */
+@Service
 public interface CompanyDAO {
 
 	/**
@@ -16,12 +22,14 @@ public interface CompanyDAO {
 	 * @return the list
 	 */
 	List<Company> findAllCompanies();
-	
+
 	/**
 	 * Find all companies.
 	 *
-	 * @param fromIndex the from index
-	 * @param toIndex the to index
+	 * @param fromIndex
+	 *            the from index
+	 * @param toIndex
+	 *            the to index
 	 * @return the list
 	 */
 	List<Company> findAllCompanies(int fromIndex, int toIndex);
@@ -34,16 +42,16 @@ public interface CompanyDAO {
 	 * @return the company
 	 */
 	Company findCompanyById(Long id);
-	
+
 	/**
 	 * Delete company.
 	 *
-	 * @param company the company
+	 * @param company
+	 *            the company
 	 * @return true, if successful
 	 */
 	boolean deleteCompany(Company company);
-	
-	
+
 	/**
 	 * Gets the count companies.
 	 *

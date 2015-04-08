@@ -1,15 +1,17 @@
 package com.excilys.model;
 
+import org.springframework.stereotype.Component;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class Company.
  */
+@Component
 public class Company {
 
-	
 	/** The name. */
 	private String name;
-	
+
 	/** The id. */
 	private long id;
 
@@ -25,7 +27,8 @@ public class Company {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(long id) {
 		this.id = id;
@@ -43,7 +46,8 @@ public class Company {
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -52,12 +56,14 @@ public class Company {
 	/**
 	 * Instantiates a new company.
 	 *
-	 * @param id the id
-	 * @param name the name
+	 * @param id
+	 *            the id
+	 * @param name
+	 *            the name
 	 */
 	public Company(Long id, String name) {
 		super();
-		this.id=id;
+		this.id = id;
 		this.name = name;
 	}
 
@@ -68,7 +74,9 @@ public class Company {
 		super();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -76,7 +84,9 @@ public class Company {
 		return "Company [name=" + name + ", id=" + id + "]";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -87,7 +97,9 @@ public class Company {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
