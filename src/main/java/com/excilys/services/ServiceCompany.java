@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import ch.qos.logback.classic.Logger;
 
 import com.excilys.model.Company;
 import com.excilys.persistence.CompanyDAO;
+import com.excilys.persistence.impl.CompanyDaoImpl;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -24,8 +26,11 @@ public class ServiceCompany {
 
 	/** The dao factory. */
 	@Autowired
-	CompanyDAO companyDAO;
+	CompanyDaoImpl companyDAO;
 
+	@Autowired
+	ServiceComputer serviceComputer;
+	
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(ServiceCompany.class);
@@ -73,8 +78,8 @@ public class ServiceCompany {
 		if (company == null) {
 			throw new IllegalArgumentException("Delete : company bean is null");
 		}
-		ServiceComputer serviceComputer = new ServiceComputer();
 		serviceComputer.deleteComputerByCompanyId(company);
+		System.out.println(company.toString());
 		return companyDAO.deleteCompany(company);
 	}
 

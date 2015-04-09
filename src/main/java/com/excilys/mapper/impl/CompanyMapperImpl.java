@@ -1,16 +1,17 @@
+/*
+ * 
+ */
 package com.excilys.mapper.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import ch.qos.logback.classic.Logger;
 
-import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
 
 // TODO: Auto-generated Javadoc
@@ -19,7 +20,7 @@ import com.excilys.model.Company;
  */
 
 @Service
-public class CompanyMapperImpl implements CompanyMapper {
+public class CompanyMapperImpl implements RowMapper<Company> {
 
 	/** The logger. */
 	Logger logger = (Logger) LoggerFactory.getLogger(CompanyMapperImpl.class);
@@ -27,46 +28,16 @@ public class CompanyMapperImpl implements CompanyMapper {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.excilys.mapper.CompanyMapper#MappCompany(java.sql.ResultSet)
+	 * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet,
+	 * int)
 	 */
 	@Override
-	public Company MappCompany(ResultSet resultSet) {
-		Company company = new Company();
-		try {
-			if (resultSet != null && resultSet.next()) {
-				company.setId(resultSet.getLong("id"));
-				company.setName(resultSet.getString("name"));
-
-			}
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			System.err.println(e.getMessage());
-		}
+	public Company mapRow(ResultSet resultSet, int arg1) throws SQLException {
+		final Company company = new Company();
+		company.setId(resultSet.getLong("id"));
+		company.setName(resultSet.getString("name"));
+		logger.info("mapRow : Company with id" + company.getId());
 		return company;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.excilys.mapper.CompanyMapper#MappCompanies(java.sql.ResultSet)
-	 */
-	@Override
-	public List<Company> MappCompanies(ResultSet resultSet) {
-
-		List<Company> companies = new ArrayList<Company>();
-
-		try {
-			while (resultSet != null && resultSet.next()) {
-				Company company = new Company();
-				company.setId(resultSet.getLong("id"));
-				company.setName(resultSet.getString("name"));
-				companies.add(company);
-			}
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			System.err.println(e.getMessage());
-		}
-		return companies;
 	}
 
 }

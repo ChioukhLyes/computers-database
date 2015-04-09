@@ -145,16 +145,11 @@ public class MainCLI {
 		};
 
 		System.out.println("List computers (pages of 5 computers) :");
-		List<ComputerDTO> computers;
-		// Page<Computer> pagination = new Page<Computer>();
 		while (true) {
-			computers = serviceComputer.findAllComputers(limit, offset);
+			List<ComputerDTO> computers = serviceComputer.findAllComputers(limit, offset);
 			for (ComputerDTO computer : computers) {
 				System.out.println(computer.toString());
 			}
-
-			// pagination.showPaginatedList(pagination.paginate(computers,
-			// fromIndex, toIndex));
 
 			String choice = null;
 			while (choice == null || !choices.contains(choice.toLowerCase())) {
@@ -197,10 +192,8 @@ public class MainCLI {
 		};
 
 		System.out.println("List companies (pages of 5 companies) :");
-		List<Company> companies;
-		// Page<Computer> pagination = new Page<Computer>();
 		while (true) {
-			companies = serviceCompany.findAllCompanies(limit, offset);
+			List<Company> companies = serviceCompany.findAllCompanies(limit, offset);
 			for (Company company : companies) {
 				System.out.println(company.toString());
 			}
@@ -312,7 +305,6 @@ public class MainCLI {
 	public void updateComputer() throws ParseException {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
-		computerDTO = null;
 		Long id = null;
 		String name = null;
 		LocalDate introduced = null;
@@ -387,9 +379,8 @@ public class MainCLI {
 	public void deleteComputer() throws ParseException {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
-		computerDTO = null;
 		Long id = null;
-		while (id == null || computerDTO == null) {
+		while (id == null) {
 			System.out.println("Enter computer id (Long) : ");
 			scanner.next();
 			if (scanner.hasNextLong()) {
@@ -397,7 +388,6 @@ public class MainCLI {
 				computerDTO = serviceComputer.findComputerById(id);
 			}
 		}
-
 		try {
 			serviceComputer.deleteComputer(computerDTO);
 			System.out.println("The following computer has been deleted : "
@@ -418,22 +408,21 @@ public class MainCLI {
 	public void deleteCompany() throws ParseException {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
-		company = null;
 		Long id = null;
-		while (id == null || company == null) {
+		
+		while (id == null) {
 			System.out.println("Enter company id (Long) : ");
 			if (scanner.hasNextLong()) {
 				id = scanner.nextLong();
 				company = serviceCompany.findCompanyById(id);
 			}
 		}
-
 		try {
 			serviceCompany.deleteCompany(company);
 			System.out.println("The following company has been deleted : "
 					+ company.toString());
 		} catch (Exception e) {
-			System.err.println("Company not deleted" + e.getMessage());
+			System.err.println("Company not deleted " + e.getMessage());
 		}
 		mainCLI();
 

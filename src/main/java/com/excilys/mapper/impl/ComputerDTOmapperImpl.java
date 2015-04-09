@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import ch.qos.logback.classic.Logger;
@@ -21,7 +22,7 @@ import com.excilys.mapper.ComputerDTOMapper;
  * The Enum ComputerDTOmapperImpl.
  */
 @Service
-public class ComputerDTOmapperImpl implements ComputerDTOMapper {
+public class ComputerDTOmapperImpl implements ComputerDTOMapper, RowMapper<ComputerDTO> {
 
 	/** The logger. */
 	Logger logger = (Logger) LoggerFactory.getLogger(CompanyMapperImpl.class);
@@ -190,5 +191,37 @@ public class ComputerDTOmapperImpl implements ComputerDTOMapper {
 			System.err.println(e.getMessage());
 		}
 
+	}
+
+	@Override
+	public ComputerDTO mapRow(ResultSet resultSet, int arg1) throws SQLException {
+		ComputerDTO computerDTO = new ComputerDTO();
+		try {
+			if (resultSet != null && resultSet.next()) {
+				LocalDate introduced = null;
+				LocalDate discontinued = null;
+				String name = resultSet.getString("name");
+				Long id = resultSet.getLong("id");
+				if (resultSet.getTimestamp("introduced") != null)
+					introduced = resultSet.getTimestamp("introduced")
+							.toLocalDateTime().toLocalDate();
+				if (resultSet.getTimestamp("discontinued") != null)
+					discontinued = resultSet.getTimestamp("discontinued")
+							.toLocalDateTime().toLocalDate();
+
+				Long idcompany = resultSet.getLong("company_id");
+				String companyName = resultSet.getString("compa.name");
+				computerDTO.setId(id);
+				computerDTO.setName(name);
+				computerDTO.setIntroduced(introduced);
+				computerDTO.setDiscontinued(discontinued);
+				computerDTO.setCompanyId(idcompany);
+				computerDTO.setCompanyName(companyName);
+			}
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			System.err.println(e.getMessage());
+		}
+		return computerDTO;
 	}
 }

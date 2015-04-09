@@ -15,6 +15,7 @@ import ch.qos.logback.classic.Logger;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
 import com.excilys.persistence.ComputerDAO;
+import com.excilys.persistence.impl.ComputerDaoImpl;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -25,10 +26,8 @@ public class ServiceComputer {
 
 	/** The computer dao. */
 	@Autowired
-	ComputerDAO computerDAO;
+	private ComputerDaoImpl computerDAO;
 
-	/** The i. */
-	public int i = 0;
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(ServiceComputer.class);
@@ -83,8 +82,6 @@ public class ServiceComputer {
 	 */
 	public List<ComputerDTO> findAllComputersCompaniesByName(int limit,
 			int offset, String orderBy, String search, String orderOption) {
-		System.out.println(computerDAO.findAllComputersCompaniesByName(limit,
-				offset, orderBy, search, orderOption).toString());
 		return computerDAO.findAllComputersCompaniesByName(limit, offset,
 				orderBy, search, orderOption);
 	}
@@ -146,7 +143,8 @@ public class ServiceComputer {
 		if (company == null) {
 			throw new IllegalArgumentException("Delete : Company bean is null");
 		}
-		return computerDAO.deleteComputerByCompanyId(company);
+		computerDAO.deleteComputerByCompanyId(company);
+		return true;
 	}
 
 	/**
