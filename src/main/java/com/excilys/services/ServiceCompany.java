@@ -8,6 +8,7 @@ import java.util.List;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import ch.qos.logback.classic.Logger;
 
@@ -67,6 +68,7 @@ public class ServiceCompany {
 	 *            the company
 	 * @return true, if successful
 	 */
+	@Transactional
 	public boolean deleteCompany(Company company) {
 		if (company == null) {
 			throw new IllegalArgumentException("Delete : company bean is null");

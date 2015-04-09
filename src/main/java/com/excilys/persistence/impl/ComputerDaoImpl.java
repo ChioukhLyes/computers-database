@@ -142,20 +142,14 @@ public class ComputerDaoImpl implements ComputerDAO {
 		PreparedStatement preparedStatement = null;
 		try {
 			connection = daoFactory.getConnection();
-			connection.setAutoCommit(false);
 			preparedStatement = connection
 					.prepareStatement("INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?);");
 
 			computerMapper.mappComputerInPreparedStatemetInsert(
 					preparedStatement, computer);
-			connection.commit();
 			return true;
 		} catch (SQLException e) {
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				logger.error(e1.getMessage());
-			}
+			
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
@@ -176,19 +170,12 @@ public class ComputerDaoImpl implements ComputerDAO {
 		PreparedStatement preparedStatement = null;
 		try {
 			connection = daoFactory.getConnection();
-			connection.setAutoCommit(false);
 			preparedStatement = connection
 					.prepareStatement("DELETE FROM computer WHERE company_id=?;");
 			preparedStatement.setLong(1, company.getId());
 			preparedStatement.execute();
-			connection.commit();
 			return true;
 		} catch (SQLException e) {
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				logger.error(e1.getMessage());
-			}
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
@@ -207,19 +194,12 @@ public class ComputerDaoImpl implements ComputerDAO {
 		PreparedStatement preparedStatement = null;
 		try {
 			connection = daoFactory.getConnection();
-			connection.setAutoCommit(false);
 			preparedStatement = connection
 					.prepareStatement("DELETE FROM computer WHERE id=?;");
 			preparedStatement.setLong(1, computer.getId());
 			preparedStatement.execute();
-			connection.commit();
 			return true;
 		} catch (SQLException e) {
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				logger.error(e1.getMessage());
-			}
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {
@@ -239,19 +219,12 @@ public class ComputerDaoImpl implements ComputerDAO {
 
 		try {
 			connection = daoFactory.getConnection();
-			connection.setAutoCommit(false);
 			preparedStatement = connection
 					.prepareStatement("UPDATE computer set name=?, introduced=?, discontinued=?, company_id=? WHERE id=?;");
 			computerMapper.mappComputerInPreparedStatemetUpdate(
 					preparedStatement, computer);
-			connection.commit();
 			return true;
 		} catch (SQLException e) {
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				logger.error(e1.getMessage());
-			}
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {

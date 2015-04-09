@@ -148,19 +148,15 @@ public class CompanyDaoImpl implements CompanyDAO {
 		PreparedStatement preparedStatement = null;
 		try {
 			connection = daoFactory.getConnection();
-			connection.setAutoCommit(false);
+			//connection.setAutoCommit(false);
 			preparedStatement = connection
 					.prepareStatement("DELETE FROM company WHERE id=?;");
 			preparedStatement.setLong(1, company.getId());
 			preparedStatement.execute();
-			connection.commit();
+			//connection.commit();
 			return true;
 		} catch (SQLException e) {
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				logger.error(e1.getMessage());
-			}
+			
 			logger.error(e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		} finally {

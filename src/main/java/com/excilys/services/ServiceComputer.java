@@ -8,6 +8,7 @@ import java.util.List;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import ch.qos.logback.classic.Logger;
 
@@ -110,6 +111,7 @@ public class ServiceComputer {
 	 *            the computer
 	 * @return true, if successful
 	 */
+	@Transactional
 	public boolean insertComputer(ComputerDTO computer) {
 		if (computer == null) {
 			throw new IllegalArgumentException("Insert : Computer bean is null");
@@ -124,6 +126,7 @@ public class ServiceComputer {
 	 *            the computer
 	 * @return true, if successful
 	 */
+	@Transactional
 	public boolean deleteComputer(ComputerDTO computer) {
 		if (computer == null) {
 			throw new IllegalArgumentException("Delete : Computer bean is null");
@@ -138,6 +141,7 @@ public class ServiceComputer {
 	 *            the company
 	 * @return true, if successful
 	 */
+	@Transactional
 	public boolean deleteComputerByCompanyId(Company company) {
 		if (company == null) {
 			throw new IllegalArgumentException("Delete : Company bean is null");
@@ -152,6 +156,7 @@ public class ServiceComputer {
 	 *            the computer
 	 * @return true, if successful
 	 */
+	@Transactional
 	public boolean updateComputer(ComputerDTO computer) {
 		if (computer == null) {
 			throw new IllegalArgumentException("Update : Computer bean is null");
