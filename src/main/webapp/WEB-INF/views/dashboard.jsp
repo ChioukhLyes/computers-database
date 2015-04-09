@@ -54,23 +54,17 @@
 							</a>
 						</span></th>
 						<th><a
-							href="<c:url value="dashboard">
-								<c:param name="page" value="${currentPage.pageNumber}" />
-								<c:param name="size" value="${currentPage.pageSize}" />
-								<c:param name="search" value="${currentPage.searchString}" />
-								<c:param name="orderby" value="name" />
 								<c:choose>
 									<c:when test="${currentPage.optionOrder == 'DESC' }">
-										<c:param name="orderoption" value="ASC" />
+										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="name" orderoption="ASC"/>"
 									</c:when>
 									<c:when test="${currentPage.optionOrder == 'ASC' }">
-										<c:param name="orderoption" value="DESC" />
+										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="name" orderoption="DESC"/>"
 									</c:when>
 									<c:otherwise>
-										<c:param name="orderoption" value="ASC" />
+										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="name" orderoption="ASC"/>"
 									</c:otherwise>
 								</c:choose>
-								</c:url>"
 							aria-label="Last"> <c:choose>
 									<c:when test="${currentPage.optionOrder == 'DESC' }">
 										<span class="glyphicon glyphicon-sort-by-alphabet-alt"
@@ -89,23 +83,17 @@
 
 						</a> Computer name</th>
 						<th><a
-							href="<c:url value="dashboard">
-								<c:param name="page" value="${currentPage.pageNumber}" />
-								<c:param name="size" value="${currentPage.pageSize}" />
-								<c:param name="search" value="${currentPage.searchString}" />
-								<c:param name="orderby" value="introduced" />
-								<c:choose>
+							<c:choose>
 									<c:when test="${currentPage.optionOrder == 'DESC' }">
-										<c:param name="orderoption" value="ASC" />
+										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="introduced" orderoption="ASC"/>"
 									</c:when>
 									<c:when test="${currentPage.optionOrder == 'ASC' }">
-										<c:param name="orderoption" value="DESC" />
+										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="introduced" orderoption="DESC"/>"
 									</c:when>
 									<c:otherwise>
-										<c:param name="orderoption" value="ASC" />
+										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="introduced" orderoption="ASC"/>"
 									</c:otherwise>
 								</c:choose>
-								</c:url>"
 							aria-label="Last"> <c:choose>
 									<c:when test="${currentPage.optionOrder == 'DESC' }">
 										<span class="glyphicon glyphicon-sort-by-order-alt"
@@ -123,23 +111,17 @@
 						</a> Introduced date</th>
 						<!-- Table header for Discontinued Date -->
 						<th><a
-							href="<c:url value="dashboard">
-								<c:param name="page" value="${currentPage.pageNumber}" />
-								<c:param name="size" value="${currentPage.pageSize}" />
-								<c:param name="search" value="${currentPage.searchString}" />
-								<c:param name="orderby" value="discontinued" />
-								<c:choose>
+							<c:choose>
 									<c:when test="${currentPage.optionOrder == 'DESC' }">
-										<c:param name="orderoption" value="ASC" />
+										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="discontinued" orderoption="ASC"/>"
 									</c:when>
 									<c:when test="${currentPage.optionOrder == 'ASC' }">
-										<c:param name="orderoption" value="DESC" />
+										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="discontinued" orderoption="DESC"/>"
 									</c:when>
 									<c:otherwise>
-										<c:param name="orderoption" value="ASC" />
+										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="discontinued" orderoption="ASC"/>"
 									</c:otherwise>
 								</c:choose>
-								</c:url>"
 							aria-label="Last"> <c:choose>
 									<c:when test="${currentPage.optionOrder == 'DESC' }">
 										<span class="glyphicon glyphicon-sort-by-order-alt"
@@ -157,23 +139,17 @@
 						</a> Discontinued date</th>
 						<!-- Table header for Company -->
 						<th><a
-							href="<c:url value="dashboard">
-								<c:param name="page" value="${currentPage.pageNumber}" />
-								<c:param name="size" value="${currentPage.pageSize}" />
-								<c:param name="search" value="${currentPage.searchString}" />
-								<c:param name="orderby" value="companyname" />
-								<c:choose>
+							<c:choose>
 									<c:when test="${currentPage.optionOrder == 'DESC' }">
-										<c:param name="orderoption" value="ASC" />
+										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="companyname" orderoption="ASC"/>"
 									</c:when>
 									<c:when test="${currentPage.optionOrder == 'ASC' }">
-										<c:param name="orderoption" value="DESC" />
+										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="companyname" orderoption="DESC"/>"
 									</c:when>
 									<c:otherwise>
-										<c:param name="orderoption" value="ASC" />
+										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="companyname" orderoption="ASC"/>"
 									</c:otherwise>
 								</c:choose>
-								</c:url>"
 							aria-label="Last"> <c:choose>
 									<c:when test="${currentPage.optionOrder == 'DESC' }">
 										<span class="glyphicon glyphicon-sort-by-alphabet-alt"
@@ -203,7 +179,8 @@
 								href="<c:url value="editComputer">                            
 							       				<c:param name="id" value="${item.id}"/>                            
 							       				</c:url>"
-								onclick=""> <c:out value="${item.name}"></c:out> </a></td>
+								onclick=""> <c:out value="${item.name}"></c:out>
+							</a></td>
 							<td><c:out value="${item.introduced}"></c:out></td>
 							<td><c:out value="${item.discontinued}"></c:out></td>
 							<td><c:out value="${item.companyName}"></c:out></td>
