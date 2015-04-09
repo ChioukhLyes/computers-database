@@ -1,14 +1,10 @@
 package com.excilys.persistence.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import ch.qos.logback.classic.Logger;
@@ -30,17 +26,13 @@ public class ComputerDaoImpl implements ComputerDAO {
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(ServiceComputer.class);
 
-	/** The dao factory. */
-	@Autowired
-	DaoFactory daoFactory;
-
-	/** The computer dto. */
-	@Autowired
-	ComputerDTO computerDTO;
-
 	/** The computer mapper. */
 	@Autowired
 	ComputerDTOmapperImpl computerMapper;
+
+	/** The jdbc template. */
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	/*
 	 * (non-Javadoc)
@@ -49,24 +41,9 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 */
 	@Override
 	public List<ComputerDTO> findAllComputers() {
-		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
-		Connection connection = null;
-		ResultSet resultSet = null;
-		PreparedStatement preparedStatement = null;
-		try {
-			connection = daoFactory.getConnection();
-			preparedStatement = connection
-					.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id;");
-			resultSet = preparedStatement.executeQuery();
-			computers = computerMapper.mappComputers(resultSet);
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new RuntimeException(e.getMessage());
-		} finally {
-			daoFactory.closeConnections(connection, preparedStatement,
-					resultSet);
-		}
-		return computers;
+		return jdbcTemplate
+				.query("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id;",
+						computerMapper);
 	}
 
 	/*
@@ -76,28 +53,9 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 */
 	@Override
 	public List<ComputerDTO> findAllComputers(int limit, int offset) {
-		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
-		Connection connection = null;
-		// Statement statement = null;
-		ResultSet resultSet = null;
-		PreparedStatement preparedStatement = null;
-
-		try {
-			connection = daoFactory.getConnection();
-			preparedStatement = connection
-					.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id limit ? offset ?;");
-			preparedStatement.setInt(1, limit);
-			preparedStatement.setInt(2, offset);
-			resultSet = preparedStatement.executeQuery();
-			computers = computerMapper.mappComputers(resultSet);
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new RuntimeException(e.getMessage());
-		} finally {
-			daoFactory.closeConnections(connection, preparedStatement,
-					resultSet);
-		}
-		return computers;
+		return jdbcTemplate
+				.query("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id limit ? offset ?;",
+						new Object[] { limit, offset }, computerMapper);
 	}
 
 	/*
@@ -107,28 +65,10 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 */
 	@Override
 	public ComputerDTO findComputerById(Long id) {
-		Connection connection = null;
-		// Statement statement = null;
-		ResultSet resultSet = null;
-		PreparedStatement preparedStatement = null;
-
-		try {
-			connection = daoFactory.getConnection();
-			// statement = connection.createStatement();
-			preparedStatement = connection
-					.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.id=?;");
-			preparedStatement.setLong(1, id);
-			preparedStatement.executeQuery();
-			resultSet = preparedStatement.getResultSet();
-			computerDTO = computerMapper.mappComputer(resultSet);
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new RuntimeException(e.getMessage());
-		} finally {
-			daoFactory.closeConnections(connection, preparedStatement,
-					resultSet);
-		}
-		return computerDTO;
+		return jdbcTemplate
+				.queryForObject(
+						"SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.id=?;",
+						new Object[] { id }, computerMapper);
 	}
 
 	/*
@@ -138,23 +78,13 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 */
 	@Override
 	public boolean insertComputer(ComputerDTO computer) {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		try {
-			connection = daoFactory.getConnection();
-			preparedStatement = connection
-					.prepareStatement("INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?);");
-
-			computerMapper.mappComputerInPreparedStatemetInsert(
-					preparedStatement, computer);
-			return true;
-		} catch (SQLException e) {
-			
-			logger.error(e.getMessage());
-			throw new RuntimeException(e.getMessage());
-		} finally {
-			daoFactory.closeConnections(connection, preparedStatement, null);
-		}
+		String quary = new String(
+				"INSERT INTO computer(name, introduced, discontinued, company_id) VALUES ('"
+						+ computer.getName() + "','" + computer.getIntroduced()
+						+ "','" + computer.getDiscontinued() + "',"
+						+ computer.getCompanyId() + ");");
+		logger.info("Computer insertion");
+		return this.jdbcTemplate.update(quary) != 0;
 	}
 
 	/*
@@ -166,21 +96,9 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 */
 	@Override
 	public boolean deleteComputerByCompanyId(Company company) {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		try {
-			connection = daoFactory.getConnection();
-			preparedStatement = connection
-					.prepareStatement("DELETE FROM computer WHERE company_id=?;");
-			preparedStatement.setLong(1, company.getId());
-			preparedStatement.execute();
-			return true;
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new RuntimeException(e.getMessage());
-		} finally {
-			daoFactory.closeConnections(connection, preparedStatement, null);
-		}
+		logger.info("Computer deletion by deletion company");
+		return jdbcTemplate.update("DELETE FROM computer WHERE company_id=?;",
+				new Object[] { company.getId() }) != 0;
 	}
 
 	/*
@@ -190,21 +108,9 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 */
 	@Override
 	public boolean deleteComputer(ComputerDTO computer) {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		try {
-			connection = daoFactory.getConnection();
-			preparedStatement = connection
-					.prepareStatement("DELETE FROM computer WHERE id=?;");
-			preparedStatement.setLong(1, computer.getId());
-			preparedStatement.execute();
-			return true;
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new RuntimeException(e.getMessage());
-		} finally {
-			daoFactory.closeConnections(connection, preparedStatement, null);
-		}
+		logger.info("Computer deletion");
+		return jdbcTemplate.update("DELETE FROM computer WHERE id=?;",
+				computer.getId()) != 0;
 	}
 
 	/*
@@ -214,22 +120,13 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 */
 	@Override
 	public boolean updateComputer(ComputerDTO computer) {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-
-		try {
-			connection = daoFactory.getConnection();
-			preparedStatement = connection
-					.prepareStatement("UPDATE computer set name=?, introduced=?, discontinued=?, company_id=? WHERE id=?;");
-			computerMapper.mappComputerInPreparedStatemetUpdate(
-					preparedStatement, computer);
-			return true;
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new RuntimeException(e.getMessage());
-		} finally {
-			daoFactory.closeConnections(connection, preparedStatement, null);
-		}
+		logger.info("Computer update");
+		return jdbcTemplate.update("UPDATE computer set name='"
+				+ computer.getName() + "', introduced='"
+				+ computer.getIntroduced() + "' , discontinued='"
+				+ computer.getDiscontinued() + "' , company_id="
+				+ computer.getCompanyId() + " WHERE id=" + computer.getId()
+				+ ";") != 0;
 	}
 
 	/*
@@ -239,31 +136,13 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 */
 	@Override
 	public int getCountComputers(String search) {
-		Connection connection = null;
-		ResultSet resultSet = null;
-		PreparedStatement preparedStatement = null;
-		int count = 0;
-
 		String query = new String(
 				"SELECT count(*) FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id");
 		if (search != null) {
 			query += " WHERE comp.name LIKE '%" + search
 					+ "%' OR compa.name LIKE '%" + search + "%';";
 		}
-		try {
-			connection = daoFactory.getConnection();
-			preparedStatement = connection.prepareStatement(query);
-			resultSet = preparedStatement.executeQuery();
-			resultSet.next();
-			count = resultSet.getInt(1);
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			System.err.println(e.getMessage());
-		} finally {
-			daoFactory.closeConnections(connection, preparedStatement,
-					resultSet);
-		}
-		return count;
+		return jdbcTemplate.queryForObject(query, Integer.class);
 	}
 
 	/*
@@ -276,46 +155,28 @@ public class ComputerDaoImpl implements ComputerDAO {
 	@Override
 	public List<ComputerDTO> findAllComputersCompaniesByName(int limit,
 			int offset, String orderBy, String search, String orderOption) {
-
-		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
-		Connection connection = null;
-		// Statement statement = null;
-		ResultSet resultSet = null;
-		PreparedStatement preparedStatement = null;
-
-		try {
-			connection = daoFactory.getConnection();
-			if (orderBy.equals("companyname"))
-				preparedStatement = connection
-						.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE '%"
-								+ search
-								+ "%'  OR compa.name LIKE '%"
-								+ search
-								+ "%' ORDER BY compa.name "
-								+ orderOption
-								+ " limit ? offset ?;");
-			else
-				preparedStatement = connection
-						.prepareStatement("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE '%"
-								+ search
-								+ "%'  OR compa.name LIKE '%"
-								+ search
-								+ "%' ORDER BY comp."
-								+ orderBy
-								+ " "
-								+ orderOption + " limit ? offset ?;");
-			preparedStatement.setInt(1, limit);
-			preparedStatement.setInt(2, offset);
-			resultSet = preparedStatement.executeQuery();
-			computers = computerMapper.mappComputers(resultSet);
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new RuntimeException(e.getMessage());
-		} finally {
-			daoFactory.closeConnections(connection, preparedStatement,
-					resultSet);
-		}
-		return computers;
+		String quary = null;
+		if (orderBy.equals("companyname"))
+			quary = new String(
+					"SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE '%"
+							+ search
+							+ "%'  OR compa.name LIKE '%"
+							+ search
+							+ "%' ORDER BY compa.name "
+							+ orderOption
+							+ " limit ? offset ?;");
+		else
+			quary = new String(
+					"SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE '%"
+							+ search
+							+ "%'  OR compa.name LIKE '%"
+							+ search
+							+ "%' ORDER BY comp."
+							+ orderBy
+							+ " "
+							+ orderOption
+							+ " limit ? offset ?;");
+		return jdbcTemplate.query(quary, computerMapper);
 	}
 
 }

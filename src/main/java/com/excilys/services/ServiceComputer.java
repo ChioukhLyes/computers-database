@@ -14,7 +14,6 @@ import ch.qos.logback.classic.Logger;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
-import com.excilys.persistence.ComputerDAO;
 import com.excilys.persistence.impl.ComputerDaoImpl;
 
 // TODO: Auto-generated Javadoc

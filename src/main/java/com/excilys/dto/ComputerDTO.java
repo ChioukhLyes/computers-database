@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
  * The Class ComputerDTO.
  */
 @Component
-public class ComputerDTO {
+public class ComputerDTO  {
+
 
 	/** The id. */
 	private long id;

@@ -3,7 +3,6 @@ package com.excilys.persistence;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
@@ -13,7 +12,7 @@ import com.excilys.model.Company;
  * The Interface ComputerDAO.
  */
 @Component
-public interface ComputerDAO {
+public interface ComputerDAO  {
 
 	/**
 	 * Find all computers.

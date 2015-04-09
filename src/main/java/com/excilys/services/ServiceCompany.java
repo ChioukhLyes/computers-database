@@ -7,14 +7,12 @@ import java.util.List;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import ch.qos.logback.classic.Logger;
 
 import com.excilys.model.Company;
-import com.excilys.persistence.CompanyDAO;
 import com.excilys.persistence.impl.CompanyDaoImpl;
 
 // TODO: Auto-generated Javadoc
