@@ -131,9 +131,6 @@ public class AddComputer extends HttpServlet {
 			computer.setCompanyName(company.getName());
 		}
 
-		computer.setCompanyId(null);
-		computer.setCompanyName(null);
-
 		// Computer insertion
 		serviceComputer.insertComputer(computer);
 		request.getRequestDispatcher("/WEB-INF/views/success.jsp").forward(

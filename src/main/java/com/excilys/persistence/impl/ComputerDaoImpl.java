@@ -13,7 +13,6 @@ import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.impl.ComputerDTOmapperImpl;
 import com.excilys.model.Company;
 import com.excilys.persistence.ComputerDAO;
-import com.excilys.services.ServiceComputer;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -24,7 +23,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
-			.getLogger(ServiceComputer.class);
+			.getLogger(ComputerDaoImpl.class);
 
 	/** The computer mapper. */
 	@Autowired
@@ -176,7 +175,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 							+ " "
 							+ orderOption
 							+ " limit ? offset ?;");
-		return jdbcTemplate.query(quary, computerMapper);
+		return jdbcTemplate.query(quary, new Object[]{limit, offset},computerMapper);
 	}
 
 }

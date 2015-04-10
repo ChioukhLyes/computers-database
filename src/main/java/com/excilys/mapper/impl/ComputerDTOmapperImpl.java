@@ -20,7 +20,7 @@ import com.excilys.dto.ComputerDTO;
 public class ComputerDTOmapperImpl implements RowMapper<ComputerDTO> {
 
 	/** The logger. */
-	Logger logger = (Logger) LoggerFactory.getLogger(CompanyMapperImpl.class);
+	Logger logger = (Logger) LoggerFactory.getLogger(ComputerDTOmapperImpl.class);
 
 	/**
 	 * Instantiates a new computer dt omapper impl.

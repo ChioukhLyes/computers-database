@@ -22,12 +22,9 @@ public class CompanyDaoImpl implements CompanyDAO {
 
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
-			.getLogger(DaoFactory.class);
+			.getLogger(CompanyDaoImpl.class);
 
-	/** The dao factory. */
-	@Autowired
-	private DaoFactory daoFactory;
-
+	
 	/** The company mapper. */
 	@Autowired
 	private CompanyMapperImpl companyMapper;
