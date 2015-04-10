@@ -27,10 +27,18 @@
 		<JOOK>3.5.0</JOOK>
 		<SPRING.VERSION>4.1.5.RELEASE</SPRING.VERSION>
 		<SLF4J.VERSION>1.7.10</SLF4J.VERSION>
+		<JAVAX.VALIDATION>1.0.0.GA</JAVAX.VALIDATION>
 	</properties>
 
 	<dependencies>
 
+		<!-- Validation -->
+		<!-- <dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>${JAVAX.VALIDATION}</version>
+		</dependency>
+ -->
 		<!-- Dependencies for Logger/Logging -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -134,6 +142,8 @@
 			</exclusions>
 		</dependency>
 
+		<!-- Spring framework -->
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
@@ -162,8 +172,8 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${SLF4J.VERSION}</version>
 		</dependency>
-		
-		
+
+
 
 	</dependencies>
 

@@ -55,7 +55,7 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	private void mainCLI() throws ParseException {
+	private  void mainCLI() throws ParseException {
 
 		ArrayList<String> choices = new ArrayList<String>() {
 			/**
@@ -127,7 +127,7 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	public void showComputers() throws ParseException {
+	public  void showComputers() throws ParseException {
 		int limit = 5;
 		int offset = 0;
 		@SuppressWarnings("resource")
@@ -436,7 +436,7 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	public static void main(String[] args) throws ParseException {
+	public  static void main(String[] args) throws ParseException {
 
 		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext(

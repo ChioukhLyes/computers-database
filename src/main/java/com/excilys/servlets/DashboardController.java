@@ -5,13 +5,16 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.dto.ComputerDTO;
@@ -24,14 +27,8 @@ import com.excilys.services.ServiceComputer;
  */
 
 @Controller
-@WebServlet("/dashboard")
-public class Dashboard extends HttpServlet {
-
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
-
-	// private ApplicationContext ctxt = new
-	// ClassPathXmlApplicationContext("./applicationContext.xml");
+@RequestMapping("/dashboard")
+public class DashboardController {
 
 	/** The service computer. */
 	@Autowired
@@ -53,7 +50,7 @@ public class Dashboard extends HttpServlet {
 	 *
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Dashboard() {
+	public DashboardController() {
 		super();
 
 		// TODO Auto-generated constructor stub
@@ -64,10 +61,8 @@ public class Dashboard extends HttpServlet {
 	 * 
 	 * @see javax.servlet.GenericServlet#init()
 	 */
-	@Override
-	public void init() throws ServletException {
+	public void init() {
 		// TODO Auto-generated method stub
-		super.init();
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
 
@@ -85,52 +80,39 @@ public class Dashboard extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	@RequestMapping(method = RequestMethod.GET)
+	protected String doGet(
+			@RequestParam(value = "size", required = true, defaultValue = "10") int size,
+			@RequestParam(value = "page", required = true, defaultValue = "1") int page,
+			@RequestParam(value = "search", required = false, defaultValue = "") String search,
+			@RequestParam(value = "orderby", required = false, defaultValue = "name") String orderby,
+			@RequestParam(value = "optionorder", required = false, defaultValue = "ASC") String orderoption,
+			ModelMap model) {
 
-		// Default values
-		int size = 10;
-		int page = 1;
-		String search = "";
-		String orderBy = "name";
-		String optionOrder = "ASC";
+		if (page != 0)
+			currentPage.setPageNumber(page);
+		if (size != 0)
+			currentPage.setPageSize(size);
+		if (search != null)
+			currentPage.setSearchString(search);
+		if (orderby != null)
+			currentPage.setOrderEntitiesBy(orderby);
+		if (orderoption != null)
+			currentPage.setoptionOrder(orderoption);
 
-		List<ComputerDTO> lisComputers;
-
-		if (request.getParameter("page") != null)
-			page = Integer.valueOf(request.getParameter("page"));
-		if (request.getParameter("size") != null)
-			size = Integer.valueOf(request.getParameter("size"));
-
-		if (request.getParameter("search") != null) {
-			search = request.getParameter("search");
-		}
-		if (request.getParameter("orderby") != null) {
-			orderBy = request.getParameter("orderby");
-		}
-		if (request.getParameter("orderoption") != null) {
-			optionOrder = request.getParameter("orderoption");
-		}
-
-		System.out.println(serviceComputer);
-		lisComputers = serviceComputer.findAllComputersCompaniesByName(size,
-				((page - 1) * size), orderBy, search, optionOrder);
+		List<ComputerDTO> lisComputers = serviceComputer
+				.findAllComputersCompaniesByName(size, ((page - 1) * size),
+						orderby, search, orderoption);
 
 		numberComputers = serviceComputer.getCountComputers(search);
 
-		currentPage.setEntities(lisComputers);
 		currentPage.setMaxPage((numberComputers - 1) / size + 1);
-		currentPage.setPageNumber(page);
-		currentPage.setPageSize(size);
-		currentPage.setSearchString(search);
-		currentPage.setOrderEntitiesBy(orderBy);
-		currentPage.setoptionOrder(optionOrder);
+		currentPage.setEntities(lisComputers);
 
-		request.setAttribute("currentPage", currentPage);
-		request.setAttribute("numberComputers", numberComputers);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("numberComputers", numberComputers);
 
-		request.getRequestDispatcher("WEB-INF/views/dashboard.jsp").forward(
-				request, response);
+		return "dashboard";
 	}
 
 	/**
@@ -147,12 +129,12 @@ public class Dashboard extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	@RequestMapping(method = RequestMethod.POST)
+	protected String doPost(
+			@RequestParam(value = "selection", required = false, defaultValue = "") String selection,
+			ModelMap model) {
 
-		String computersIds = request.getParameter("selection");
-		StringTokenizer stringTokenizer = new StringTokenizer(computersIds, ",");
-
+		StringTokenizer stringTokenizer = new StringTokenizer(selection, ",");
 		while (stringTokenizer.hasMoreTokens()) {
 
 			computer.setId(Long.valueOf(stringTokenizer.nextToken()));
@@ -169,10 +151,9 @@ public class Dashboard extends HttpServlet {
 								.getSearchString(), currentPage
 								.getoptionOrder()));
 
-		request.setAttribute("currentPage", currentPage);
-		request.setAttribute("numberComputers", numberComputers);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("numberComputers", numberComputers);
 
-		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(
-				request, response);
+		return "dashboard";
 	}
 }
