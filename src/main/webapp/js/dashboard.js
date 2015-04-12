@@ -94,3 +94,35 @@ $(document).on("submit", "#successAdd", function(e) {
 		console.log("Alert Callback");
 	});
 });
+
+/**
+ * Change languge traitement
+ * 
+ */
+$(document).ready(function(){
+    $("#languagesChange").click(function(){
+        if($("#languagesMenu").is(':visible')){
+        	$("#languagesMenu").hide();
+        }
+        else {
+        	$("#languagesMenu").show();
+        }
+    });
+});
+
+function changeLanguage(lang) {
+    if (lang === 'fr') {
+    	//window.history.pushState(null,null,"?language=fr");
+        window.location.href += "?language=fr";
+    	//window.location.reload(); 
+        //document.getElementById("languagesChange").src = "images/France.png";
+    }    
+    else {
+//    	window.history.pushState(null,null,"?language=en");
+    	window.location.href += "?language=en";
+    	//window.location.reload(); 
+    	//document.getElementById("languagesChange").src  = "images/English.png";
+    }
+}
+
+

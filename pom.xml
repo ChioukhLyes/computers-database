@@ -28,22 +28,29 @@
 		<SPRING.VERSION>4.1.5.RELEASE</SPRING.VERSION>
 		<SLF4J.VERSION>1.7.10</SLF4J.VERSION>
 		<JAVAX.VALIDATION>1.0.0.GA</JAVAX.VALIDATION>
+		<INJECT>1</INJECT>
 	</properties>
 
 	<dependencies>
 
 		<!-- Validation -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>${JAVAX.VALIDATION}</version>
 		</dependency>
- -->
 		<!-- Dependencies for Logger/Logging -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${CH.QOS.LOGBACK}</version>
+		</dependency>
+
+		<!-- @Inject -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>${INJECT}</version>
 		</dependency>
 
 		<!-- Dependencies for DateValidator -->
@@ -157,6 +164,18 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
+			<version>${SPRING.VERSION}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${SPRING.VERSION}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
 			<version>${SPRING.VERSION}</version>
 		</dependency>
 

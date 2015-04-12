@@ -1,20 +1,74 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <jsp:include page="common/header.jsp"></jsp:include>
 
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application - Computer
-				Database </a>
+		
+		<!-- Switch language button  -->
+              		
+                    <img class="notificationicon on" title="Choisir votre langue" alt="" src="images/France.png"
+                         id="languagesChange"/>
+					
+                    <ul class="notifications" id="languagesMenu" >
+                        <li class="titlebar">
+                            <span class="title">Choisir votre langue</span>
+                        </li>
+
+                        <li class="notifbox">
+                            <ul class="notif">
+                                <li>
+                                    <a  onclick="changeLanguage('fr')">
+                                        <ul class="imageblock">
+                                            <li><img src="images/France.png" alt="" class="notifimage"/></li>
+                                        </ul>
+                                        <ul class="messageblock">
+                                            <li>
+                                                <div class="message"><strong>Français</strong>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="notif">
+                                <li>
+                                    <a  onclick="changeLanguage('en')">
+                                        <ul class="imageblock">
+                                            <li><img src="images/English.png" alt="" class="notifimage"/></li>
+                                        </ul>
+                                        <ul class="messageblock">
+                                            <li>
+                                                <div class="message">
+                                                    <strong>English</strong>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                
+                <!-- End Switch language operation  -->	
+				<a class="navbar-brand" href="dashboard">
+					Application - Computer
+									Database </a>
+                    
+			 
 		</div>
 	</header>
+	
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">
 				<c:out value="${numberComputers}"></c:out>
-				Computers found
+				<!-- Computers found -->
+				
+				<spring:message code="titre.bonjour"/>
 			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">

@@ -2,6 +2,9 @@ package com.excilys.dto;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 // TODO: Auto-generated Javadoc
@@ -13,15 +16,19 @@ public class ComputerDTO  {
 
 
 	/** The id. */
+	@NotNull
 	private long id;
 
 	/** The name. */
+	@NotNull
 	private String name;
 
 	/** The introduced. */
+	@DateTimeFormat(pattern="yyyy/MM/dd")
 	private LocalDate introduced;
 
 	/** The discontinued. */
+	@DateTimeFormat(pattern="yyyy/MM/dd")
 	private LocalDate discontinued;
 
 	/** The company. */

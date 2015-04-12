@@ -12,10 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import ch.qos.logback.classic.Logger;
 
@@ -44,15 +44,6 @@ public class AddController {
 	@Autowired
 	ServiceComputer serviceComputer;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.GenericServlet#init()
-	 */
-	public void init() {
-		// TODO Auto-generated method stub
-		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-	}
 
 	/**
 	 * Instantiates a new adds the computer.
@@ -74,6 +65,7 @@ public class AddController {
 	 * , javax.servlet.http.HttpServletResponse)
 	 */
 	@RequestMapping(method = RequestMethod.GET)
+	@Validated
 	protected String doGet(ModelMap model) {
 		// TODO Auto-generated method stub
 
@@ -91,10 +83,10 @@ public class AddController {
 	 * , javax.servlet.http.HttpServletResponse)
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	protected String doPost(@RequestParam(value = "id", required = true, defaultValue="0") Long id,
-			@RequestParam(value = "computerName", required = true, defaultValue="") String computerName,
-			@RequestParam(value = "introduced", required = false, defaultValue="") String introduced,
-			@RequestParam(value = "discontinued", required = false, defaultValue="") String discontinued,
+	protected String doPost(@Validated @RequestParam(value = "id", required = true, defaultValue="0") Long id,
+			@Validated @RequestParam(value = "computerName", required = true, defaultValue="") String computerName,
+			@Validated @RequestParam(value = "introduced", required = false, defaultValue="") String introduced,
+			@Validated @RequestParam(value = "discontinued", required = false, defaultValue="") String discontinued,
 			@RequestParam(value = "companyId", required = false, defaultValue="") Long companyId,			
 			ModelMap model)  {
 

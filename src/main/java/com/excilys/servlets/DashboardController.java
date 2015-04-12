@@ -15,7 +15,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Page;
@@ -56,15 +55,7 @@ public class DashboardController {
 		// TODO Auto-generated constructor stub
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.GenericServlet#init()
-	 */
-	public void init() {
-		// TODO Auto-generated method stub
-		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-	}
+	
 
 	/**
 	 * Do get.
