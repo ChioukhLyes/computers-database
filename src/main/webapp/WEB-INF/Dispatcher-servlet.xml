@@ -13,10 +13,12 @@
 
 	
 	<context:annotation-config />
-
+	<!-- <mvc:annotation-driven validator="validator" /> -->
+	<mvc:annotation-driven />
+	
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-		<property name="cookieName" value="lang" />
+		<property name="cookieName" value="language" />
 		<property name="defaultLocale" value="fr" />
 	</bean>
 	
@@ -40,8 +42,7 @@
         <property name="defaultEncoding" value="UTF-8" />
     </bean>
     
-	<!-- <mvc:annotation-driven validator="validator" /> -->
-	<mvc:annotation-driven />
+	
 	
 	<context:component-scan base-package="com.excilys" />
 	
@@ -49,5 +50,7 @@
 	<mvc:resources mapping="/js/**" location="/js/" />
 	<mvc:resources mapping="/images/**" location="/images/" />
 	<mvc:resources mapping="/fonts/**" location="/fonts/" />
+	<mvc:resources mapping="/WEB-INF/tags/**" location="/WEB-INF/tags/" />
+	<mvc:resources mapping="/**" location="/" />
 
 </beans>

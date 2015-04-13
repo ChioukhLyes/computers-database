@@ -1,46 +1,43 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
 
 <jsp:include page="common/header.jsp"></jsp:include>
 
 <body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application - Computer
-				Database </a>
-		</div>
-	</header>
+	
 	<section id="main">
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<div id="idComputer" class="label label-default pull-right">id :
 						${Computer.id}</div>
-					<h1>Edit Computer</h1>
+					<h1><spring:message code="home.editcomputer"/></h1>
 
 					<form id="formAddEditComputer" action="editComputer" method="POST">
 						<input type="hidden" name="id" value="${Computer.id}" />
 						<fieldset>
 							<div class="form-group">
-								<label for="computerName">Computer name </label> <input
+								<label for="computerName"><spring:message code="home.table.computername"/> </label> <input
 									type="text" name="computerName" class="form-control"
-									id="computerName" placeholder="Computer name"
+									id="computerName" placeholder="<spring:message code="home.table.computername"/>"
 									value="<c:out value='${Computer.name}'></c:out>">
 							</div>
 							<div class="form-group">
-								<label for="introduced">Introduced date</label> <input
+								<label for="introduced"><spring:message code="home.table.introduceddate"/></label> <input
 									type="date" name="introduced" class="form-control"
-									id="introduced" placeholder="Introduced date"
+									id="introduced" placeholder="<spring:message code="home.table.introduceddate"/>"
 									value="<c:out value='${Computer.introduced}'></c:out>">
 							</div>
 							<div class="form-group">
-								<label for="discontinued">Discontinued date</label> <input
+								<label for="discontinued"><spring:message code="home.table.discontinueddate"/></label> <input
 									type="date" name="discontinued" class="form-control"
-									id="discontinued" placeholder="Discontinued date"
+									id="discontinued" placeholder="<spring:message code="home.table.discontinueddate"/>"
 									value="<c:out value='${Computer.discontinued}'></c:out>">
 							</div>
 							<div class="form-group">
-								<label for="companyId">Company</label> <select
+								<label for="companyId"><spring:message code="home.table.company"/></label> <select
 									class="form-control" name="companyId" id="companyId">
 									<option value="${Computer.companyId}"><c:out value='${Computer.companyName}'></c:out></option>
 									<c:forEach var="company" items="${Companies}">
@@ -50,8 +47,8 @@
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input type="submit" value="Edit" class="btn btn-primary">
-							or <a href="dashboard" class="btn btn-default">Cancel</a>
+							<input type="submit" value="<spring:message code="home.edit"/>" class="btn btn-primary">
+							<spring:message code="or"/> <a href="dashboard" class="btn btn-default"><spring:message code="cancel"/></a>
 						</div>
 					</form>
 				</div>

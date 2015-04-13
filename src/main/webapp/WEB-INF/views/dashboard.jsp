@@ -4,71 +4,11 @@
 
 <jsp:include page="common/header.jsp"></jsp:include>
 
-<body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-		
-		<!-- Switch language button  -->
-              		
-                    <img class="notificationicon on" title="Choisir votre langue" alt="" src="images/France.png"
-                         id="languagesChange"/>
-					
-                    <ul class="notifications" id="languagesMenu" >
-                        <li class="titlebar">
-                            <span class="title">Choisir votre langue</span>
-                        </li>
-
-                        <li class="notifbox">
-                            <ul class="notif">
-                                <li>
-                                    <a  onclick="changeLanguage('fr')">
-                                        <ul class="imageblock">
-                                            <li><img src="images/France.png" alt="" class="notifimage"/></li>
-                                        </ul>
-                                        <ul class="messageblock">
-                                            <li>
-                                                <div class="message"><strong>Français</strong>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="notif">
-                                <li>
-                                    <a  onclick="changeLanguage('en')">
-                                        <ul class="imageblock">
-                                            <li><img src="images/English.png" alt="" class="notifimage"/></li>
-                                        </ul>
-                                        <ul class="messageblock">
-                                            <li>
-                                                <div class="message">
-                                                    <strong>English</strong>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                
-                <!-- End Switch language operation  -->	
-				<a class="navbar-brand" href="dashboard">
-					Application - Computer
-									Database </a>
-                    
-			 
-		</div>
-	</header>
-	
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">
 				<c:out value="${numberComputers}"></c:out>
-				<!-- Computers found -->
-				
-				<spring:message code="titre.bonjour"/>
+				<spring:message code="computer.found"/>
 			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
@@ -82,9 +22,10 @@
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="addComputer">Add
-						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
-						onclick="$.fn.toggleEditMode();">Edit</a>
+					<a class="btn btn-success" id="addComputer" href="addComputer">
+					<spring:message code="home.addcomputer"/>
+					</a> <a class="btn btn-default" id="editComputer" 
+						onclick="$.fn.toggleEditMode();"><spring:message code="home.edit"/></a>
 				</div>
 			</div>
 		</div>
@@ -135,7 +76,7 @@
 									</c:otherwise>
 								</c:choose>
 
-						</a> Computer name</th>
+						</a> <spring:message code="home.table.computername"/></th>
 						<th><a
 							<c:choose>
 									<c:when test="${currentPage.optionOrder == 'DESC' }">
@@ -162,7 +103,7 @@
 											aria-hidden="true"></span>
 									</c:otherwise>
 								</c:choose>
-						</a> Introduced date</th>
+						</a> <spring:message code="home.table.introduceddate"/></th>
 						<!-- Table header for Discontinued Date -->
 						<th><a
 							<c:choose>
@@ -190,7 +131,7 @@
 											aria-hidden="true"></span>
 									</c:otherwise>
 								</c:choose>
-						</a> Discontinued date</th>
+						</a> <spring:message code="home.table.discontinueddate"/></th>
 						<!-- Table header for Company -->
 						<th><a
 							<c:choose>
@@ -219,7 +160,7 @@
 											aria-hidden="true"></span>
 									</c:otherwise>
 								</c:choose>
-						</a> Company</th>
+						</a> <spring:message code="home.table.company"/></th>
 
 					</tr>
 				</thead>

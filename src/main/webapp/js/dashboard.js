@@ -1,4 +1,4 @@
-//On load
+// On load
 $(function() {
 	// Default: hide edit mode
 	$(".editMode").hide();
@@ -46,10 +46,18 @@ $(function() {
 	$.fn.toggleEditMode = function() {
 		if ($(".editMode").is(":visible")) {
 			$(".editMode").hide();
-			$("#editComputer").text("Edit");
+			if ($("#editComputer").text() === "View") {
+				$("#editComputer").text("Edit");
+			} else {
+				$("#editComputer").text("Modifier");
+			}
 		} else {
 			$(".editMode").show();
-			$("#editComputer").text("View");
+			if ($("#editComputer").text() === "Edit") {
+				$("#editComputer").text("View");
+			} else {
+				$("#editComputer").text("Vue");
+			}
 		}
 		return this;
 	};
@@ -88,41 +96,43 @@ $(document).keydown(function(e) {
 	}
 });
 
-
-$(document).on("submit", "#successAdd", function(e) {
-	bootbox.alert("Hello world!", function() {
-		console.log("Alert Callback");
-	});
-});
-
 /**
  * Change languge traitement
  * 
  */
-$(document).ready(function(){
-    $("#languagesChange").click(function(){
-        if($("#languagesMenu").is(':visible')){
-        	$("#languagesMenu").hide();
-        }
-        else {
-        	$("#languagesMenu").show();
-        }
-    });
+$(document).ready(function(e) {
+
+	/**
+	 * By clicking anywhere we close a div.
+	 * 
+	 */
+	$("#languagesChange").click(function(e) {
+		e.stopPropagation();
+	});
+	$("#languagesChange").click(function() {
+		if ($("#languagesMenu").is(':visible')) {
+			$("#languagesMenu").hide();
+		} else {
+			$("#languagesMenu").show();
+		}
+	});
+	$(document).click(function() {
+		$("#languagesMenu").hide();
+	});
 });
 
-function changeLanguage(lang) {
-    if (lang === 'fr') {
-    	//window.history.pushState(null,null,"?language=fr");
-        window.location.href += "?language=fr";
-    	//window.location.reload(); 
-        //document.getElementById("languagesChange").src = "images/France.png";
-    }    
-    else {
-//    	window.history.pushState(null,null,"?language=en");
-    	window.location.href += "?language=en";
-    	//window.location.reload(); 
-    	//document.getElementById("languagesChange").src  = "images/English.png";
-    }
+function updateQueryStringParameter(key, value) {
+
+	/**
+	 * Updating string query
+	 */
+	var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+	var separator = window.location.href.indexOf('?') !== -1 ? "&" : "?";
+	if (window.location.href.match(re)) {
+		window.location.href = window.location.href.replace(re, '$1' + key
+				+ "=" + value + '$2');
+	} else {
+		window.location.href += separator + key + "=" + value;
+	}
+
 }
-
-

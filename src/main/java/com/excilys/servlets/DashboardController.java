@@ -77,7 +77,7 @@ public class DashboardController {
 			@RequestParam(value = "page", required = true, defaultValue = "1") int page,
 			@RequestParam(value = "search", required = false, defaultValue = "") String search,
 			@RequestParam(value = "orderby", required = false, defaultValue = "name") String orderby,
-			@RequestParam(value = "optionorder", required = false, defaultValue = "ASC") String orderoption,
+			@RequestParam(value = "orderoption", required = false, defaultValue = "ASC") String orderoption,
 			ModelMap model) {
 
 		if (page != 0)

@@ -1,12 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <jsp:include page="common/header.jsp"></jsp:include>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application - Computer
-				Database </a>
+			<a class="navbar-brand" href="dashboard">  <spring:message code="title"/> </a>
 		</div>
 	</header>
 
@@ -14,7 +14,7 @@
 		<div class="container">
 			<div class="alert alert-success">
 				<h1>
-					<strong>computer database</strong>
+					<strong> <spring:message code="title"/>e</strong>
 				</h1>
 				<br />
 				<!-- stacktrace -->
@@ -22,7 +22,7 @@
 			
 			<div class="alert alert-success">
 				<h2>
-					Computer updated/added with success.
+					 <spring:message code="success"/>
 				</h2>
 				<br />
 				<!-- stacktrace -->

@@ -1,19 +1,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
 
 <jsp:include page="common/header.jsp"></jsp:include>
 <body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application - Computer
-				Database </a>
-		</div>
-	</header>
+
 
 	<section id="main">
 		<div class="container">
 			<div class="alert alert-danger">
-				Error 404: Page not found. Too bad bitch! <br />
+				<spring:message code="error404"/> <br />
 				<!-- stacktrace -->
 			</div>
 		</div>
