@@ -46,14 +46,15 @@ $(function() {
 	$.fn.toggleEditMode = function() {
 		if ($(".editMode").is(":visible")) {
 			$(".editMode").hide();
-			if ($("#editComputer").text() === "View") {
+			
+			if (strings['language'] === 'en') {
 				$("#editComputer").text("Edit");
 			} else {
 				$("#editComputer").text("Modifier");
 			}
 		} else {
 			$(".editMode").show();
-			if ($("#editComputer").text() === "Edit") {
+			if (strings['language'] === 'en' ) {
 				$("#editComputer").text("View");
 			} else {
 				$("#editComputer").text("Vue");
@@ -68,7 +69,7 @@ $(function() {
 // then submits it to the deleteForm
 (function($) {
 	$.fn.deleteSelected = function() {
-		if (confirm("Are you sure you want to delete the selected computers?")) {
+		if (confirm(strings['confirmation'])) {
 			$('#deleteForm input[name=selection]').setCheckboxValues(
 					'selection', 'cb');
 			$('#deleteForm').submit();

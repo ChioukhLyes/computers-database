@@ -14,7 +14,7 @@
 		<div class="container">
 			<div class="alert alert-success">
 				<h1>
-					<strong> <spring:message code="title"/>e</strong>
+					<strong> <spring:message code="title"/></strong>
 				</h1>
 				<br />
 				<!-- stacktrace -->

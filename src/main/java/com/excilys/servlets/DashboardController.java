@@ -9,12 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import ch.qos.logback.classic.Logger;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Page;
@@ -29,6 +32,8 @@ import com.excilys.services.ServiceComputer;
 @RequestMapping("/dashboard")
 public class DashboardController {
 
+	
+	
 	/** The service computer. */
 	@Autowired
 	/** The service computer. */
@@ -44,6 +49,11 @@ public class DashboardController {
 	/** The number computers. */
 	private int numberComputers;
 
+	
+	/** The logger. */
+	private static Logger logger = (Logger) LoggerFactory
+			.getLogger(DashboardController.class);
+	
 	/**
 	 * Instantiates a new dashboard.
 	 *
@@ -102,7 +112,7 @@ public class DashboardController {
 
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("numberComputers", numberComputers);
-
+		logger.info("Get request access");
 		return "dashboard";
 	}
 
@@ -124,14 +134,11 @@ public class DashboardController {
 	protected String doPost(
 			@RequestParam(value = "selection", required = false, defaultValue = "") String selection,
 			ModelMap model) {
-
 		StringTokenizer stringTokenizer = new StringTokenizer(selection, ",");
 		while (stringTokenizer.hasMoreTokens()) {
-
 			computer.setId(Long.valueOf(stringTokenizer.nextToken()));
 			serviceComputer.deleteComputer(computer);
 			numberComputers--;
-			computer = null;
 		}
 
 		currentPage.setEntities(serviceComputer
@@ -144,7 +151,7 @@ public class DashboardController {
 
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("numberComputers", numberComputers);
-
+		logger.info("Post request access");
 		return "dashboard";
 	}
 }
