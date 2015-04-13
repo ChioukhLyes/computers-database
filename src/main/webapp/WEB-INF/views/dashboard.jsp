@@ -199,8 +199,9 @@
 <script type="text/javascript">
 	var strings = new Array();
 	strings['language'] = "<spring:message code='language' javaScriptEscape='true' />";
-	strings['confirmation']= "<spring:message code='message.confirmation' javaScriptEscape='true' />" 
-	
+	strings['confirmation'] = "<spring:message code='message.confirmation' javaScriptEscape='true' />"
+	strings['viewText'] = "<spring:message code='home.view' javaScriptEscape='true' />"
+	strings['editText'] = "<spring:message code='home.edit' javaScriptEscape='true' />"
 </script>
 
 </body>

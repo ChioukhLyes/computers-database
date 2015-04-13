@@ -46,19 +46,10 @@ $(function() {
 	$.fn.toggleEditMode = function() {
 		if ($(".editMode").is(":visible")) {
 			$(".editMode").hide();
-			
-			if (strings['language'] === 'en') {
-				$("#editComputer").text("Edit");
-			} else {
-				$("#editComputer").text("Modifier");
-			}
+			$("#editComputer").text(strings['editText']);
 		} else {
 			$(".editMode").show();
-			if (strings['language'] === 'en' ) {
-				$("#editComputer").text("View");
-			} else {
-				$("#editComputer").text("Vue");
-			}
+			$("#editComputer").text(strings['viewText']);
 		}
 		return this;
 	};
