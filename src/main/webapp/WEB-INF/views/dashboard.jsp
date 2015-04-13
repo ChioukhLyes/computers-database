@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <jsp:include page="common/header.jsp"></jsp:include>
 
@@ -12,14 +13,15 @@
 			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="dashboard" method="GET"
+					<form:form id="searchForm" action="dashboard" method="GET"
 						class="form-inline">
 
-						<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name" /> <input
-							type="submit" id="searchsubmit" value="Filter by name"
+						<input  type="search" id="searchbox" name="search"
+							class="form-control" placeholder="<spring:message code="search.input"/>" />
+					    <input 
+							type="submit" id="searchsubmit" value="<spring:message code="search.button"/>"
 							class="btn btn-primary" />
-					</form>
+					</form:form>
 				</div>
 				<div class="pull-right">
 					<a class="btn btn-success" id="addComputer" href="addComputer">

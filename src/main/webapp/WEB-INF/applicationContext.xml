@@ -11,15 +11,16 @@
 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<context:component-scan base-package="com.excilys" />
-
+	 <context:property-placeholder location="classpath:MySqlProperties.properties" />
+	 
 	<context:annotation-config />
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull" />
-		<property name="username" value="admincdb" />
-		<property name="password" value="qwerty1234" />
+			value="${jdbc.MYSQL_DATABASE_URL}" />
+		<property name="username" value="${jdbc.USER_NAME}" />
+		<property name="password" value="${jdbc.PASSWORD}" />
 	</bean>
 
 
