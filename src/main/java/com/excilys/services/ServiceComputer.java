@@ -43,7 +43,7 @@ public class ServiceComputer {
 	 * @return the count computers
 	 */
 	@Transactional
-	public int getCountComputers(String search) {
+	public long getCountComputers(String search) {
 		return computerDAO.getCountComputers(search);
 	}
 

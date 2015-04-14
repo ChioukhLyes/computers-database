@@ -16,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import ch.qos.logback.classic.Logger;
 
@@ -47,7 +48,7 @@ public class DashboardController {
 	private Page<ComputerDTO> currentPage = new Page<ComputerDTO>();
 
 	/** The number computers. */
-	private int numberComputers;
+	private long numberComputers;
 
 	
 	/** The logger. */
@@ -90,6 +91,7 @@ public class DashboardController {
 			@RequestParam(value = "orderoption", required = false, defaultValue = "ASC") String orderoption,
 			ModelMap model) {
 
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		if (page != 0)
 			currentPage.setPageNumber(page);
 		if (size != 0)
@@ -101,13 +103,12 @@ public class DashboardController {
 		if (orderoption != null)
 			currentPage.setoptionOrder(orderoption);
 
-		List<ComputerDTO> lisComputers = serviceComputer
+		List<ComputerDTO> lisComputers = this.serviceComputer
 				.findAllComputersCompaniesByName(size, ((page - 1) * size),
 						orderby, search, orderoption);
+		numberComputers = this.serviceComputer.getCountComputers(search);
 
-		numberComputers = serviceComputer.getCountComputers(search);
-
-		currentPage.setMaxPage((numberComputers - 1) / size + 1);
+		currentPage.setMaxPage((int) ((numberComputers - 1) / size + 1));
 		currentPage.setEntities(lisComputers);
 
 		model.addAttribute("currentPage", currentPage);
@@ -137,11 +138,11 @@ public class DashboardController {
 		StringTokenizer stringTokenizer = new StringTokenizer(selection, ",");
 		while (stringTokenizer.hasMoreTokens()) {
 			computer.setId(Long.valueOf(stringTokenizer.nextToken()));
-			serviceComputer.deleteComputer(computer);
+			this.serviceComputer.deleteComputer(computer);
 			numberComputers--;
 		}
 
-		currentPage.setEntities(serviceComputer
+		currentPage.setEntities(this.serviceComputer
 				.findAllComputersCompaniesByName(currentPage.getPageSize(),
 						((currentPage.getPageNumber() - 1) * currentPage
 								.getPageSize()), currentPage

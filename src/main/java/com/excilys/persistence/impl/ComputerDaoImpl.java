@@ -3,6 +3,8 @@ package com.excilys.persistence.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -163,13 +165,13 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * @see persistence.ComputerDAO#getCountComputers()
 	 */
 	@Override
-	public int getCountComputers(String search) {
+	public long getCountComputers(String search) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session
-				.createQuery("COUNT(*) FROM ComputerDTO comp LEFT JOIN Company compa ON comp.company_id = compa.id WHERE comp.name like :search OR compa.name like :search");
+				.createQuery("SELECT COUNT(*) FROM Computer comp LEFT JOIN comp.company compa  WHERE comp.name like :search OR compa.name like :search");
 		query.setString("search", "%" + search + "%");
 		logger.info("Computer get count");
-		return (int) query.uniqueResult();
+		return (long) query.uniqueResult();
 	}
 
 	/*
@@ -187,21 +189,24 @@ public class ComputerDaoImpl implements ComputerDAO {
 		Session session = sessionFactory.getCurrentSession();
 		if (orderBy.equals("companyname")) {
 			Query query = session
-					.createQuery("FROM ComputerDTO comp LEFT JOIN Company compa ON comp.company_id = compa.id WHERE comp.name "
-							+ "LIKE :search OR compa.name LIKE :search ORDER BY compa.name :orderoption limit :limit offset :offset;");
+					.createQuery("FROM ComputerDTO comp LEFT JOIN Company compa ON comp.company_id = compa.id WHERE comp.name LIKE :search OR compa.name LIKE :search ORDER BY compa.name :orderoption");
 			query.setString("search", "%" + search + "%");
 			query.setString("orderoption", orderOption);
-			query.setInteger("limit", limit);
-			query.setInteger("offset", offset);
+//			query.setInteger("limit", limit);
+//			query.setInteger("offset", offset);
+			query.setFirstResult(offset);
+			query.setMaxResults(limit);
 			computers = query.list();
 		} else{
 			Query query = session
-					.createQuery("FROM ComputerDTO comp LEFT JOIN Company compa ON comp.company_id = compa.id WHERE comp.name LIKE :search OR compa.name LIKE :search ORDER BY compa.:orderby :orderoption limit :limit offset :offset;");
+					.createQuery("FROM Computer comp LEFT JOIN comp.company as compa WHERE comp.name LIKE :search OR compa.name LIKE :search ORDER BY compa."+orderBy+" "+orderOption);
 			query.setString("search", "%" + search + "%");
-			query.setString("orderoption", orderOption);
-			query.setString("orderby", orderBy);
-			query.setInteger("limit", limit);
-			query.setInteger("offset", offset);
+//			query.setString("orderoption", orderOption);
+//			query.setString("orderby", orderBy);
+//			query.setInteger("limit", limit);
+//			query.setInteger("offset", offset);
+			query.setFirstResult(offset);
+			query.setMaxResults(limit);
 			computers = query.list();
 		}
 		logger.info("Computers get by companies name");

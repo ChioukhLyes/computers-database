@@ -102,5 +102,5 @@ public interface ComputerDAO  {
 	 *            the search
 	 * @return the count computers
 	 */
-	int getCountComputers(String search);
+	long getCountComputers(String search);
 }
