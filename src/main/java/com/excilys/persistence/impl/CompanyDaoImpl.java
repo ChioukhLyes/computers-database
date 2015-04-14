@@ -1,15 +1,17 @@
 package com.excilys.persistence.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import ch.qos.logback.classic.Logger;
 
-import com.excilys.mapper.impl.CompanyMapperImpl;
 import com.excilys.model.Company;
 import com.excilys.persistence.CompanyDAO;
 
@@ -25,14 +27,17 @@ public class CompanyDaoImpl implements CompanyDAO {
 			.getLogger(CompanyDaoImpl.class);
 
 	
-	/** The company mapper. */
-	@Autowired
-	private CompanyMapperImpl companyMapper;
+//	/** The company mapper. */
+//	@Autowired
+//	private CompanyMapperImpl companyMapper;
+//
+//	/** The jdbc template. */
+//	@Autowired
+//	private JdbcTemplate jdbcTemplate;
 
-	/** The jdbc template. */
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
-
+	private SessionFactory sessionFactory;
+	
 	/**
 	 * Instantiates a new company dao impl.
 	 */
@@ -45,10 +50,15 @@ public class CompanyDaoImpl implements CompanyDAO {
 	 * 
 	 * @see persistance.CompanyDAO#findAllCompanies()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Company> findAllCompanies() {
-		return jdbcTemplate.query("SELECT id, name FROM company;",
-				companyMapper);
+		List<Company> companies = new ArrayList<Company>();
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("FROM Company");
+		companies = query.list();
+		logger.info("Getting all companies");
+		return companies;
 	}
 
 	/*
@@ -56,11 +66,20 @@ public class CompanyDaoImpl implements CompanyDAO {
 	 * 
 	 * @see persistance.CompanyDAO#findAllCompanies()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Company> findAllCompanies(int limit, int offset) {
-		return jdbcTemplate.query(
-				"SELECT id, name FROM company limit ? offset ?;", new Object[] {
-						limit, offset }, companyMapper);
+		
+		List<Company> companies = new ArrayList<Company>();
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("FROM Company");
+//		query.setInteger("limit", limit);
+//		query.setInteger("offset", offset);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		companies = query.list();
+		logger.info("Get "+limit+" Companies start from "+offset);
+		return companies;
 	}
 
 	/*
@@ -70,9 +89,17 @@ public class CompanyDaoImpl implements CompanyDAO {
 	 */
 	@Override
 	public Company findCompanyById(Long id) {
-		return jdbcTemplate.queryForObject(
-				"SELECT id, name FROM company WHERE id= ?;",
-				new Object[] { id }, companyMapper);
+		Company company = null;
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("FROM Company where id= :id");
+		query.setLong("id", id);
+		@SuppressWarnings("unchecked")
+		List<Company> CompanyList = query.list();
+		if (CompanyList.size() > 0) {
+			company = CompanyList.get(0);
+		}
+		logger.info("Find company by Id");
+		return company;
 	}
 
 	/*
@@ -83,10 +110,12 @@ public class CompanyDaoImpl implements CompanyDAO {
 	 * )
 	 */
 	@Override
-	public boolean deleteCompany(Company company) {
+	public void deleteCompany(Company company) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("DELETE Company WHERE id= :id");
+		query.setLong("id", company.getId());
+		query.executeUpdate();
 		logger.info("Company deletion");
-		return jdbcTemplate.update("DELETE FROM company WHERE id=?;",
-				company.getId()) != 0;
 	}
 
 	/*
@@ -96,8 +125,11 @@ public class CompanyDaoImpl implements CompanyDAO {
 	 */
 	@Override
 	public int getCountCompanies() {
-		return jdbcTemplate.queryForObject("SELECT count(*) FROM company;",
-				Integer.class);
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session
+				.createQuery("COUNT(*) FROM  Company;");
+		logger.info("Computer get count");
+		return (int) query.uniqueResult();
 	}
 
 }

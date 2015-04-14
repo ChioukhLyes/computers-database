@@ -50,7 +50,7 @@ public interface CompanyDAO {
 	 *            the company
 	 * @return true, if successful
 	 */
-	boolean deleteCompany(Company company);
+	void deleteCompany(Company company);
 
 	/**
 	 * Gets the count companies.

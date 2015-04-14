@@ -1,17 +1,20 @@
 package com.excilys.persistence.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import ch.qos.logback.classic.Logger;
 
 import com.excilys.dto.ComputerDTO;
-import com.excilys.mapper.impl.ComputerDTOmapperImpl;
 import com.excilys.model.Company;
+import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDAO;
 
 // TODO: Auto-generated Javadoc
@@ -25,24 +28,33 @@ public class ComputerDaoImpl implements ComputerDAO {
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(ComputerDaoImpl.class);
 
-	/** The computer mapper. */
-	@Autowired
-	ComputerDTOmapperImpl computerMapper;
+	// /** The computerDTO mapper. */
+	// @Autowired
+	// ComputerDTOmapperImpl computerMapper;
+	//
+	// /** The jdbc template. */
+	// @Autowired
+	// private JdbcTemplate jdbcTemplate;
 
-	/** The jdbc template. */
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private SessionFactory sessionFactory;
 
+	@Autowired
+	private Computer computer;
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see persistance.ComputerDAO#findAllComputers()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<ComputerDTO> findAllComputers() {
-		return jdbcTemplate
-				.query("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id;",
-						computerMapper);
+
+		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("FROM Computer");
+		computers = query.list();
+		return computers;
 	}
 
 	/*
@@ -50,11 +62,20 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * 
 	 * @see persistence.ComputerDAO#findAllComputers(int, int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<ComputerDTO> findAllComputers(int limit, int offset) {
-		return jdbcTemplate
-				.query("SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id limit ? offset ?;",
-						new Object[] { limit, offset }, computerMapper);
+		
+		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("FROM ComputerDTO");
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+//		query.setInteger("limit", limit);
+//		query.setInteger("offset", offset);
+		computers = query.list();
+		logger.info("Get "+limit+" Computers start from "+offset);
+		return computers;
 	}
 
 	/*
@@ -64,10 +85,17 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 */
 	@Override
 	public ComputerDTO findComputerById(Long id) {
-		return jdbcTemplate
-				.queryForObject(
-						"SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.id=?;",
-						new Object[] { id }, computerMapper);
+		ComputerDTO ComputerDTO = null;
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("FROM ComputerDTO where id= :id");
+		query.setLong("id", id);
+		@SuppressWarnings("unchecked")
+		List<ComputerDTO> ComputerList = query.list();
+		if (ComputerList.size() > 0) {
+			ComputerDTO = ComputerList.get(0);
+		}
+		logger.info("Find computerDTO by Id");
+		return ComputerDTO;
 	}
 
 	/*
@@ -76,14 +104,14 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * @see persistance.ComputerDAO#insertComputer(model.Computer)
 	 */
 	@Override
-	public boolean insertComputer(ComputerDTO computer) {
-		String quary = new String(
-				"INSERT INTO computer(name, introduced, discontinued, company_id) VALUES ('"
-						+ computer.getName() + "','" + computer.getIntroduced()
-						+ "','" + computer.getDiscontinued() + "',"
-						+ computer.getCompanyId() + ");");
+	public void insertComputer(ComputerDTO computerDTO) {
+		Session session = sessionFactory.getCurrentSession();
+		computer.setName(computerDTO.getName());
+		computer.setIntroduced(computerDTO.getIntroduced());
+		computer.setDiscontinued(computerDTO.getDiscontinued());
+		computer.setCompany(new Company(computerDTO.getCompanyId(), computerDTO.getCompanyName()));
+		session.save(computer);
 		logger.info("Computer insertion");
-		return this.jdbcTemplate.update(quary) != 0;
 	}
 
 	/*
@@ -94,10 +122,13 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * .model.Company)
 	 */
 	@Override
-	public boolean deleteComputerByCompanyId(Company company) {
+	public void deleteComputerByCompanyId(Company company) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session
+				.createQuery("DELETE FROM ComputerDTO WHERE company_id= :id");
+		query.setLong("id", company.getId());
+		query.executeUpdate();
 		logger.info("Computer deletion by deletion company");
-		return jdbcTemplate.update("DELETE FROM computer WHERE company_id=?;",
-				new Object[] { company.getId() }) != 0;
 	}
 
 	/*
@@ -106,10 +137,12 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * @see persistance.ComputerDAO#deleteComputer(model.Computer)
 	 */
 	@Override
-	public boolean deleteComputer(ComputerDTO computer) {
+	public void deleteComputer(ComputerDTO computerDTO) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("DELETE ComputerDTO WHERE id= :id");
+		query.setLong("id", computerDTO.getId());
+		query.executeUpdate();
 		logger.info("Computer deletion");
-		return jdbcTemplate.update("DELETE FROM computer WHERE id=?;",
-				computer.getId()) != 0;
 	}
 
 	/*
@@ -118,14 +151,10 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * @see persistance.ComputerDAO#updateComputer(model.Computer)
 	 */
 	@Override
-	public boolean updateComputer(ComputerDTO computer) {
+	public void updateComputer(ComputerDTO computerDTO) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(computerDTO);
 		logger.info("Computer update");
-		return jdbcTemplate.update("UPDATE computer set name='"
-				+ computer.getName() + "', introduced='"
-				+ computer.getIntroduced() + "' , discontinued='"
-				+ computer.getDiscontinued() + "' , company_id="
-				+ computer.getCompanyId() + " WHERE id=" + computer.getId()
-				+ ";") != 0;
 	}
 
 	/*
@@ -135,13 +164,12 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 */
 	@Override
 	public int getCountComputers(String search) {
-		String query = new String(
-				"SELECT count(*) FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id");
-		if (search != null) {
-			query += " WHERE comp.name LIKE '%" + search
-					+ "%' OR compa.name LIKE '%" + search + "%';";
-		}
-		return jdbcTemplate.queryForObject(query, Integer.class);
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session
+				.createQuery("COUNT(*) FROM ComputerDTO comp LEFT JOIN Company compa ON comp.company_id = compa.id WHERE comp.name like :search OR compa.name like :search");
+		query.setString("search", "%" + search + "%");
+		logger.info("Computer get count");
+		return (int) query.uniqueResult();
 	}
 
 	/*
@@ -151,31 +179,32 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * com.excilys.persistence.ComputerDAO#findAllComputersCompaniesByName(int,
 	 * int, java.lang.String, java.lang.String, java.lang.String)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<ComputerDTO> findAllComputersCompaniesByName(int limit,
 			int offset, String orderBy, String search, String orderOption) {
-		String quary = null;
-		if (orderBy.equals("companyname"))
-			quary = new String(
-					"SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE '%"
-							+ search
-							+ "%'  OR compa.name LIKE '%"
-							+ search
-							+ "%' ORDER BY compa.name "
-							+ orderOption
-							+ " limit ? offset ?;");
-		else
-			quary = new String(
-					"SELECT * FROM computer comp LEFT JOIN company compa ON comp.company_id = compa.id WHERE comp.name LIKE '%"
-							+ search
-							+ "%'  OR compa.name LIKE '%"
-							+ search
-							+ "%' ORDER BY comp."
-							+ orderBy
-							+ " "
-							+ orderOption
-							+ " limit ? offset ?;");
-		return jdbcTemplate.query(quary, new Object[]{limit, offset},computerMapper);
+		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
+		Session session = sessionFactory.getCurrentSession();
+		if (orderBy.equals("companyname")) {
+			Query query = session
+					.createQuery("FROM ComputerDTO comp LEFT JOIN Company compa ON comp.company_id = compa.id WHERE comp.name "
+							+ "LIKE :search OR compa.name LIKE :search ORDER BY compa.name :orderoption limit :limit offset :offset;");
+			query.setString("search", "%" + search + "%");
+			query.setString("orderoption", orderOption);
+			query.setInteger("limit", limit);
+			query.setInteger("offset", offset);
+			computers = query.list();
+		} else{
+			Query query = session
+					.createQuery("FROM ComputerDTO comp LEFT JOIN Company compa ON comp.company_id = compa.id WHERE comp.name LIKE :search OR compa.name LIKE :search ORDER BY compa.:orderby :orderoption limit :limit offset :offset;");
+			query.setString("search", "%" + search + "%");
+			query.setString("orderoption", orderOption);
+			query.setString("orderby", orderBy);
+			query.setInteger("limit", limit);
+			query.setInteger("offset", offset);
+			computers = query.list();
+		}
+		logger.info("Computers get by companies name");
+		return computers;
 	}
-
 }

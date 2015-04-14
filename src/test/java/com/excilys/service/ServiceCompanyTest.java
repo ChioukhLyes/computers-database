@@ -66,9 +66,9 @@ public class ServiceCompanyTest {
 
 		boolean stat = false;
 		// GIVE
-		Company company = new Company();
+		//Company company = new Company();
 		// WHENE
-		stat = serviceCompany.deleteCompany(company);
+		//stat = serviceCompany.deleteCompany(company);
 		// THEN
 		assertTrue(stat);
 	}

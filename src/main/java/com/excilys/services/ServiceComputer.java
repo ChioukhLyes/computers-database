@@ -21,12 +21,16 @@ import com.excilys.persistence.impl.ComputerDaoImpl;
  * The Class Service.
  */
 @Component
+@Transactional
 public class ServiceComputer {
 
-	/** The computer dao. */
+	/** The computerDTO dao. */
 	@Autowired
 	private ComputerDaoImpl computerDAO;
 
+	@Autowired
+	private ComputerDTO computerDTO;
+	
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(ServiceComputer.class);
@@ -86,52 +90,52 @@ public class ServiceComputer {
 	}
 
 	/**
-	 * Find computer by id.
+	 * Find computerDTO by id.
 	 *
 	 * @param id
 	 *            the id
-	 * @return the computer
+	 * @return the computerDTO
 	 */
 	public ComputerDTO findComputerById(Long id) {
 		if (id == null) {
-			throw new IllegalArgumentException("Id computer is null");
+			throw new IllegalArgumentException("Id computerDTO is null");
 		}
-		logger.info("Founded computer by id");
+		logger.info("Founded computerDTO by id");
 		return computerDAO.findComputerById(id);
 	}
 
 	/**
-	 * Insert computer.
+	 * Insert computerDTO.
 	 *
-	 * @param computer
-	 *            the computer
+	 * @param computerDTO
+	 *            the computerDTO
 	 * @return true, if successful
 	 */
 	@Transactional
-	public boolean insertComputer(ComputerDTO computer) {
-		if (computer == null) {
-			throw new IllegalArgumentException("Insert : Computer bean is null");
+	public void insertComputer(ComputerDTO computerDTO) {
+		if (computerDTO == null) {
+			throw new IllegalArgumentException("Insert : ComputerDTO bean is null");
 		}
-		return computerDAO.insertComputer(computer);
+		computerDAO.insertComputer(computerDTO);
 	}
 
 	/**
-	 * Delete computer.
+	 * Delete computerDTO.
 	 *
-	 * @param computer
-	 *            the computer
+	 * @param computerDTO
+	 *            the computerDTO
 	 * @return true, if successful
 	 */
 	@Transactional
-	public boolean deleteComputer(ComputerDTO computer) {
-		if (computer == null) {
-			throw new IllegalArgumentException("Delete : Computer bean is null");
+	public void deleteComputer(ComputerDTO computerDTO) {
+		if (computerDTO == null) {
+			throw new IllegalArgumentException("Delete : ComputerDTO bean is null");
 		}
-		return computerDAO.deleteComputer(computer);
+		computerDAO.deleteComputer(computerDTO);
 	}
 
 	/**
-	 * Delete computer by company id.
+	 * Delete computerDTO by company id.
 	 *
 	 * @param company
 	 *            the company
@@ -147,17 +151,17 @@ public class ServiceComputer {
 	}
 
 	/**
-	 * Update computer.
+	 * Update computerDTO.
 	 *
-	 * @param computer
-	 *            the computer
+	 * @param computerDTO
+	 *            the computerDTO
 	 * @return true, if successful
 	 */
 	@Transactional
-	public boolean updateComputer(ComputerDTO computer) {
-		if (computer == null) {
-			throw new IllegalArgumentException("Update : Computer bean is null");
+	public void updateComputer(ComputerDTO computerDTO) {
+		if (computerDTO == null) {
+			throw new IllegalArgumentException("Update : ComputerDTO bean is null");
 		}
-		return computerDAO.updateComputer(computer);
+		computerDAO.updateComputer(computerDTO);
 	}
 }

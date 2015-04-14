@@ -1,9 +1,18 @@
 package com.excilys.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
@@ -12,30 +21,47 @@ import org.springframework.stereotype.Component;
  * The Class ComputerDTO.
  */
 @Component
-public class ComputerDTO  {
+@Entity
+@Table(name="computer")
+public class ComputerDTO  implements Serializable{
 
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The id. */
 	@NotNull
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private long id;
 
 	/** The name. */
 	@NotNull
+	@Column(name = "name")
 	private String name;
 
 	/** The introduced. */
-	@DateTimeFormat(pattern="yyyy/MM/dd")
+	@Column(name = "introduced")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @Type(type = "com.excilys.mapper.impl.CustomLocalDateTimeUserType")
 	private LocalDate introduced;
 
 	/** The discontinued. */
-	@DateTimeFormat(pattern="yyyy/MM/dd")
+	@Column(name = "discontinued")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @Type(type = "com.excilys.mapper.impl.CustomLocalDateTimeUserType")
 	private LocalDate discontinued;
 
 	/** The company. */
+	@Transient
 	private String companyName;
 
 	/** The company id. */
-	private Long companyId;
+	@Column(name="company_id")
+	private Long company_id;
 
 	/**
 	 * Instantiates a new computer dto.
@@ -65,7 +91,7 @@ public class ComputerDTO  {
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
-		this.companyId = companyId;
+		this.company_id = companyId;
 	}
 
 	/**
@@ -86,7 +112,7 @@ public class ComputerDTO  {
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
-		this.companyId = companyId;
+		this.company_id = companyId;
 	}
 
 	/**
@@ -214,7 +240,7 @@ public class ComputerDTO  {
 	 * @return the company id
 	 */
 	public Long getCompanyId() {
-		return companyId;
+		return company_id;
 	}
 
 	/**
@@ -224,7 +250,7 @@ public class ComputerDTO  {
 	 *            the new company id
 	 */
 	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
+		this.company_id = companyId;
 	}
 
 	/*
@@ -236,7 +262,7 @@ public class ComputerDTO  {
 	public String toString() {
 		return "ComputerDTO [id=" + id + ", name=" + name + ", introduced="
 				+ introduced + ", discontinued=" + discontinued
-				+ ", companyName=" + companyName + ", companyId=" + companyId
+				+ ", companyName=" + companyName + ", companyId=" + company_id
 				+ "]";
 	}
 
@@ -250,7 +276,7 @@ public class ComputerDTO  {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((companyId == null) ? 0 : companyId.hashCode());
+				+ ((company_id == null) ? 0 : company_id.hashCode());
 		result = prime * result
 				+ ((companyName == null) ? 0 : companyName.hashCode());
 		result = prime * result
@@ -276,10 +302,10 @@ public class ComputerDTO  {
 		if (getClass() != obj.getClass())
 			return false;
 		ComputerDTO other = (ComputerDTO) obj;
-		if (companyId == null) {
-			if (other.companyId != null)
+		if (company_id == null) {
+			if (other.company_id != null)
 				return false;
-		} else if (!companyId.equals(other.companyId))
+		} else if (!company_id.equals(other.company_id))
 			return false;
 		if (companyName == null) {
 			if (other.companyName != null)

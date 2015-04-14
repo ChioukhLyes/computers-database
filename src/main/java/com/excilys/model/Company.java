@@ -1,18 +1,38 @@
 package com.excilys.model;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
+
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Company.
  */
+@Entity
+@Table(name="company")
 @Component
-public class Company {
+public class Company implements Serializable{
+
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1L;
 
 	/** The name. */
+	@Column(name = "name")
 	private String name;
 
 	/** The id. */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private long id;
 
 	/**

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
+import com.excilys.model.Computer;
 import com.excilys.services.ServiceCompany;
 import com.excilys.services.ServiceComputer;
 
@@ -44,7 +45,8 @@ public class MainCLI {
 	/** The company. */
 	@Autowired
 	private Company company;
-
+	
+	
 	/** The logger. */
 	@SuppressWarnings("unused")
 	private Logger logger = LoggerFactory.getLogger(Class.class);

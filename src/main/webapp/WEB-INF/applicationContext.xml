@@ -13,6 +13,9 @@
 	<context:component-scan base-package="com.excilys" />
 	 <context:property-placeholder location="classpath:MySqlProperties.properties" />
 	 
+	 <!-- Importing Hibernate configuration --> 
+	 <import resource="hibernate.cfg.xml"/>
+	 	
 	<context:annotation-config />
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -22,6 +25,7 @@
 		<property name="username" value="${jdbc.USER_NAME}" />
 		<property name="password" value="${jdbc.PASSWORD}" />
 	</bean>
+
 
 
 
@@ -37,12 +41,10 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<!-- dataSource TransactionManager -->
 	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	
 
 </beans>

@@ -27,8 +27,12 @@
 		<JOOK>3.5.0</JOOK>
 		<SPRING.VERSION>4.1.5.RELEASE</SPRING.VERSION>
 		<SLF4J.VERSION>1.7.10</SLF4J.VERSION>
-		<JAVAX.VALIDATION>1.0.0.GA</JAVAX.VALIDATION>
+		<JAVAX.VALIDATION>1.1.0.Final</JAVAX.VALIDATION>
 		<INJECT>1</INJECT>
+		<HIBERNATE.CORE>4.3.8.Final</HIBERNATE.CORE>
+		<HIBERNATE.VALIDATION>5.1.3.Final</HIBERNATE.VALIDATION>
+		<JODA.TIME>2.0</JODA.TIME>
+		<JODA.USERTYPE>3.0.0.CR1</JODA.USERTYPE>
 	</properties>
 
 	<dependencies>
@@ -39,6 +43,12 @@
 			<artifactId>validation-api</artifactId>
 			<version>${JAVAX.VALIDATION}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${HIBERNATE.VALIDATION}</version>
+		</dependency>
+
 		<!-- Dependencies for Logger/Logging -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -149,6 +159,14 @@
 			</exclusions>
 		</dependency>
 
+		<!-- Hibernate Dependencies -->
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${HIBERNATE.CORE}</version>
+		</dependency>
+
 		<!-- Spring framework -->
 
 		<dependency>
@@ -179,6 +197,18 @@
 			<version>${SPRING.VERSION}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${SPRING.VERSION}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${SPRING.VERSION}</version>
+		</dependency>
+
 		<!-- Dependencies for SLF4J : Bridge Spring to SLF4J -->
 
 		<dependency>
@@ -192,6 +222,18 @@
 			<version>${SLF4J.VERSION}</version>
 		</dependency>
 
+		<!-- JODA TIME -->
+
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${JODA.TIME}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jadira.usertype</groupId>
+			<artifactId>usertype.core</artifactId>
+			<version>${JODA.USERTYPE}</version>
+		</dependency>
 
 
 	</dependencies>

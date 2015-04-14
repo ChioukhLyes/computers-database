@@ -1,7 +1,19 @@
 package com.excilys.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 // TODO: Auto-generated Javadoc
@@ -9,21 +21,41 @@ import org.springframework.stereotype.Component;
  * The Class Computer.
  */
 @Component
-public class Computer {
+@Entity
+@Table(name="computer")
+public class Computer implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The id. */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private long id;
 
 	/** The name. */
+
+    @Column(name = "name")
 	private String name;
 
 	/** The introduced. */
+    @Column(name = "introduced")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @Type(type = "com.excilys.mapper.impl.CustomLocalDateTimeUserType")
 	private LocalDate introduced;
 
 	/** The discontinued. */
+    @Column(name = "discontinued")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @Type(type = "com.excilys.mapper.impl.CustomLocalDateTimeUserType")
 	private LocalDate discontinued;
 
 	/** The company. */
+    @OneToOne
+    @JoinColumn(name="id")
 	private Company company;
 
 	/**

@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ch.qos.logback.classic.Logger;
@@ -19,7 +19,8 @@ import com.excilys.persistence.impl.CompanyDaoImpl;
 /**
  * The Class Service.
  */
-@Component
+@Service
+@Transactional
 public class ServiceCompany {
 
 	/** The dao factory. */
@@ -72,13 +73,13 @@ public class ServiceCompany {
 	 * @return true, if successful
 	 */
 	@Transactional
-	public boolean deleteCompany(Company company) {
+	public void deleteCompany(Company company) {
 		if (company == null) {
 			throw new IllegalArgumentException("Delete : company bean is null");
 		}
 		serviceComputer.deleteComputerByCompanyId(company);
 		System.out.println(company.toString());
-		return companyDAO.deleteCompany(company);
+		companyDAO.deleteCompany(company);
 	}
 
 	/**

@@ -66,7 +66,7 @@ public interface ComputerDAO  {
 	 *            the computer
 	 * @return true, if successful
 	 */
-	boolean insertComputer(ComputerDTO computer);
+	void insertComputer(ComputerDTO computer);
 
 	/**
 	 * Delete computer.
@@ -75,7 +75,7 @@ public interface ComputerDAO  {
 	 *            the computer
 	 * @return true, if successful
 	 */
-	boolean deleteComputer(ComputerDTO computer);
+	void deleteComputer(ComputerDTO computer);
 
 	/**
 	 * Delete computer by company id.
@@ -84,7 +84,7 @@ public interface ComputerDAO  {
 	 *            the company
 	 * @return true, if successful
 	 */
-	boolean deleteComputerByCompanyId(Company company);
+	void deleteComputerByCompanyId(Company company);
 
 	/**
 	 * Update computer.
@@ -93,7 +93,7 @@ public interface ComputerDAO  {
 	 *            the computer
 	 * @return true, if successful
 	 */
-	boolean updateComputer(ComputerDTO computer);
+	void updateComputer(ComputerDTO computer);
 
 	/**
 	 * Gets the count computers.

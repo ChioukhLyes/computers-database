@@ -10,18 +10,22 @@
        http://www.springframework.org/schema/data/orcl/spring-data-orcl-1.0.xsd">
 
 	<!-- Enables the Spring MVC @Controller programming model -->
-
 	<context:component-scan base-package="com.excilys" />
-
-
+	 <context:property-placeholder location="classpath:MySqlProperties.properties" />
+	 
+	 <!-- Importing Hibernate configuration --> 
+	 <import resource="hibernate.cfg.xml"/>
+	 	
+	<context:annotation-config />
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull" />
-		<property name="username" value="admincdb" />
-		<property name="password" value="qwerty1234" />
+			value="${MYSQL_DATABASE_URL}" />
+		<property name="username" value="${USER_NAME}" />
+		<property name="password" value="${PASSWORD}" />
 	</bean>
+
 
 
 
@@ -37,12 +41,10 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<!-- dataSource TransactionManager -->
 	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<context:annotation-config />
 
 </beans>
