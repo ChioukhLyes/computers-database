@@ -39,6 +39,7 @@ public class ServiceCompany {
 	 *
 	 * @return the count companies
 	 */
+	@Transactional
 	public int getCountCompanies() {
 		return companyDAO.getCountCompanies();
 	}
@@ -48,6 +49,7 @@ public class ServiceCompany {
 	 *
 	 * @return the list
 	 */
+	@Transactional
 	public List<Company> findAllCompanies() {
 		return companyDAO.findAllCompanies();
 	}
@@ -61,6 +63,7 @@ public class ServiceCompany {
 	 *            the offset
 	 * @return the list
 	 */
+	@Transactional
 	public List<Company> findAllCompanies(int limit, int offset) {
 		return companyDAO.findAllCompanies(limit, offset);
 	}
@@ -89,6 +92,7 @@ public class ServiceCompany {
 	 *            the id
 	 * @return the company
 	 */
+	@Transactional
 	public Company findCompanyById(Long id) {
 		if (id == null) {
 			throw new IllegalArgumentException("Id company is null");

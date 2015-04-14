@@ -42,6 +42,7 @@ public class ServiceComputer {
 	 *            the search
 	 * @return the count computers
 	 */
+	@Transactional
 	public int getCountComputers(String search) {
 		return computerDAO.getCountComputers(search);
 	}
@@ -51,6 +52,7 @@ public class ServiceComputer {
 	 *
 	 * @return the list
 	 */
+	@Transactional
 	public List<ComputerDTO> findAllComputers() {
 		return computerDAO.findAllComputers();
 	}
@@ -64,6 +66,7 @@ public class ServiceComputer {
 	 *            the offset
 	 * @return the list
 	 */
+	@Transactional
 	public List<ComputerDTO> findAllComputers(int limit, int offset) {
 		return computerDAO.findAllComputers(limit, offset);
 	}
@@ -83,6 +86,7 @@ public class ServiceComputer {
 	 *            the order option
 	 * @return the list
 	 */
+	@Transactional
 	public List<ComputerDTO> findAllComputersCompaniesByName(int limit,
 			int offset, String orderBy, String search, String orderOption) {
 		return computerDAO.findAllComputersCompaniesByName(limit, offset,
@@ -96,6 +100,7 @@ public class ServiceComputer {
 	 *            the id
 	 * @return the computerDTO
 	 */
+	@Transactional
 	public ComputerDTO findComputerById(Long id) {
 		if (id == null) {
 			throw new IllegalArgumentException("Id computerDTO is null");
