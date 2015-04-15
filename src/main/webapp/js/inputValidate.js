@@ -17,51 +17,74 @@
  */
 
 /**
- *  USA Mois/Jour/Année
- *	(05/24/08)
+ * USA Mois/Jour/Année (05/24/08)
  */
-
 
 (function($, W, D) {
 	var validationComputersOperations = {};
 
 	validationComputersOperations.UTIL = {
+			
+			
 		setupFormValidation : function() {
-			//Add custom methode to match date
-			$.validator.addMethod("DateValidator", function(value, element) {
-				//Because date is not required
+			// set up language
+			// alert('languge ' +language);
+			// Add custom methode to match date
+		
+			 
+			$.validator.addMethod("DateValidatorFr", function(value, element) {
+				// Because date is not required
 				if (!value)
 					return true;
-				//Regex for my format
-				return value.match(/^\d\d\d\d\-\d\d?\-\d\d?$/);
-			}, "Please enter a date in the format yyyy-MM-dd.");
+				// Regex for my format
+				return value.match(/^\d\d?\-\d\d?\-^\d\d\d\d?$/);
+			});
 
+			// Add custom methode to match date
+			$.validator.addMethod("DateValidatorEn", function(value, element) {
+				// Because date is not required
+				if (!value)
+					return true;
+				// Regex for my format
+				return value.match(/^\d\d?\-\d\d?\-\d\d\d\d?$/);
+			});
+			
+			// alert('en inside');
 			$("#formAddEditComputer").validate({
-				//form validation rules
+				// form validation rules
 				rules : {
-					computerName : "required",
+					computerName : {
+						required : true,
+						change : true
+					},
 					introduced : {
 						required : false,
-						DateValidator : true
+						DateValidatorEn : true
 					},
 					discontinued : {
 						required : false,
-						DateValidator : true
+						DateValidatorEn : true
 					}
 				},
-				//form validation messages
-				messages : {
-					computerName : "Please enter computer name"
-				},
+				// form validation messages
+				 messages : {
+				 computerName : strings['required'],
+				 introduced : strings['date'],
+				 discontinued : strings['date']
+				 },
 				submitHandler : function(form) {
 					form.submit();
 				}
 			});
 		}
 	}
-	//Whene document is ready
+	// Whene document is ready
 	$(D).ready(function($) {
 		validationComputersOperations.UTIL.setupFormValidation();
 	});
 
-})(jQuery, window, document);
+}) (jQuery, window, document);
+
+
+
+
