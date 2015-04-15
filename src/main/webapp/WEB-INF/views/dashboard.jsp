@@ -182,7 +182,7 @@
 						</a></td>
 						<td><c:out value="${item.introduced}"></c:out></td>
 						<td><c:out value="${item.discontinued}"></c:out></td>
-						<td><c:out value="${item.companyName}"></c:out></td>
+						<td><c:out value="${item.company.name}"></c:out></td>
 					</tr>
 				</c:forEach>
 			</tbody>

@@ -14,6 +14,7 @@ import ch.qos.logback.classic.Logger;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
+import com.excilys.model.Computer;
 import com.excilys.persistence.impl.ComputerDaoImpl;
 
 // TODO: Auto-generated Javadoc
@@ -87,7 +88,7 @@ public class ServiceComputer {
 	 * @return the list
 	 */
 	@Transactional
-	public List<ComputerDTO> findAllComputersCompaniesByName(int limit,
+	public List<Computer> findAllComputersCompaniesByName(int limit,
 			int offset, String orderBy, String search, String orderOption) {
 		return computerDAO.findAllComputersCompaniesByName(limit, offset,
 				orderBy, search, orderOption);

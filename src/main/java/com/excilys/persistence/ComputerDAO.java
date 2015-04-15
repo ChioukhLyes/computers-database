@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
+import com.excilys.model.Computer;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -47,7 +48,7 @@ public interface ComputerDAO  {
 	 *            the order otion
 	 * @return the list
 	 */
-	List<ComputerDTO> findAllComputersCompaniesByName(int fromIndex,
+	List<Computer> findAllComputersCompaniesByName(int fromIndex,
 			int toIndex, String orderBy, String search, String orderOtion);
 
 	/**

@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -29,6 +30,7 @@ public class SuccessController {
 	@RequestMapping(method = RequestMethod.GET)
 	protected String doGet(@RequestParam(value = "message", required = false, defaultValue="") String message,
 			ModelMap model){
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		model.addAttribute("message", message);
 		return "success";
 	}

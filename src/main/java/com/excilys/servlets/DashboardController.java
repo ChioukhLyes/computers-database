@@ -12,15 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.web.servlet.ModelAndView;
 
 import ch.qos.logback.classic.Logger;
 
 import com.excilys.dto.ComputerDTO;
+import com.excilys.model.Computer;
 import com.excilys.model.Page;
 import com.excilys.services.ServiceComputer;
 
@@ -45,7 +46,7 @@ public class DashboardController {
 	private ComputerDTO computer;
 
 	/** The current page. */
-	private Page<ComputerDTO> currentPage = new Page<ComputerDTO>();
+	private Page<Computer> currentPage = new Page<Computer>();
 
 	/** The number computers. */
 	private long numberComputers;
@@ -83,13 +84,13 @@ public class DashboardController {
 	 *      response)
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	protected String doGet(
+	protected ModelAndView doGet(
 			@RequestParam(value = "size", required = true, defaultValue = "10") int size,
 			@RequestParam(value = "page", required = true, defaultValue = "1") int page,
 			@RequestParam(value = "search", required = false, defaultValue = "") String search,
 			@RequestParam(value = "orderby", required = false, defaultValue = "name") String orderby,
 			@RequestParam(value = "orderoption", required = false, defaultValue = "ASC") String orderoption,
-			ModelMap model) {
+			ModelAndView modelAndView) {
 
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		if (page != 0)
@@ -103,18 +104,21 @@ public class DashboardController {
 		if (orderoption != null)
 			currentPage.setoptionOrder(orderoption);
 
-		List<ComputerDTO> lisComputers = this.serviceComputer
+		List<Computer> lisComputers = this.serviceComputer
 				.findAllComputersCompaniesByName(size, ((page - 1) * size),
 						orderby, search, orderoption);
+		
+		
 		numberComputers = this.serviceComputer.getCountComputers(search);
 
-		currentPage.setMaxPage((int) ((numberComputers - 1) / size + 1));
+		currentPage.setMaxPage((long) ((numberComputers - 1) / size + 1));
 		currentPage.setEntities(lisComputers);
 
-		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("numberComputers", numberComputers);
+		modelAndView.addObject("currentPage", currentPage);
+		modelAndView.addObject("numberComputers", numberComputers);
 		logger.info("Get request access");
-		return "dashboard";
+		modelAndView.setViewName("dashboard");
+		return modelAndView;
 	}
 
 	/**
@@ -132,9 +136,12 @@ public class DashboardController {
 	 *      response)
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	protected String doPost(
+	protected ModelAndView doPost(
 			@RequestParam(value = "selection", required = false, defaultValue = "") String selection,
-			ModelMap model) {
+			ModelAndView modelAndView) {
+		
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+		
 		StringTokenizer stringTokenizer = new StringTokenizer(selection, ",");
 		while (stringTokenizer.hasMoreTokens()) {
 			computer.setId(Long.valueOf(stringTokenizer.nextToken()));
@@ -150,9 +157,10 @@ public class DashboardController {
 								.getSearchString(), currentPage
 								.getoptionOrder()));
 
-		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("numberComputers", numberComputers);
+		modelAndView.addObject("currentPage", currentPage);
+		modelAndView.addObject("numberComputers", numberComputers);
 		logger.info("Post request access");
-		return "dashboard";
+		modelAndView.setViewName("dashboard");
+		return modelAndView;
 	}
 }

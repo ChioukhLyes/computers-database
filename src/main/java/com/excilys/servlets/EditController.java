@@ -13,6 +13,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.web.servlet.ModelAndView;
 
 import ch.qos.logback.classic.Logger;
 
@@ -66,18 +68,19 @@ public class EditController {
 	 * , javax.servlet.http.HttpServletResponse)
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	protected String doGet(@Validated @RequestParam(value = "id", required = true, defaultValue="") Long id,
-			ModelMap model)  {
+	protected ModelAndView doGet(@Validated @RequestParam(value = "id", required = true, defaultValue="") Long id,
+			ModelAndView  modelAndView)  {
 		// TODO Auto-generated method stub
-
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		List<Company> lisCompanies = serviceCompany.findAllCompanies();
-		model.addAttribute("Companies", lisCompanies);
+		modelAndView.addObject("Companies", lisCompanies);
 		if (id != 0) {
 			computer = serviceComputer.findComputerById(id);
-			model.addAttribute("Computer", computer);
+			modelAndView.addObject("Computer", computer);
 		}
 		logger.trace("Redirecting to the EditComputer page.");
-		return "editComputer";
+		modelAndView.setViewName("editComputer");
+		return modelAndView;
 	}
 
 	/*
@@ -89,15 +92,15 @@ public class EditController {
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	
-	protected String doPost(
+	protected ModelAndView doPost(
 			@Validated @RequestParam(value = "id", required = true, defaultValue="0") Long id,
 			@Validated @RequestParam(value = "computerName", required = true, defaultValue="") String computerName,
 			@Validated @RequestParam(value = "introduced", required = false, defaultValue="") String introduced,
 			@Validated @RequestParam(value = "discontinued", required = false, defaultValue="") String discontinued,
 			@RequestParam(value = "companyId", required = false, defaultValue="") Long companyId,			
-			ModelMap model) {
+			ModelAndView modelAndView) {
 
-		
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		computer.setId(id);
 		computer.setName(computerName);
@@ -121,6 +124,7 @@ public class EditController {
 		// Computer update
 		serviceComputer.updateComputer(computer);
 		logger.trace("Success editing, redirecting to the success page.");
-		return "success";
+		modelAndView.setViewName("success");
+		return modelAndView;
 	}
 }

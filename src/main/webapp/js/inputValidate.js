@@ -11,6 +11,17 @@
  *   http://www.gnu.org/licenses/gpl.html
  */
 
+/**
+ * Français Jour/Mois/Année
+ *	(24/05/08)
+ */
+
+/**
+ *  USA Mois/Jour/Année
+ *	(05/24/08)
+ */
+
+
 (function($, W, D) {
 	var validationComputersOperations = {};
 

@@ -54,8 +54,7 @@ public class Computer implements Serializable{
 	private LocalDate discontinued;
 
 	/** The company. */
-    @OneToOne
-    @JoinColumn(name="id")
+    @OneToOne   
 	private Company company;
 
 	/**

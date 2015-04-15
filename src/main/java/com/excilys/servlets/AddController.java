@@ -11,11 +11,12 @@ import org.apache.commons.validator.routines.DateValidator;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.web.servlet.ModelAndView;
 
 import ch.qos.logback.classic.Logger;
 
@@ -66,13 +67,14 @@ public class AddController {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	@Validated
-	protected String doGet(ModelMap model) {
+	protected ModelAndView doGet(ModelAndView modelAndView) {
 		// TODO Auto-generated method stub
-
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		List<Company> lisCompanies = serviceCompany.findAllCompanies();
-		model.addAttribute("Companies", lisCompanies);
+		modelAndView.addObject("Companies", lisCompanies);
 		logger.trace("Redirecting to the AddComputer page.");
-		return "addComputer";
+		modelAndView.setViewName("addComputer");
+		return modelAndView;
 	}
 
 	/*
@@ -83,14 +85,14 @@ public class AddController {
 	 * , javax.servlet.http.HttpServletResponse)
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	protected String doPost(@Validated @RequestParam(value = "id", required = true, defaultValue="0") Long id,
+	protected ModelAndView doPost(@Validated @RequestParam(value = "id", required = true, defaultValue="0") Long id,
 			@Validated @RequestParam(value = "computerName", required = true, defaultValue="") String computerName,
 			@Validated @RequestParam(value = "introduced", required = false, defaultValue="") String introduced,
 			@Validated @RequestParam(value = "discontinued", required = false, defaultValue="") String discontinued,
 			@RequestParam(value = "companyId", required = false, defaultValue="") Long companyId,			
-			ModelMap model)  {
+			ModelAndView modelAndView)  {
 
-
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		computer.setName(computerName);
 
@@ -113,7 +115,8 @@ public class AddController {
 		// Computer insertion
 		serviceComputer.insertComputer(computer);
 		logger.trace("Computer created with success, redirecting to the success page.");
-		return "success";
+		modelAndView.setViewName("success");
+		return modelAndView;
 	}
 
 }

@@ -21,7 +21,7 @@ public class Page<T> {
 	private int pageSize;
 
 	/** The max page. */
-	private int maxPage;
+	private long maxPage;
 
 	/** The search string. */
 	private String searchString;
@@ -146,7 +146,7 @@ public class Page<T> {
 	 *
 	 * @return the max page
 	 */
-	public int getMaxPage() {
+	public long getMaxPage() {
 		return maxPage;
 	}
 
@@ -156,7 +156,7 @@ public class Page<T> {
 	 * @param maxPage
 	 *            the new max page
 	 */
-	public void setMaxPage(int maxPage) {
+	public void setMaxPage(long maxPage) {
 		this.maxPage = maxPage;
 	}
 
@@ -241,7 +241,7 @@ public class Page<T> {
 		int result = 1;
 		result = prime * result
 				+ ((entities == null) ? 0 : entities.hashCode());
-		result = prime * result + maxPage;
+		result = (int) (prime * result + maxPage);
 		result = prime * result
 				+ ((optionOrder == null) ? 0 : optionOrder.hashCode());
 		result = prime * result
