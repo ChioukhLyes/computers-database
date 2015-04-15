@@ -25,11 +25,12 @@ public class ServiceCompany {
 
 	/** The dao factory. */
 	@Autowired
-	CompanyDaoImpl companyDAO;
+	private CompanyDaoImpl companyDAO;
 
+	/** The service computer. */
 	@Autowired
-	ServiceComputer serviceComputer;
-	
+	private ServiceComputer serviceComputer;
+
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(ServiceCompany.class);
@@ -41,6 +42,7 @@ public class ServiceCompany {
 	 */
 	@Transactional
 	public int getCountCompanies() {
+		logger.trace("Founded count companies.");
 		return companyDAO.getCountCompanies();
 	}
 
@@ -51,6 +53,7 @@ public class ServiceCompany {
 	 */
 	@Transactional
 	public List<Company> findAllCompanies() {
+		logger.trace("Founded all companies.");
 		return companyDAO.findAllCompanies();
 	}
 
@@ -65,6 +68,7 @@ public class ServiceCompany {
 	 */
 	@Transactional
 	public List<Company> findAllCompanies(int limit, int offset) {
+		logger.trace("Founded all companies by limit and offset.");
 		return companyDAO.findAllCompanies(limit, offset);
 	}
 
@@ -73,16 +77,16 @@ public class ServiceCompany {
 	 *
 	 * @param company
 	 *            the company
-	 * @return true, if successful
 	 */
 	@Transactional
 	public void deleteCompany(Company company) {
 		if (company == null) {
-			throw new IllegalArgumentException("Delete : company bean is null");
+			throw new IllegalArgumentException(
+					"[Delete] - company bean is null");
 		}
 		serviceComputer.deleteComputerByCompanyId(company);
-		System.out.println(company.toString());
 		companyDAO.deleteCompany(company);
+		logger.trace("Companie deletion.");
 	}
 
 	/**
@@ -95,7 +99,7 @@ public class ServiceCompany {
 	@Transactional
 	public Company findCompanyById(Long id) {
 		if (id == null) {
-			throw new IllegalArgumentException("Id company is null");
+			throw new IllegalArgumentException("[Found] -Id company is null");
 		}
 		logger.trace("Founded company by id");
 		return companyDAO.findCompanyById(id);

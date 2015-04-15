@@ -29,9 +29,10 @@ public class ServiceComputer {
 	@Autowired
 	private ComputerDaoImpl computerDAO;
 
+	/** The computer dto. */
 	@Autowired
 	private ComputerDTO computerDTO;
-	
+
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(ServiceComputer.class);
@@ -45,6 +46,7 @@ public class ServiceComputer {
 	 */
 	@Transactional
 	public long getCountComputers(String search) {
+		logger.trace("Founded count computers");
 		return computerDAO.getCountComputers(search);
 	}
 
@@ -55,6 +57,7 @@ public class ServiceComputer {
 	 */
 	@Transactional
 	public List<ComputerDTO> findAllComputers() {
+		logger.trace("Founded all computers");
 		return computerDAO.findAllComputers();
 	}
 
@@ -69,6 +72,7 @@ public class ServiceComputer {
 	 */
 	@Transactional
 	public List<ComputerDTO> findAllComputers(int limit, int offset) {
+		logger.trace("Founded all computers with limit and offset");
 		return computerDAO.findAllComputers(limit, offset);
 	}
 
@@ -90,58 +94,62 @@ public class ServiceComputer {
 	@Transactional
 	public List<Computer> findAllComputersCompaniesByName(int limit,
 			int offset, String orderBy, String search, String orderOption) {
+		logger.trace("Founded computers and companies by name");
 		return computerDAO.findAllComputersCompaniesByName(limit, offset,
 				orderBy, search, orderOption);
 	}
 
 	/**
-	 * Find computerDTO by id.
+	 * Find computer by id.
 	 *
 	 * @param id
 	 *            the id
-	 * @return the computerDTO
+	 * @return the computer dto
 	 */
 	@Transactional
 	public ComputerDTO findComputerById(Long id) {
 		if (id == null) {
-			throw new IllegalArgumentException("Id computerDTO is null");
+			throw new IllegalArgumentException(
+					"[Find] - Id computerDTO is null");
 		}
-		logger.info("Founded computerDTO by id");
+		logger.trace("Founded computerDTO by id");
 		return computerDAO.findComputerById(id);
 	}
 
 	/**
-	 * Insert computerDTO.
+	 * Insert computer.
 	 *
 	 * @param computerDTO
-	 *            the computerDTO
-	 * @return true, if successful
+	 *            the computer dto
 	 */
 	@Transactional
 	public void insertComputer(ComputerDTO computerDTO) {
 		if (computerDTO == null) {
-			throw new IllegalArgumentException("Insert : ComputerDTO bean is null");
+			throw new IllegalArgumentException(
+					"[Insert] - ComputerDTO bean is null");
 		}
 		computerDAO.insertComputer(computerDTO);
+		logger.trace("Computer insertion.");
 	}
 
 	/**
-	 * Delete computerDTO.
+	 * Delete computer.
 	 *
 	 * @param computerDTO
-	 *            the computerDTO
-	 * @return true, if successful
+	 *            the computer dto
 	 */
 	@Transactional
 	public void deleteComputer(ComputerDTO computerDTO) {
 		if (computerDTO == null) {
-			throw new IllegalArgumentException("Delete : ComputerDTO bean is null");
+			throw new IllegalArgumentException(
+					"[Delete] - ComputerDTO bean is null");
 		}
 		computerDAO.deleteComputer(computerDTO);
+		logger.trace("Computer deletion.");
 	}
 
 	/**
-	 * Delete computerDTO by company id.
+	 * Delete computer by company id.
 	 *
 	 * @param company
 	 *            the company
@@ -150,24 +158,27 @@ public class ServiceComputer {
 	@Transactional
 	public boolean deleteComputerByCompanyId(Company company) {
 		if (company == null) {
-			throw new IllegalArgumentException("Delete : Company bean is null");
+			throw new IllegalArgumentException(
+					"[Delete] - Company bean is null");
 		}
 		computerDAO.deleteComputerByCompanyId(company);
+		logger.trace("Computer deletion by companie.");
 		return true;
 	}
 
 	/**
-	 * Update computerDTO.
+	 * Update computer.
 	 *
 	 * @param computerDTO
-	 *            the computerDTO
-	 * @return true, if successful
+	 *            the computer dto
 	 */
 	@Transactional
 	public void updateComputer(ComputerDTO computerDTO) {
 		if (computerDTO == null) {
-			throw new IllegalArgumentException("Update : ComputerDTO bean is null");
+			throw new IllegalArgumentException(
+					"[Update] - ComputerDTO bean is null");
 		}
 		computerDAO.updateComputer(computerDTO);
+		logger.trace("Computer update.");
 	}
 }

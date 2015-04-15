@@ -11,17 +11,15 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class Company.
  */
 @Entity
-@Table(name="company")
+@Table(name = "company")
 @Component
-public class Company implements Serializable{
+public class Company implements Serializable {
 
-	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 

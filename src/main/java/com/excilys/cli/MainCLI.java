@@ -44,8 +44,7 @@ public class MainCLI {
 	/** The company. */
 	@Autowired
 	private Company company;
-	
-	
+
 	/** The logger. */
 	@SuppressWarnings("unused")
 	private Logger logger = LoggerFactory.getLogger(Class.class);
@@ -56,7 +55,7 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	private  void mainCLI() throws ParseException {
+	private void mainCLI() throws ParseException {
 
 		ArrayList<String> choices = new ArrayList<String>() {
 			/**
@@ -128,7 +127,7 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	public  void showComputers() throws ParseException {
+	public void showComputers() throws ParseException {
 		int limit = 5;
 		int offset = 0;
 		@SuppressWarnings("resource")
@@ -147,7 +146,8 @@ public class MainCLI {
 
 		System.out.println("List computers (pages of 5 computers) :");
 		while (true) {
-			List<ComputerDTO> computers = serviceComputer.findAllComputers(limit, offset);
+			List<ComputerDTO> computers = serviceComputer.findAllComputers(
+					limit, offset);
 			for (ComputerDTO computer : computers) {
 				System.out.println(computer.toString());
 			}
@@ -194,7 +194,8 @@ public class MainCLI {
 
 		System.out.println("List companies (pages of 5 companies) :");
 		while (true) {
-			List<Company> companies = serviceCompany.findAllCompanies(limit, offset);
+			List<Company> companies = serviceCompany.findAllCompanies(limit,
+					offset);
 			for (Company company : companies) {
 				System.out.println(company.toString());
 			}
@@ -410,7 +411,7 @@ public class MainCLI {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		Long id = null;
-		
+
 		while (id == null) {
 			System.out.println("Enter company id (Long) : ");
 			if (scanner.hasNextLong()) {
@@ -437,7 +438,7 @@ public class MainCLI {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	public  static void main(String[] args) throws ParseException {
+	public static void main(String[] args) throws ParseException {
 
 		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext(

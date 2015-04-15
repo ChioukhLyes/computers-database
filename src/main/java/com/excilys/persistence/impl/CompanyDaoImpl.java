@@ -9,7 +9,6 @@ import org.hibernate.SessionFactory;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import ch.qos.logback.classic.Logger;
 
@@ -27,18 +26,10 @@ public class CompanyDaoImpl implements CompanyDAO {
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(CompanyDaoImpl.class);
 
-	
-//	/** The company mapper. */
-//	@Autowired
-//	private CompanyMapperImpl companyMapper;
-//
-//	/** The jdbc template. */
-//	@Autowired
-//	private JdbcTemplate jdbcTemplate;
-
+	/** The session factory. */
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
 	/**
 	 * Instantiates a new company dao impl.
 	 */
@@ -49,7 +40,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see persistance.CompanyDAO#findAllCompanies()
+	 * @see com.excilys.persistence.CompanyDAO#findAllCompanies()
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -65,28 +56,26 @@ public class CompanyDaoImpl implements CompanyDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see persistance.CompanyDAO#findAllCompanies()
+	 * @see com.excilys.persistence.CompanyDAO#findAllCompanies(int, int)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Company> findAllCompanies(int limit, int offset) {
-		
+
 		List<Company> companies = new ArrayList<Company>();
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery("FROM Company");
-//		query.setInteger("limit", limit);
-//		query.setInteger("offset", offset);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
 		companies = query.list();
-		logger.info("Get "+limit+" Companies start from "+offset);
+		logger.info("Get " + limit + " Companies start from " + offset);
 		return companies;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see persistance.CompanyDAO#findCompanyById(java.lang.Long)
+	 * @see com.excilys.persistence.CompanyDAO#findCompanyById(java.lang.Long)
 	 */
 	@Override
 	public Company findCompanyById(Long id) {
@@ -127,8 +116,7 @@ public class CompanyDaoImpl implements CompanyDAO {
 	@Override
 	public int getCountCompanies() {
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session
-				.createQuery("COUNT(*) FROM  Company;");
+		Query query = session.createQuery("COUNT(*) FROM  Company;");
 		logger.info("Computer get count");
 		return (int) query.uniqueResult();
 	}

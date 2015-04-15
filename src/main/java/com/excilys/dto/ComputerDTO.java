@@ -13,7 +13,6 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 // TODO: Auto-generated Javadoc
@@ -22,13 +21,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Entity
-@Table(name="computer")
-public class ComputerDTO  implements Serializable{
+@Table(name = "computer")
+public class ComputerDTO implements Serializable {
 
-
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The id. */
@@ -45,22 +41,20 @@ public class ComputerDTO  implements Serializable{
 
 	/** The introduced. */
 	@Column(name = "introduced")
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @Type(type = "com.excilys.mapper.impl.CustomLocalDateTimeUserType")
+	@Type(type = "com.excilys.utilities.CustomLocalDateTimeUserType")
 	private LocalDate introduced;
 
 	/** The discontinued. */
 	@Column(name = "discontinued")
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @Type(type = "com.excilys.mapper.impl.CustomLocalDateTimeUserType")
+	@Type(type = "com.excilys.utilities.CustomLocalDateTimeUserType")
 	private LocalDate discontinued;
 
-	/** The company. */
+	/** The company name. */
 	@Transient
 	private String companyName;
 
-	/** The company id. */
-	@Column(name="company_id")
+	/** The company_id. */
+	@Column(name = "company_id")
 	private Long company_id;
 
 	/**

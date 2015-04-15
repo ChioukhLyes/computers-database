@@ -1,7 +1,7 @@
 /*
  * 
  */
-package com.excilys.servlets;
+package com.excilys.controllers;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -45,52 +45,62 @@ public class AddController {
 	@Autowired
 	ServiceComputer serviceComputer;
 
-
 	/**
 	 * Instantiates a new adds the computer.
 	 */
 	public AddController() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(AddController.class);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest
-	 * , javax.servlet.http.HttpServletResponse)
+	/**
+	 * Do get.
+	 *
+	 * @param modelAndView
+	 *            the model and view
+	 * @return the model and view
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	@Validated
 	protected ModelAndView doGet(ModelAndView modelAndView) {
-		// TODO Auto-generated method stub
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		List<Company> lisCompanies = serviceCompany.findAllCompanies();
+		
 		modelAndView.addObject("Companies", lisCompanies);
-		logger.trace("Redirecting to the AddComputer page.");
 		modelAndView.setViewName("addComputer");
+		
+		logger.trace("[doGet Add] - Redirecting to the AddComputer page.");
 		return modelAndView;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest
-	 * , javax.servlet.http.HttpServletResponse)
+	/**
+	 * Do post.
+	 *
+	 * @param id
+	 *            the id
+	 * @param computerName
+	 *            the computer name
+	 * @param introduced
+	 *            the introduced
+	 * @param discontinued
+	 *            the discontinued
+	 * @param companyId
+	 *            the company id
+	 * @param modelAndView
+	 *            the model and view
+	 * @return the model and view
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	protected ModelAndView doPost(@Validated @RequestParam(value = "id", required = true, defaultValue="0") Long id,
-			@Validated @RequestParam(value = "computerName", required = true, defaultValue="") String computerName,
-			@Validated @RequestParam(value = "introduced", required = false, defaultValue="") String introduced,
-			@Validated @RequestParam(value = "discontinued", required = false, defaultValue="") String discontinued,
-			@RequestParam(value = "companyId", required = false, defaultValue="") Long companyId,			
-			ModelAndView modelAndView)  {
+	protected ModelAndView doPost(
+			@Validated @RequestParam(value = "id", required = true, defaultValue = "0") Long id,
+			@Validated @RequestParam(value = "computerName", required = true, defaultValue = "") String computerName,
+			@Validated @RequestParam(value = "introduced", required = false, defaultValue = "") String introduced,
+			@Validated @RequestParam(value = "discontinued", required = false, defaultValue = "") String discontinued,
+			@RequestParam(value = "companyId", required = false, defaultValue = "") Long companyId,
+			ModelAndView modelAndView) {
 
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -111,11 +121,11 @@ public class AddController {
 			computer.setCompanyId(companyId);
 			computer.setCompanyName(company.getName());
 		}
-
-		// Computer insertion
+		
 		serviceComputer.insertComputer(computer);
-		logger.trace("Computer created with success, redirecting to the success page.");
 		modelAndView.setViewName("success");
+		
+		logger.trace("[doPost Add] - Computer created with success, redirecting to the success page.");
 		return modelAndView;
 	}
 

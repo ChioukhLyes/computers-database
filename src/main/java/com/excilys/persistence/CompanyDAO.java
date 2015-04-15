@@ -5,7 +5,7 @@ package com.excilys.persistence;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.excilys.model.Company;
 
@@ -13,7 +13,7 @@ import com.excilys.model.Company;
 /**
  * The Interface CompanyDAO.
  */
-@Service
+@Component
 public interface CompanyDAO {
 
 	/**

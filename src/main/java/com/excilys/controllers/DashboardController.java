@@ -1,13 +1,7 @@
-package com.excilys.servlets;
+package com.excilys.controllers;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +20,17 @@ import com.excilys.model.Page;
 import com.excilys.services.ServiceComputer;
 
 // TODO: Auto-generated Javadoc
-/**
- * Servlet implementation class Dashboard.
- */
 
+
+/**
+ * The Class DashboardController.
+ */
 @Controller
 @RequestMapping("/dashboard")
 public class DashboardController {
 
-	
-	
 	/** The service computer. */
 	@Autowired
-	/** The service computer. */
 	private ServiceComputer serviceComputer;
 
 	/** The computer. */
@@ -51,37 +43,33 @@ public class DashboardController {
 	/** The number computers. */
 	private long numberComputers;
 
-	
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(DashboardController.class);
-	
+
 	/**
-	 * Instantiates a new dashboard.
-	 *
-	 * @see HttpServlet#HttpServlet()
+	 * Instantiates a new dashboard controller.
 	 */
 	public DashboardController() {
 		super();
-
-		// TODO Auto-generated constructor stub
 	}
-
-	
 
 	/**
 	 * Do get.
 	 *
-	 * @param request
-	 *            the request
-	 * @param response
-	 *            the response
-	 * @throws ServletException
-	 *             the servlet exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @param size
+	 *            the size
+	 * @param page
+	 *            the page
+	 * @param search
+	 *            the search
+	 * @param orderby
+	 *            the orderby
+	 * @param orderoption
+	 *            the orderoption
+	 * @param modelAndView
+	 *            the model and view
+	 * @return the model and view
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	protected ModelAndView doGet(
@@ -107,41 +95,35 @@ public class DashboardController {
 		List<Computer> lisComputers = this.serviceComputer
 				.findAllComputersCompaniesByName(size, ((page - 1) * size),
 						orderby, search, orderoption);
-		
-		
-		numberComputers = this.serviceComputer.getCountComputers(search);
 
+		numberComputers = this.serviceComputer.getCountComputers(search);
 		currentPage.setMaxPage((long) ((numberComputers - 1) / size + 1));
 		currentPage.setEntities(lisComputers);
 
 		modelAndView.addObject("currentPage", currentPage);
 		modelAndView.addObject("numberComputers", numberComputers);
-		logger.info("Get request access");
 		modelAndView.setViewName("dashboard");
+		
+		logger.trace("[doGet Dashboard] -  Get dashboard home page");
 		return modelAndView;
 	}
 
 	/**
 	 * Do post.
 	 *
-	 * @param request
-	 *            the request
-	 * @param response
-	 *            the response
-	 * @throws ServletException
-	 *             the servlet exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @param selection
+	 *            the selection
+	 * @param modelAndView
+	 *            the model and view
+	 * @return the model and view
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	protected ModelAndView doPost(
 			@RequestParam(value = "selection", required = false, defaultValue = "") String selection,
 			ModelAndView modelAndView) {
-		
+
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-		
+
 		StringTokenizer stringTokenizer = new StringTokenizer(selection, ",");
 		while (stringTokenizer.hasMoreTokens()) {
 			computer.setId(Long.valueOf(stringTokenizer.nextToken()));
@@ -159,8 +141,9 @@ public class DashboardController {
 
 		modelAndView.addObject("currentPage", currentPage);
 		modelAndView.addObject("numberComputers", numberComputers);
-		logger.info("Post request access");
 		modelAndView.setViewName("dashboard");
+		
+		logger.trace("[doPost Dashboard] - Delete computer(s) selection.");
 		return modelAndView;
 	}
 }

@@ -8,12 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 // TODO: Auto-generated Javadoc
@@ -22,12 +20,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Entity
-@Table(name="computer")
-public class Computer implements Serializable{
+@Table(name = "computer")
+public class Computer implements Serializable {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The id. */
@@ -38,23 +34,21 @@ public class Computer implements Serializable{
 
 	/** The name. */
 
-    @Column(name = "name")
+	@Column(name = "name")
 	private String name;
 
 	/** The introduced. */
-    @Column(name = "introduced")
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @Type(type = "com.excilys.mapper.impl.CustomLocalDateTimeUserType")
+	@Column(name = "introduced")
+	@Type(type = "com.excilys.utilities.CustomLocalDateTimeUserType")
 	private LocalDate introduced;
 
 	/** The discontinued. */
-    @Column(name = "discontinued")
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @Type(type = "com.excilys.mapper.impl.CustomLocalDateTimeUserType")
+	@Column(name = "discontinued")
+	@Type(type = "com.excilys.utilities.CustomLocalDateTimeUserType")
 	private LocalDate discontinued;
 
 	/** The company. */
-    @OneToOne   
+	@OneToOne
 	private Company company;
 
 	/**

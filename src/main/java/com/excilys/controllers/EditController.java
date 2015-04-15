@@ -1,4 +1,4 @@
-package com.excilys.servlets;
+package com.excilys.controllers;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -8,7 +8,6 @@ import org.apache.commons.validator.routines.DateValidator;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,58 +45,74 @@ public class EditController {
 	/** The company. */
 	@Autowired
 	private Company company;
-	
 
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(EditController.class);
 
 	/**
-	 * Instantiates a new edits the computer.
+	 * Instantiates a new edits the controller.
 	 */
 	public EditController() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest
-	 * , javax.servlet.http.HttpServletResponse)
+	/**
+	 * Do get.
+	 *
+	 * @param id
+	 *            the id
+	 * @param modelAndView
+	 *            the model and view
+	 * @return the model and view
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	protected ModelAndView doGet(@Validated @RequestParam(value = "id", required = true, defaultValue="") Long id,
-			ModelAndView  modelAndView)  {
-		// TODO Auto-generated method stub
+	protected ModelAndView doGet(
+			@Validated @RequestParam(value = "id", required = true, defaultValue = "0") Long id,
+			ModelAndView modelAndView) {
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		List<Company> lisCompanies = serviceCompany.findAllCompanies();
 		modelAndView.addObject("Companies", lisCompanies);
 		if (id != 0) {
 			computer = serviceComputer.findComputerById(id);
+			if (computer.getCompanyId() != null) {
+				company = serviceCompany.findCompanyById(computer
+						.getCompanyId());
+			}
 			modelAndView.addObject("Computer", computer);
+			modelAndView.addObject("Company", company);
 		}
-		logger.trace("Redirecting to the EditComputer page.");
+
 		modelAndView.setViewName("editComputer");
+
+		logger.trace("[DoGet] - Redirecting to the EditComputer page.");
 		return modelAndView;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest
-	 * , javax.servlet.http.HttpServletResponse)
+	/**
+	 * Do post.
+	 *
+	 * @param id
+	 *            the id
+	 * @param computerName
+	 *            the computer name
+	 * @param introduced
+	 *            the introduced
+	 * @param discontinued
+	 *            the discontinued
+	 * @param companyId
+	 *            the company id
+	 * @param modelAndView
+	 *            the model and view
+	 * @return the model and view
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	
 	protected ModelAndView doPost(
-			@Validated @RequestParam(value = "id", required = true, defaultValue="0") Long id,
-			@Validated @RequestParam(value = "computerName", required = true, defaultValue="") String computerName,
-			@Validated @RequestParam(value = "introduced", required = false, defaultValue="") String introduced,
-			@Validated @RequestParam(value = "discontinued", required = false, defaultValue="") String discontinued,
-			@RequestParam(value = "companyId", required = false, defaultValue="") Long companyId,			
+			@Validated @RequestParam(value = "id", required = true, defaultValue = "0") Long id,
+			@Validated @RequestParam(value = "computerName", required = true, defaultValue = "") String computerName,
+			@Validated @RequestParam(value = "introduced", required = false, defaultValue = "") String introduced,
+			@Validated @RequestParam(value = "discontinued", required = false, defaultValue = "") String discontinued,
+			@RequestParam(value = "companyId", required = false, defaultValue = "0") Long companyId,
 			ModelAndView modelAndView) {
 
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
@@ -120,11 +135,11 @@ public class EditController {
 		company = serviceCompany.findCompanyById(companyId);
 		computer.setCompanyId(company.getId());
 		computer.setCompanyName(company.getName());
-		
-		// Computer update
+
 		serviceComputer.updateComputer(computer);
-		logger.trace("Success editing, redirecting to the success page.");
 		modelAndView.setViewName("success");
+
+		logger.trace("[DoPost] - Success editing, redirecting to the success page.");
 		return modelAndView;
 	}
 }
