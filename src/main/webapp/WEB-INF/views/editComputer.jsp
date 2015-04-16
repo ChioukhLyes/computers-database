@@ -7,52 +7,64 @@
 <jsp:include page="common/header.jsp"></jsp:include>
 
 <body>
-	
+
 	<section id="main">
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
-					<div id="idComputer" class="label label-default pull-right">id :
-						${Computer.id}</div>
-					<h1><spring:message code="home.editcomputer"/></h1>
+					<div id="idComputer" class="label label-default pull-right">id
+						: ${Computer.id}</div>
+					<h1>
+						<spring:message code="home.editcomputer" />
+					</h1>
 
-					<form:form id="formAddEditComputer" action="editComputer" method="POST">
+					<form:form id="formAddEditComputer" action="editComputer"
+						method="POST">
 						<input type="hidden" name="id" value="${Computer.id}" />
 						<fieldset>
 							<div class="form-group">
-								<label  for="computerName"><spring:message code="home.table.computername"/> </label> <input
-									type="text" name="computerName" class="form-control"
-									id="computerName" placeholder="<spring:message code="home.table.computername"/>"
+								<label for="computerName"><spring:message
+										code="home.table.computername" /> </label> <input type="text"
+									name="computerName" class="form-control" id="computerName"
+									placeholder="<spring:message code="home.table.computername"/>"
 									value="<c:out value='${Computer.name}'></c:out>">
-									<form:errors path="computerName" cssClass="error"></form:errors>
+								<form:errors path="computerName" cssClass="error"></form:errors>
 							</div>
 							<div class="form-group">
-								<label  for="introduced"><spring:message code="home.table.introduceddate"/></label> <input
-									type="date" name="introduced" class="form-control"
-									id="introduced" placeholder="<spring:message code="home.table.introduceddate"/>"
+								<label for="introduced"><spring:message
+										code="home.table.introduceddate" /></label> <input type="date"
+									name="introduced" class="form-control" id="introduced"
+									placeholder="<spring:message code="home.table.introduceddate.format"/>"
 									value="<c:out value='${Computer.introduced}'></c:out>">
-									<form:errors path="introduced" cssClass="error"></form:errors>
+								<form:errors path="introduced" cssClass="error"></form:errors>
 							</div>
 							<div class="form-group">
-								<label for="discontinued"><spring:message code="home.table.discontinueddate"/></label> <input
-									type="date" name="discontinued" class="form-control"
-									id="discontinued" placeholder="<spring:message code="home.table.discontinueddate"/>"
+								<label for="discontinued"><spring:message
+										code="home.table.discontinueddate" /></label> <input type="date"
+									name="discontinued" class="form-control" id="discontinued"
+									placeholder="<spring:message code="home.table.discontinueddate.format"/>"
 									value="<c:out value='${Computer.discontinued}'></c:out>">
-									<form:errors path="discontinued" cssClass="error"></form:errors>
+								<form:errors path="discontinued" cssClass="error"></form:errors>
 							</div>
 							<div class="form-group">
-								<label for="companyId"><spring:message code="home.table.company"/></label> <select
-									class="form-control" name="companyId" id="companyId">
-									<option value="${Company.id}"><c:out value='${Company.name}'></c:out></option>
+								<label for="companyId"><spring:message
+										code="home.table.company" /></label> <select class="form-control"
+									name="companyId" id="companyId">
+									<option value="${Company.id}"><c:out
+											value='${Company.name}'></c:out></option>
 									<c:forEach var="company" items="${Companies}">
-										<option value="${company.id}"><c:out value='${company.name}'></c:out></option>
+										<option value="${company.id}"><c:out
+												value='${company.name}'></c:out></option>
 									</c:forEach>
 								</select>
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input type="submit" value="<spring:message code="home.edit"/>" class="btn btn-primary">
-							<spring:message code="or"/> <a href="dashboard" class="btn btn-default"><spring:message code="cancel"/></a>
+							<input type="submit" value="<spring:message code="home.edit"/>"
+								class="btn btn-primary">
+							<spring:message code="or" />
+							<a href="dashboard" class="btn btn-default"><spring:message
+									code="cancel" /></a>
 						</div>
 					</form:form>
 				</div>
@@ -61,6 +73,17 @@
 	</section>
 
 	<jsp:include page="common/footer.jsp"></jsp:include>
+	<script type="text/javascript">
+		var strings = new Array();
+		strings['language'] = "<spring:message code='language' javaScriptEscape='true' />";
+		strings['required'] = "<spring:message code='validator.required' javaScriptEscape='true' />";
+		strings['date'] = "<spring:message code='validator.date' javaScriptEscape='true' />";
 
+		if (strings['language'] === "fr") {
+			strings['date.regex'] = /^(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[0-2])-(19|20)[0-9][0-9]$/;
+		} else {
+			strings['date.regex'] = /^(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[01])-(19|20)[0-9][0-9]$/;
+		}
+	</script>
 </body>
 </html>

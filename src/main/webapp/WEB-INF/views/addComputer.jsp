@@ -29,14 +29,14 @@
 								<label for="introduced"> <spring:message
 										code="home.table.introduceddate" /></label> <input type="date"
 									name="introduced" class="form-control" id="introduced"
-									placeholder="<spring:message code="home.table.introduceddate"/> : yyyy-MM-dd">
+									placeholder="<spring:message code="home.table.introduceddate.format"/>">
 								<form:errors path="introduced" cssClass="error"></form:errors>
 							</div>
 							<div class="form-group">
 								<label for="discontinued"> <spring:message
 										code="home.table.discontinueddate" /></label> <input type="date"
 									name="discontinued" class="form-control" id="discontinued"
-									placeholder="<spring:message code="home.table.discontinueddate"/> : yyyy-MM-dd">
+									placeholder="<spring:message code="home.table.discontinueddate.format"/>">
 								<form:errors path="discontinued" cssClass="error"></form:errors>
 							</div>
 							<div class="form-group">
@@ -67,12 +67,18 @@
 	</section>
 
 	<jsp:include page="common/footer.jsp"></jsp:include>
-	
+
 	<script type="text/javascript">
 		var strings = new Array();
 		strings['language'] = "<spring:message code='language' javaScriptEscape='true' />";
-		strings['required'] = "<spring:message code='validator.required' javaScriptEscape='true' />"
-		strings['date'] = "<spring:message code='validator.date' javaScriptEscape='true' />"
+		strings['required'] = "<spring:message code='validator.required' javaScriptEscape='true' />";
+		strings['date'] = "<spring:message code='validator.date' javaScriptEscape='true' />";
+
+		if (strings['language'] === "fr") {
+			strings['date.regex'] = /^(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[0-2])-(19|20)[0-9][0-9]$/;
+		} else {
+			strings['date.regex'] = /^(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[01])-(19|20)[0-9][0-9]$/;
+		}
 	</script>
 
 
