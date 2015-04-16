@@ -35,7 +35,7 @@ public class ComputerDTO implements Serializable {
 	private long id;
 
 	/** The name. */
-	@NotNull
+	@NotNull(message = "{validation.notNull}")
 	@Column(name = "name")
 	private String name;
 

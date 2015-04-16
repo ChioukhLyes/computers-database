@@ -21,7 +21,7 @@
 			<!-- Switch language button  -->
 
 			<img class="notificationicon on" title="<spring:message	code="changeLanguage" />" alt=""
-				src="images/France.png" id="languagesChange" />
+				src="<spring:message	code="image.src" />" id="languagesChange" />
 
 			<ul class="notifications" id="languagesMenu">
 				<li class="titlebar"><span class="title"><spring:message
@@ -31,12 +31,12 @@
 					<ul class="notif">
 						<li><a onclick="updateQueryStringParameter('language','fr')">
 								<ul class="imageblock">
-									<li><img src="images/France.png" alt="" class="notifimage" /></li>
+									<li><img src="images/France.png"   class="notifimage" /></li>
 								</ul>
 								<ul class="messageblock">
 									<li>
 										<div class="message">
-											<strong>Français</strong>
+											<strong>FranÃ§ais</strong>
 										</div>
 									</li>
 								</ul>
@@ -45,7 +45,7 @@
 					<ul class="notif">
 						<li><a onclick="updateQueryStringParameter('language','en')">
 								<ul class="imageblock">
-									<li><img src="images/English.png" alt=""
+									<li><img src="images/English.png" 
 										class="notifimage" /></li>
 								</ul>
 								<ul class="messageblock">

@@ -68,10 +68,10 @@ public class AddController {
 	protected ModelAndView doGet(ModelAndView modelAndView) {
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		List<Company> lisCompanies = serviceCompany.findAllCompanies();
-		
+
 		modelAndView.addObject("Companies", lisCompanies);
 		modelAndView.setViewName("addComputer");
-		
+
 		logger.trace("[doGet Add] - Redirecting to the AddComputer page.");
 		return modelAndView;
 	}
@@ -103,30 +103,37 @@ public class AddController {
 			ModelAndView modelAndView) {
 
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter formatterUs = DateTimeFormatter
+				.ofPattern("MM-dd-yyyy");
+		DateTimeFormatter formatterFr = DateTimeFormatter
+				.ofPattern("dd-MM-yyyy");
 		computer.setName(computerName);
+		
+		LocalDate introducedT = null;
+		if (DateValidator.getInstance().isValid(introduced, "MM-dd-yyyy"))
+			introducedT = LocalDate.parse(introduced, formatterUs);
+		else if (DateValidator.getInstance().isValid(introduced, "dd-MM-yyyy"))
+			introducedT = LocalDate.parse(introduced, formatterFr);
+		computer.setIntroduced(introducedT);
 
-		if (DateValidator.getInstance().isValid(introduced, "yyyy-MM-dd")) {
-			LocalDate introducedT = LocalDate.parse(introduced, formatter);
-			computer.setIntroduced(introducedT);
-		}
-
-		if (DateValidator.getInstance().isValid(discontinued, "yyyy-MM-dd")) {
-			LocalDate discontinuedT = LocalDate.parse(discontinued, formatter);
-			computer.setDiscontinued(discontinuedT);
-		}
-
+		
+		LocalDate discontinuedT = null;
+		if (DateValidator.getInstance().isValid(discontinued, "MM-dd-yyyy"))
+			discontinuedT = LocalDate.parse(discontinued, formatterUs);
+		else if (DateValidator.getInstance().isValid(discontinued, "dd-MM-yyyy"))
+			discontinuedT = LocalDate.parse(discontinued, formatterFr);
+		computer.setDiscontinued(discontinuedT);
+		
 		if (companyId != 0) {
 			Company company = serviceCompany.findCompanyById(companyId);
 			computer.setCompanyId(companyId);
 			computer.setCompanyName(company.getName());
 		}
-		
+
 		serviceComputer.insertComputer(computer);
 		modelAndView.setViewName("success");
-		
+
 		logger.trace("[doPost Add] - Computer created with success, redirecting to the success page.");
 		return modelAndView;
 	}
-
 }

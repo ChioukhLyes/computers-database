@@ -116,22 +116,30 @@ public class EditController {
 			ModelAndView modelAndView) {
 
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		computer.setId(id);
 		computer.setName(computerName);
 
-		if (DateValidator.getInstance().isValid(introduced, "yyyy-MM-dd")) {
-			LocalDate introducedT = LocalDate.parse(introduced, formatter);
-			computer.setIntroduced(introducedT);
-		} else
-			computer.setIntroduced(null);
+		DateTimeFormatter formatterUs = DateTimeFormatter
+				.ofPattern("MM-dd-yyyy");
+		DateTimeFormatter formatterFr = DateTimeFormatter
+				.ofPattern("dd-MM-yyyy");
+		computer.setName(computerName);
+		
+		LocalDate introducedT = null;
+		if (DateValidator.getInstance().isValid(introduced, "MM-dd-yyyy"))
+			introducedT = LocalDate.parse(introduced, formatterUs);
+		else if (DateValidator.getInstance().isValid(introduced, "dd-MM-yyyy"))
+			introducedT = LocalDate.parse(introduced, formatterFr);
+		computer.setIntroduced(introducedT);
 
-		if (DateValidator.getInstance().isValid(discontinued, "yyyy-MM-dd")) {
-			LocalDate discontinuedT = LocalDate.parse(discontinued, formatter);
-			computer.setDiscontinued(discontinuedT);
-		} else
-			computer.setDiscontinued(null);
-
+		
+		LocalDate discontinuedT = null;
+		if (DateValidator.getInstance().isValid(discontinued, "MM-dd-yyyy"))
+			discontinuedT = LocalDate.parse(discontinued, formatterUs);
+		else if (DateValidator.getInstance().isValid(discontinued, "dd-MM-yyyy"))
+			discontinuedT = LocalDate.parse(discontinued, formatterFr);
+		computer.setDiscontinued(discontinuedT);
+		
 		company = serviceCompany.findCompanyById(companyId);
 		computer.setCompanyId(company.getId());
 		computer.setCompanyName(company.getName());

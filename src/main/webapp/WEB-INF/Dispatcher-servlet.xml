@@ -11,17 +11,18 @@
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-	
+
 	<context:annotation-config />
 	<!-- <mvc:annotation-driven validator="validator" /> -->
 	<mvc:annotation-driven />
+	<mvc:annotation-driven validator="validator" />
 	
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
 		<property name="cookieName" value="language" />
 		<property name="defaultLocale" value="fr" />
 	</bean>
-	
+
 	<!-- MVC Interceptore for security -->
 	<mvc:interceptors>
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
@@ -34,10 +35,14 @@
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
-	
+
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+
 	<context:component-scan base-package="com.excilys" />
-	
+
 	<mvc:resources mapping="/css/**" location="/css/" />
 	<mvc:resources mapping="/js/**" location="/js/" />
 	<mvc:resources mapping="/images/**" location="/images/" />

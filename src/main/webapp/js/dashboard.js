@@ -101,6 +101,7 @@ $(document).ready(function(e) {
 	$("#languagesChange").click(function(e) {
 		e.stopPropagation();
 	});
+	
 	$("#languagesChange").click(function() {
 		if ($("#languagesMenu").is(':visible')) {
 			$("#languagesMenu").hide();
@@ -108,6 +109,7 @@ $(document).ready(function(e) {
 			$("#languagesMenu").show();
 		}
 	});
+	
 	$(document).click(function() {
 		$("#languagesMenu").hide();
 	});
@@ -126,5 +128,4 @@ function updateQueryStringParameter(key, value) {
 	} else {
 		window.location.href += separator + key + "=" + value;
 	}
-
 }
