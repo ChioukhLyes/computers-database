@@ -17,9 +17,10 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-
+			
+			<a href="<c:url value="j_spring_security_logout" />" > Logout</a>
+			
 			<!-- Switch language button  -->
-
 			<img class="notificationicon on" title="<spring:message	code="changeLanguage" />" alt=""
 				src="<spring:message	code="image.src" />" id="languagesChange" />
 

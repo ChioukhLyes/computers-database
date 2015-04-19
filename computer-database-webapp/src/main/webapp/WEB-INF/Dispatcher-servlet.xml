@@ -11,12 +11,11 @@
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-
 	<context:annotation-config />
 	<!-- <mvc:annotation-driven validator="validator" /> -->
 	<mvc:annotation-driven />
 	<mvc:annotation-driven validator="validator" />
-	
+
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
 		<property name="cookieName" value="language" />

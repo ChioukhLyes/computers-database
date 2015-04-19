@@ -1,76 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans
-	xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:orcl="http://www.springframework.org/schema/data/orcl"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context-3.0.xsd
-       http://www.springframework.org/schema/data/orcl
-       http://www.springframework.org/schema/data/orcl/spring-data-orcl-1.0.xsd">
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security.xsd
+           http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+
 
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<context:component-scan base-package="com.excilys" />
-	<context:property-placeholder location="classpath:MySqlProperties.properties" />
+	<beans:import resource="classpath:/application-context-service.xml" />
+	<!-- <beans:import resource="classpath:/application-context-binding.xml" 
+		/> -->
 
-	<!-- Importing Hibernate configuration -->
-	<import resource="hibernate.cfg.xml" />
+
+	<context:component-scan base-package="com.excilys" />
 
 	<context:annotation-config />
-	<bean
-		id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property
-			name="driverClassName"
-			value="com.mysql.jdbc.Driver" />
-		<property
-			name="url"
-			value="${MYSQL_DATABASE_URL}" />
-		<property
-			name="username"
-			value="${USER_NAME}" />
-		<property
-			name="password"
-			value="${PASSWORD}" />
-	</bean>
 
-	<bean
-		id="messageSource"
+	<beans:bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property
-			name="basename"
-			value="classpath:messages" />
-		<property
-			name="defaultEncoding"
-			value="UTF-8" />
-	</bean>
+		<beans:property name="basename" value="classpath:messages" />
+		<beans:property name="defaultEncoding" value="UTF-8" />
+	</beans:bean>
 
 
 	<!-- JDBCTamplate -->
-	<bean
-		id="jdbcTemplate"
-		class="org.springframework.jdbc.core.JdbcTemplate">
-		<property
-			name="dataSource"
-			ref="dataSource" />
-	</bean>
+	<beans:bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<beans:property name="dataSource" ref="dataSource" />
+	</beans:bean>
 
-	<bean
-		id="transactionManager"
+	<beans:bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-		<property
-			name="sessionFactory"
-			ref="sessionFactory" />
-	</bean>
+		<beans:property name="sessionFactory" ref="sessionFactory" />
+	</beans:bean>
 
-	<bean
-		id="validator"
+
+	<beans:bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-		<property
-			name="validationMessageSource"
-			ref="messageSource" />
-	</bean>
+		<beans:property name="validationMessageSource" ref="messageSource" />
+	</beans:bean>
 
-</beans>
+	<beans:bean id="UserDetailsService"
+		class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+		<beans:property name="dataSource" ref="dataSource" />
+	</beans:bean>
+
+</beans:beans>

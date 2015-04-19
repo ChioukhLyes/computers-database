@@ -18,11 +18,11 @@ public class User {
 	private Long id;
 
 	/** The username. */
-	@Column(name = "username")
+	@Column(name = "username",unique = true, nullable = false)
 	private String username;
 
 	/** The password. */
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	private String password;
 
 	/** The role. */
