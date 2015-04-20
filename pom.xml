@@ -37,6 +37,7 @@
 		<COM.JOLBOX>0.8.0.RELEASE</COM.JOLBOX>
 		<JOOK>3.5.0</JOOK>
 		<SPRING.VERSION>4.1.5.RELEASE</SPRING.VERSION>
+		<SPRING.TAGLIBS>4.0.0.RELEASE</SPRING.TAGLIBS>
 		<SLF4J.VERSION>1.7.10</SLF4J.VERSION>
 		<JAVAX.VALIDATION>1.1.0.Final</JAVAX.VALIDATION>
 		<INJECT>1</INJECT>
@@ -287,6 +288,11 @@
 			<version>${SPRING-SECURITY}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${SPRING-SECURITY}</version>
+		</dependency>
 
 	</dependencies>
 	<build>

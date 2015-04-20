@@ -1,7 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="security"%>
+
 
 <jsp:include page="common/header.jsp"></jsp:include>
 
@@ -11,6 +14,7 @@
 			<c:out value="${numberComputers}"></c:out>
 			<spring:message code="computer.found" />
 		</h1>
+
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
 				<form:form id="searchForm" action="dashboard" method="GET"
@@ -27,9 +31,15 @@
 			<div class="pull-right">
 				<a class="btn btn-success" id="addComputer" href="addComputer">
 					<spring:message code="home.addcomputer" />
-				</a> <a class="btn btn-default" id="editComputer"
-					onclick="$.fn.toggleEditMode();"><spring:message
-						code="home.edit" /></a>
+				</a>
+				
+				<!-- Show only for admin -->
+				<security:authorize access="hasRole('ROLE_ADMIN')">
+					<a class="btn btn-default" id="editComputer"
+						onclick="$.fn.toggleEditMode();"><spring:message
+							code="home.edit" /></a>
+				</security:authorize>
+				
 			</div>
 		</div>
 	</div>

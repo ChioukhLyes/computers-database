@@ -21,9 +21,8 @@
 		pattern="/images/**"
 		security="none" />
 
-	<http
-		auto-config="true"
-		use-expressions="true">
+	<http auto-config="true" use-expressions="true" >
+		
 		<access-denied-handler error-page="/403" />
 
 		<intercept-url

@@ -3,6 +3,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <jsp:include page="common/header.jsp"></jsp:include>
 
@@ -38,7 +39,7 @@
 				<div class="form-group input-group">
 					<span class="input-group-addon"><i
 						class="glyphicon glyphicon-lock"></i></span> <input id="passwordinput"
-						name='password' placeholder="placeholder" class="form-control"
+						name='password' placeholder="******" class="form-control"
 						type="password">
 				</div>
 
