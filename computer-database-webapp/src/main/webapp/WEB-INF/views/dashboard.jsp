@@ -204,5 +204,4 @@
 	strings['editText'] = "<spring:message code='home.edit' javaScriptEscape='true' />"
 </script>
 
-</body>
 </html>

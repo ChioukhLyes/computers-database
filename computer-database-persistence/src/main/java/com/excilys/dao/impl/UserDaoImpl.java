@@ -32,7 +32,7 @@ public class UserDaoImpl implements UserDao {
 		User user = null;
 
 		users = sessionFactory.getCurrentSession()
-				.createQuery("from User where username=:username")
+				.createQuery("FROM User WHERE username=:username")
 				.setParameter("username", username).list();
 		
 		if (users.size() > 0) {

@@ -39,21 +39,18 @@ public class ServiceUserDetails implements UserDetailsService {
 			throws UsernameNotFoundException {
 
 		com.excilys.models.User user = userDao.findUserByName(username);
-
 		boolean enabled = true;
 		boolean accountNonExpired = true;
 		boolean credentialsNonExpired = true;
 		boolean accountNonLocked = true;
-		
-		System.out.println("LE ROLLLLEEEE $$$$$$$$$$$$$"+user.getRole());
-		User u =  new User(user.getUsername(), user.getPassword(), enabled,
+
+		User u = new User(user.getUsername(), user.getPassword(), enabled,
 				accountNonExpired, credentialsNonExpired, accountNonLocked,
 				getAuthorities(user.getRole().intValue()));
 		System.out.println(user.getPassword());
 		return u;
 	}
 
-	
 	/**
 	 * Gets the authorities.
 	 *

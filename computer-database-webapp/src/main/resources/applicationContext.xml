@@ -13,9 +13,6 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<beans:import resource="classpath:/application-context-service.xml" />
-	<!-- <beans:import resource="classpath:/application-context-binding.xml" 
-		/> -->
-
 
 	<context:component-scan base-package="com.excilys" />
 
@@ -44,9 +41,9 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 		<beans:property name="validationMessageSource" ref="messageSource" />
 	</beans:bean>
 
-	<beans:bean id="UserDetailsService"
+<!-- 	<beans:bean id="UserDetailsService"
 		class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
 		<beans:property name="dataSource" ref="dataSource" />
 	</beans:bean>
-
+ -->
 </beans:beans>

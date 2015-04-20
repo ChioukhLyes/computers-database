@@ -17,11 +17,35 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			
-			<a href="<c:url value="j_spring_security_logout" />" > Logout</a>
-			
+
+			<button class="btn btn-danger pull-right" id="logout-button" data-toggle="modal"
+				data-target=".bs-example-modal-sm">
+				<span class="glyphicon glyphicon-log-out"></span> <spring:message	code="logouticon" />
+			</button>
+
+			<div class="modal bs-example-modal-sm" tabindex="-1" role="dialog"
+				aria-hidden="true">
+				<div class="modal-dialog modal-sm">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4>
+								<spring:message	code="logout" /> <i class="fa fa-unlock-alt"></i>
+							</h4>
+						</div>
+						<div class="modal-body">
+							<i class="fa fa-question-circle"></i> <spring:message	code="confirmation" />
+						</div>
+						<div class="modal-footer">
+							<a href="<c:url value="j_spring_security_logout" />"
+								class="btn btn-danger btn-block"><spring:message	code="logout" /></a>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<!-- Switch language button  -->
-			<img class="notificationicon on" title="<spring:message	code="changeLanguage" />" alt=""
+			<img class="notificationicon on"
+				title="<spring:message	code="changeLanguage" />" alt=""
 				src="<spring:message	code="image.src" />" id="languagesChange" />
 
 			<ul class="notifications" id="languagesMenu">
@@ -32,7 +56,7 @@
 					<ul class="notif">
 						<li><a onclick="updateQueryStringParameter('language','fr')">
 								<ul class="imageblock">
-									<li><img src="images/France.png"   class="notifimage" /></li>
+									<li><img src="images/France.png" class="notifimage" /></li>
 								</ul>
 								<ul class="messageblock">
 									<li>
@@ -46,8 +70,7 @@
 					<ul class="notif">
 						<li><a onclick="updateQueryStringParameter('language','en')">
 								<ul class="imageblock">
-									<li><img src="images/English.png" 
-										class="notifimage" /></li>
+									<li><img src="images/English.png" class="notifimage" /></li>
 								</ul>
 								<ul class="messageblock">
 									<li>
