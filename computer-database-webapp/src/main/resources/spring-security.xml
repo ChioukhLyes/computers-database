@@ -29,19 +29,19 @@
 
 		<intercept-url
 			pattern="/addComputer**"
-			access="hasRole('ROLE_ADMIN')" />
+			access="hasRole('ROLE_USER')" />
 		<intercept-url
 			pattern="/editComputer**"
-			access="hasRole('ROLE_ADMIN')" />
+			access="hasRole('ROLE_USER')" />
 		<intercept-url
 			pattern="/delete**"
 			access="hasRole('ROLE_ADMIN')" />
-		<intercept-url
+ 		<intercept-url
 			pattern="/addComputer/**"
-			access="hasRole('ROLE_ADMIN')" />
+			access="hasRole('ROLE_USER')" /> 
 		<intercept-url
 			pattern="/editComputer/**"
-			access="hasRole('ROLE_ADMIN')" />
+			access="hasRole('ROLE_USER')" />
 		<intercept-url
 			pattern="/delete/**"
 			access="hasRole('ROLE_ADMIN')" />
