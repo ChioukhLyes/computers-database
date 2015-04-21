@@ -14,9 +14,14 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ch.qos.logback.core.status.Status;
+
 import com.excilys.dto.ComputerDTO;
 import com.excilys.service.ServiceComputer;
 import com.excilys.webservice.ComputerWebService;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -48,7 +53,7 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	 * @see com.excilys.webservice.ComputerWebService#findAll()
 	 */
 	@GET
-	@Path("/listall")
+	@Path("/list")
 	@Override
 	public List<ComputerDTO> findAll() {
 		return serviceComputer.findAllComputers();
@@ -79,7 +84,7 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	 * dto.ComputerDTO)
 	 */
 	@POST
-	@Path("/{id}")
+	@Path("/update/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Override
 	public Response updateComputer(ComputerDTO computerDTO) {
@@ -94,14 +99,17 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	 * @see
 	 * com.excilys.webservice.ComputerWebService#deleteComputer(java.lang.Long)
 	 */
+	@Path("/delete/{id}")
 	@DELETE
-	@Path("/{id}")
+	@ApiResponses(value = {
+			@ApiResponse(code = 204, message = "[Computers] - Delete computer - ok"),
+			@ApiResponse(code = 400, message = "[Computers] - Delete computer - Failed") })
 	@Override
-	public Response deleteComputer(@PathParam("id") Long id) {
+	public Response deleteComputer(
+			@ApiParam(required = true) @PathParam("id") Long id) {
 		ComputerDTO computerDTO = serviceComputer.findComputerById(id);
 		serviceComputer.deleteComputer(computerDTO);
-		return Response.status(201)
-				.entity("[Computers] - Delete computer - ok").build();
+		return Response.status(Status.INFO).build();
 
 	}
 

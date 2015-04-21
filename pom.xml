@@ -54,6 +54,7 @@
 		<MAVEN-SUREFIRE-PLUGIN>2.5</MAVEN-SUREFIRE-PLUGIN>
 		<XML-APIS>1.4.01</XML-APIS>
 		<JAVAX-EL>2.2.4</JAVAX-EL>
+		<SWAGGER-JAXRS>1.3.12</SWAGGER-JAXRS>
 
 
 	</properties>
@@ -176,6 +177,11 @@
 				<version>${JERSEY-VERSION}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>com.wordnik</groupId>
+				<artifactId>swagger-jaxrs_2.10</artifactId>
+				<version>${SWAGGER-JAXRS}</version>
+			</dependency>
 
 			<!-- Dependencies Spring 4 -->
 
