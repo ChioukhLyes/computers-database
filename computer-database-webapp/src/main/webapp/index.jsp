@@ -9,7 +9,6 @@
             <div class="alert alert-success">
                 <h1><spring:message code="hellomessage"/> <strong><spring:message code="computer.database"/></strong></h1>
                 <br/>
-                <!-- stacktrace -->
             </div>
         </div>
     </section>

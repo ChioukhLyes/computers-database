@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	<appender
+		name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
 		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
 			by default -->
 		<File>${application-name}.log</File>
@@ -11,7 +13,12 @@
 		</encoder>
 	</appender>
 
-	<root level="debug">
+	<logger name="org.springframework">
+		<level value="INFO" />
+	</logger>
+
+	<root level="DEBUG">
 		<appender-ref ref="STDOUT" />
 	</root>
+
 </configuration>

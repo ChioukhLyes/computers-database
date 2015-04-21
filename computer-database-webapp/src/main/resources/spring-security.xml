@@ -21,18 +21,29 @@
 		pattern="/images/**"
 		security="none" />
 
-	<http auto-config="true" use-expressions="true" >
-		
+	<http
+		auto-config="true"
+		use-expressions="true">
+
 		<access-denied-handler error-page="/403" />
 
 		<intercept-url
-			pattern="/addComputer*"
+			pattern="/addComputer**"
 			access="hasRole('ROLE_ADMIN')" />
 		<intercept-url
-			pattern="/editComputer*"
+			pattern="/editComputer**"
 			access="hasRole('ROLE_ADMIN')" />
 		<intercept-url
-			pattern="/delete*"
+			pattern="/delete**"
+			access="hasRole('ROLE_ADMIN')" />
+		<intercept-url
+			pattern="/addComputer/**"
+			access="hasRole('ROLE_ADMIN')" />
+		<intercept-url
+			pattern="/editComputer/**"
+			access="hasRole('ROLE_ADMIN')" />
+		<intercept-url
+			pattern="/delete/**"
 			access="hasRole('ROLE_ADMIN')" />
 
 		<form-login
@@ -44,23 +55,10 @@
 
 		<logout logout-success-url="/login?logout" />
 
-		<!-- <intercept-url pattern="/**" access="hasRole('ROLE_USER')" /> -->
-
 	</http>
 
-
-	<!-- <authentication-manager> <authentication-provider> <security:user-service> 
-		<security:user name="dineshonjava" password="sweety" authorities="ROLE_USER" 
-		/> </security:user-service> <jdbc-user-service data-source-ref="dataSource" 
-		users-by-username-query="select username, password, role from users where 
-		username=?" authorities-by-username-query="select username, role from users 
-		where username =? " /> </authentication-provider> </authentication-manager> -->
-
-	<!-- <authentication-manager> <authentication-provider user-service-ref="serviceUserDetails" 
-		/> </authentication-manager> -->
-
 	<authentication-manager>
-		<authentication-provider ref="authProvider" >
+		<authentication-provider ref="authProvider">
 		</authentication-provider>
 	</authentication-manager>
 
@@ -78,6 +76,5 @@
 	<beans:bean
 		id="encoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-
 
 </beans:beans>

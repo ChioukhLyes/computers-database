@@ -222,7 +222,7 @@ label.error {
 	background-color: #f2dede;
 	border-color: #ebccd1;
 }
- 
+
 .msg {
 	padding: 15px;
 	margin-bottom: 20px;
@@ -232,15 +232,5 @@ label.error {
 	background-color: #d9edf7;
 	border-color: #bce8f1;
 }
- 
-/* #login-box {
-	width: 300px;
-	padding: 20px;
-	margin: 100px auto;
-	background: #fff;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border: 1px solid #000;
-}
- */
+
 /*****************/

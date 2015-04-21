@@ -1,5 +1,7 @@
 package com.excilys.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,6 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController {
 
+	
+	/** The logger. */
+	private Logger logger = LoggerFactory.getLogger(Class.class);
 	/**
 	 * Welcome page.
 	 *
@@ -23,6 +28,7 @@ public class LoginController {
 
 		ModelAndView model = new ModelAndView();
 		model.setViewName("login");
+		logger.info("[Get] from base url");
 		return model;
 
 	}
@@ -37,7 +43,7 @@ public class LoginController {
 
 		ModelAndView model = new ModelAndView();
 		model.setViewName("dashboard");
-
+		logger.info("[Get] from base /dashnoard** url");
 		return model;
 
 	}
@@ -65,6 +71,7 @@ public class LoginController {
 			model.addObject("msg", "You've been logged out successfully.");
 		}
 		model.setViewName("login");
+		logger.info("[Get] from /login url - Error :"+error+" Logout :"+logout);
 		return model;
 	}
 }

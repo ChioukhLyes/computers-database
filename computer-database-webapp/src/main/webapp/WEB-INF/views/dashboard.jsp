@@ -32,14 +32,14 @@
 				<a class="btn btn-success" id="addComputer" href="addComputer">
 					<spring:message code="home.addcomputer" />
 				</a>
-				
+
 				<!-- Show only for admin -->
 				<security:authorize access="hasRole('ROLE_ADMIN')">
 					<a class="btn btn-default" id="editComputer"
 						onclick="$.fn.toggleEditMode();"><spring:message
 							code="home.edit" /></a>
 				</security:authorize>
-				
+
 			</div>
 		</div>
 	</div>
