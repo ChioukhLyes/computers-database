@@ -17,6 +17,7 @@
 		<module>computer-database-service</module>
 		<module>computer-database-binding</module>
 		<module>computer-database-console</module>
+		<module>computer-database-webservice</module>
 	</modules>
 
 	<!-- Version APIs -->
