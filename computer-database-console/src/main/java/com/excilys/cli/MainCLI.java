@@ -341,17 +341,17 @@ public class MainCLI {
 			Response response = targetComputers
 					.path("/add")
 					.request(MediaType.APPLICATION_JSON)
-					.put(Entity
+					.post(Entity
 							.entity(computerDTO, MediaType.APPLICATION_JSON));
 
-			if (response.getStatus() != 200 && response.getStatus() != 204) {
+			if (response.getStatus() != 200 && response.getStatus() != 201) {
 				throw new RuntimeException("[HTTP] Failed : error code :"
 						+ response.getStatus());
 			}
 
 			System.out.println("Computer inserted");
 		} catch (Exception e) {
-			System.out.println("Computer not inserted" + e.getMessage());
+			System.out.println("Computer not inserted " + e.getMessage());
 		}
 		mainCLI();
 	}
@@ -378,7 +378,10 @@ public class MainCLI {
 		while (id == null || computerDTO == null) {
 			System.out.println("Enter computer id (Long) : ");
 			id = scanner.nextLong();
-			computerDTO = serviceComputer.findComputerById(id);
+			
+			Response response = targetComputers.path("/list/" + id)
+					.request(MediaType.APPLICATION_JSON).get();
+			computerDTO = response.readEntity(ComputerDTO.class);
 		}
 
 		while (name == null) {
@@ -425,10 +428,10 @@ public class MainCLI {
 			Response response = targetComputers
 					.path("/update")
 					.request(MediaType.APPLICATION_JSON)
-					.post(Entity
+					.put(Entity
 							.entity(computerDTO, MediaType.APPLICATION_JSON));
 
-			if (response.getStatus() != 200 && response.getStatus() != 204) {
+			if (response.getStatus() != 200 && response.getStatus() != 201) {
 				throw new RuntimeException("[HTTP] Failed : error code :"
 						+ response.getStatus());
 			}
