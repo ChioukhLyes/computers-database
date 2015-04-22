@@ -24,7 +24,7 @@ import com.excilys.webservice.CompanyWebService;
  * The Class CompanyWebServiceImpl.
  */
 @Path("/companies")
-@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+@Produces({ MediaType.APPLICATION_JSON})
 public class CompanyWebServiceImpl implements CompanyWebService {
 
 	/** The service company. */
@@ -50,7 +50,7 @@ public class CompanyWebServiceImpl implements CompanyWebService {
 	 * com.excilys.webservice.CompanyWebService#deleteCompany(com.excilys.models
 	 * .Company)
 	 */
-	@Path("/delete/{id}")
+	@Path("/delete/{id: [0-9]+}")
 	@DELETE
 	@Override
 	public Response deleteCompany(@PathParam("id") Long id) {

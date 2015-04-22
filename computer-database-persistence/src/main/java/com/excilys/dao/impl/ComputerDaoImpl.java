@@ -50,7 +50,7 @@ public class ComputerDaoImpl implements ComputerDAO {
 
 		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery("FROM Computer");
+		Query query = session.createQuery("FROM ComputerDTO");
 		computers = query.list();
 		return computers;
 	}

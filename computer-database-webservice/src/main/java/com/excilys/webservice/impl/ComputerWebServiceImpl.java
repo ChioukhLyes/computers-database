@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.excilys.webservice.impl;
 
 import java.util.List;
@@ -6,6 +9,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -14,21 +18,15 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ch.qos.logback.core.status.Status;
-
 import com.excilys.dto.ComputerDTO;
 import com.excilys.service.ServiceComputer;
 import com.excilys.webservice.ComputerWebService;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class ComputerWebServiceImpl.
  */
 @Path("/computers")
-@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 public class ComputerWebServiceImpl implements ComputerWebService {
 
 	/** The service computer. */
@@ -41,7 +39,8 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	 * @see com.excilys.webservice.ComputerWebService#findById(java.lang.Long)
 	 */
 	@GET
-	@Path("/list/{id}")
+	@Path("/list/{id: [0-9]+}")
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public ComputerDTO findById(@PathParam("id") Long id) {
 		return serviceComputer.findComputerById(id);
@@ -54,6 +53,7 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	 */
 	@GET
 	@Path("/list")
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public List<ComputerDTO> findAll() {
 		return serviceComputer.findAllComputers();
@@ -83,8 +83,8 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	 * com.excilys.webservice.ComputerWebService#updateComputer(com.excilys.
 	 * dto.ComputerDTO)
 	 */
-	@POST
-	@Path("/update/{id}")
+	@PUT
+	@Path("/update")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Override
 	public Response updateComputer(ComputerDTO computerDTO) {
@@ -99,17 +99,17 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	 * @see
 	 * com.excilys.webservice.ComputerWebService#deleteComputer(java.lang.Long)
 	 */
-	@Path("/delete/{id}")
+	@Path("/delete/{id: [0-9]+}")
 	@DELETE
-	@ApiResponses(value = {
-			@ApiResponse(code = 204, message = "[Computers] - Delete computer - ok"),
-			@ApiResponse(code = 400, message = "[Computers] - Delete computer - Failed") })
+	@Produces(MediaType.APPLICATION_JSON)
+//	@ApiResponses(value = {
+//			@ApiResponse(code = 204, message = "[Computers] - Delete computer - ok"),
+//			@ApiResponse(code = 400, message = "[Computers] - Delete computer - Failed") })
 	@Override
-	public Response deleteComputer(
-			@ApiParam(required = true) @PathParam("id") Long id) {
+	public Response deleteComputer( @PathParam("id") Long id) {
 		ComputerDTO computerDTO = serviceComputer.findComputerById(id);
 		serviceComputer.deleteComputer(computerDTO);
-		return Response.status(Status.INFO).build();
+		return Response.status(201).entity("[Computers] - Delete computer - ok").build();
 
 	}
 
