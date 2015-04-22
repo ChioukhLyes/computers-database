@@ -11,10 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.hibernate.annotations.Type;
 import org.springframework.stereotype.Component;
+
+import com.excilys.dao.mapper.LocalDateAdapter;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -43,11 +45,13 @@ public class ComputerDTO implements Serializable {
 	/** The introduced. */
 	@Column(name = "introduced")
 	@Type(type = "com.excilys.dao.mapper.CustomLocalDateTimeUserType")
+	@XmlJavaTypeAdapter(LocalDateAdapter.class)
 	private LocalDate introduced;
 
 	/** The discontinued. */
 	@Column(name = "discontinued")
 	@Type(type = "com.excilys.dao.mapper.CustomLocalDateTimeUserType")
+	@XmlJavaTypeAdapter(LocalDateAdapter.class)
 	private LocalDate discontinued;
 
 	/** The company name. */

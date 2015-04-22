@@ -7,12 +7,14 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -102,15 +104,28 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	@Path("/delete/{id: [0-9]+}")
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-//	@ApiResponses(value = {
-//			@ApiResponse(code = 204, message = "[Computers] - Delete computer - ok"),
-//			@ApiResponse(code = 400, message = "[Computers] - Delete computer - Failed") })
 	@Override
-	public Response deleteComputer( @PathParam("id") Long id) {
+	public Response deleteComputer(@PathParam("id") Long id) {
 		ComputerDTO computerDTO = serviceComputer.findComputerById(id);
 		serviceComputer.deleteComputer(computerDTO);
-		return Response.status(201).entity("[Computers] - Delete computer - ok").build();
+		return Response.status(201)
+				.entity("[Computers] - Delete computer - ok").build();
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.excilys.webservice.ComputerWebService#findAllComputersQuota(int,
+	 * int)
+	 */
+	@GET
+	@Path("/listpage")
+	@Override
+	public List<ComputerDTO> findAllComputersQuota(
+			@DefaultValue("5") @QueryParam("limit") int limit,
+			@DefaultValue("0") @QueryParam("offset") int offset) {
+		return serviceComputer.findAllComputers(limit, offset);
 	}
 
 }

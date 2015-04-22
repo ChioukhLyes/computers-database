@@ -7,6 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.apache.commons.validator.routines.DateValidator;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +28,6 @@ import com.excilys.dto.ComputerDTO;
 import com.excilys.models.Company;
 import com.excilys.service.ServiceCompany;
 import com.excilys.service.ServiceComputer;
-import org.apache.commons.validator.routines.DateValidator;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -27,6 +36,18 @@ import org.apache.commons.validator.routines.DateValidator;
 
 @Component
 public class MainCLI {
+
+	/** The main cli client. */
+	private Client mainCliClient = ClientBuilder.newBuilder()
+			.register(JacksonFeature.class).build();
+
+	/** The target companies. */
+	private WebTarget targetCompanies = mainCliClient
+			.target("http://localhost:8080/computer-database-webservice/rest/companies");
+
+	/** The target computers. */
+	private WebTarget targetComputers = mainCliClient
+			.target("http://localhost:8080/computer-database-webservice/rest/computers");
 
 	/** The service. */
 	@Autowired
@@ -146,8 +167,13 @@ public class MainCLI {
 
 		System.out.println("List computers (pages of 5 computers) :");
 		while (true) {
-			List<ComputerDTO> computers = serviceComputer.findAllComputers(
-					limit, offset);
+
+			List<ComputerDTO> computers = targetComputers.path("/listpage")
+					.queryParam("limit", limit).queryParam("offset", offset)
+					.request(MediaType.APPLICATION_JSON)
+					.get(new GenericType<List<ComputerDTO>>() {
+					});
+
 			for (ComputerDTO computer : computers) {
 				System.out.println(computer.toString());
 			}
@@ -194,8 +220,12 @@ public class MainCLI {
 
 		System.out.println("List companies (pages of 5 companies) :");
 		while (true) {
-			List<Company> companies = serviceCompany.findAllCompanies(limit,
-					offset);
+			List<Company> companies = targetCompanies.path("/listpage")
+					.queryParam("limit", limit).queryParam("offset", offset)
+					.request(MediaType.APPLICATION_JSON)
+					.get(new GenericType<List<Company>>() {
+					});
+
 			for (Company company : companies) {
 				System.out.println(company.toString());
 			}
@@ -234,7 +264,18 @@ public class MainCLI {
 			choice = scanner.nextLong();
 		}
 		System.out.println("Computer details :");
-		System.out.println(serviceComputer.findComputerById(choice).toString());
+
+		Response response = targetComputers.path("/list/" + choice)
+				.request(MediaType.APPLICATION_JSON).get();
+
+		if (response.getStatus() == 200) {
+			System.out.println(response.readEntity(ComputerDTO.class));
+		} else {
+			throw new RuntimeException("[HTTP] Failed : error code "
+					+ response.getStatus());
+		}
+
+		// System.out.println(serviceComputer.findComputerById(choice).toString());
 		mainCLI();
 	}
 
@@ -253,10 +294,13 @@ public class MainCLI {
 		Long companyId = null;
 		// SimpleDateFormat dateFormat =
 		// SimpleDateFormat.ofPattern("yyyy/MM/dd");
-		DateTimeFormatter dateFormat = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd");
+		
+		DateTimeFormatter formatterUs = DateTimeFormatter
+				.ofPattern("MM-dd-yyyy");
+		DateTimeFormatter formatterFr = DateTimeFormatter
+				.ofPattern("dd-MM-yyyy");
+		
 		String donnee;
-
 		while (name == null) {
 			System.out.println("Enter computer name : ");
 			// scanner.nextLine();
@@ -265,20 +309,23 @@ public class MainCLI {
 
 		while (introduced == null) {
 			System.out
-					.println("Enter computer introduced date (yyyy-MM-dd) : ");
+					.println("Enter computer introduced date (MM-dd-yyyy or dd-MM-yyyy) : ");
 			donnee = scanner.next();
-			if (DateValidator.getInstance().isValid(donnee, "yyyy-MM-dd")) {
-				introduced = LocalDate.parse(donnee, dateFormat);
-			}
+			
+			if (DateValidator.getInstance().isValid(donnee, "MM-dd-yyyy"))
+				introduced = LocalDate.parse(donnee, formatterUs);
+			else if (DateValidator.getInstance().isValid(donnee, "dd-MM-yyyy"))
+				introduced = LocalDate.parse(donnee, formatterFr);
 		}
 
 		while (discontinued == null) {
 			System.out
-					.println("Enter computer discontinued date (yyyy-MM-dd) : ");
+					.println("Enter computer discontinued date (MM-dd-yyyy or dd-MM-yyyy) : ");
 			donnee = scanner.next();
-			if (DateValidator.getInstance().isValid(donnee, "yyyy-MM-dd")) {
-				discontinued = LocalDate.parse(donnee, dateFormat);
-			}
+			if (DateValidator.getInstance().isValid(donnee, "MM-dd-yyyy"))
+				discontinued = LocalDate.parse(donnee, formatterUs);
+			else if (DateValidator.getInstance().isValid(donnee, "dd-MM-yyyy"))
+				discontinued = LocalDate.parse(donnee, formatterFr);
 		}
 
 		System.out.println("Enter company id (Long) : ");
@@ -289,7 +336,18 @@ public class MainCLI {
 			computerDTO.setIntroduced(introduced);
 			computerDTO.setDiscontinued(discontinued);
 			computerDTO.setCompanyId(companyId);
-			serviceComputer.insertComputer(computerDTO);
+			// serviceComputer.insertComputer(computerDTO);
+
+			Response response = targetComputers
+					.path("/add")
+					.request(MediaType.APPLICATION_JSON)
+					.put(Entity
+							.entity(computerDTO, MediaType.APPLICATION_JSON));
+
+			if (response.getStatus() != 200 && response.getStatus() != 204) {
+				throw new RuntimeException("[HTTP] Failed : error code :"
+						+ response.getStatus());
+			}
 
 			System.out.println("Computer inserted");
 		} catch (Exception e) {
@@ -364,7 +422,17 @@ public class MainCLI {
 			computerDTO.setCompanyId(companyId);
 
 		try {
-			serviceComputer.updateComputer(computerDTO);
+			Response response = targetComputers
+					.path("/update")
+					.request(MediaType.APPLICATION_JSON)
+					.post(Entity
+							.entity(computerDTO, MediaType.APPLICATION_JSON));
+
+			if (response.getStatus() != 200 && response.getStatus() != 204) {
+				throw new RuntimeException("[HTTP] Failed : error code :"
+						+ response.getStatus());
+			}
+
 			System.out.println("Computer updated");
 		} catch (Exception e) {
 			System.out.println("Computer not updated" + e.getMessage());
@@ -384,19 +452,23 @@ public class MainCLI {
 		Long id = null;
 		while (id == null) {
 			System.out.println("Enter computer id (Long) : ");
-			scanner.next();
+			//scanner.next();
 			if (scanner.hasNextLong()) {
 				id = scanner.nextLong();
-				computerDTO = serviceComputer.findComputerById(id);
+				
+				targetComputers.path("/delete/" + id)
+						.request(MediaType.APPLICATION_JSON).delete();
+				
+				System.out.println("The computer whit id "+id+" has been deleted.");
 			}
 		}
-		try {
-			serviceComputer.deleteComputer(computerDTO);
-			System.out.println("The following computer has been deleted : "
-					+ computerDTO.toString());
-		} catch (Exception e) {
-			System.err.println("Computer not deleted" + e.getMessage());
-		}
+		// try {
+		// serviceComputer.deleteComputer(computerDTO);
+		// System.out.println("The following computer has been deleted : "
+		// + computerDTO.toString());
+		// } catch (Exception e) {
+		// System.err.println("Computer not deleted" + e.getMessage());
+		// }
 		mainCLI();
 
 	}
@@ -416,16 +488,20 @@ public class MainCLI {
 			System.out.println("Enter company id (Long) : ");
 			if (scanner.hasNextLong()) {
 				id = scanner.nextLong();
-				company = serviceCompany.findCompanyById(id);
+				
+				targetCompanies.path("/delete/" + id)
+						.request(MediaType.APPLICATION_JSON).delete();
+				System.out.println("The company whit id "+id+" has been deleted.");
 			}
 		}
-		try {
-			serviceCompany.deleteCompany(company);
-			System.out.println("The following company has been deleted : "
-					+ company.toString());
-		} catch (Exception e) {
-			System.err.println("Company not deleted " + e.getMessage());
-		}
+		// }
+		// try {
+		// serviceCompany.deleteCompany(company);
+		// System.out.println("The following company has been deleted : "
+		// + company.toString());
+		// } catch (Exception e) {
+		// System.err.println("Company not deleted " + e.getMessage());
+		// }
 		mainCLI();
 
 	}

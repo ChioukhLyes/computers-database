@@ -1,15 +1,14 @@
-/*
- * 
- */
 package com.excilys.webservice.impl;
 
 import java.util.List;
 
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -24,7 +23,7 @@ import com.excilys.webservice.CompanyWebService;
  * The Class CompanyWebServiceImpl.
  */
 @Path("/companies")
-@Produces({ MediaType.APPLICATION_JSON})
+@Produces({ MediaType.APPLICATION_JSON })
 public class CompanyWebServiceImpl implements CompanyWebService {
 
 	/** The service company. */
@@ -58,6 +57,21 @@ public class CompanyWebServiceImpl implements CompanyWebService {
 		serviceCompany.deleteCompany(company);
 		return Response.status(201).entity("[Companies] - Delete company - ok")
 				.build();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.excilys.webservice.CompanyWebService#findAllCompaniesQuota(int,
+	 * int)
+	 */
+	@GET
+	@Path("/listpage")
+	@Override
+	public List<Company> findAllCompaniesQuota(
+			@DefaultValue("5") @QueryParam("limit") int limit,
+			@DefaultValue("0") @QueryParam("offset") int offset) {
+		return serviceCompany.findAllCompanies(limit, offset);
 	}
 
 }

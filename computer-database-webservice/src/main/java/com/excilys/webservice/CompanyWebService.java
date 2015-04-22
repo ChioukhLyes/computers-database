@@ -26,4 +26,15 @@ public interface CompanyWebService {
 	 *            the company
 	 */
 	public Response deleteCompany(Long id);
+	
+	/**
+	 * Find all companies quota.
+	 *
+	 * @param limit
+	 *            the limit
+	 * @param offset
+	 *            the offset
+	 * @return the response
+	 */
+	public List<Company> findAllCompaniesQuota(int limit, int offset);
 }

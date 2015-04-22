@@ -59,4 +59,16 @@ public interface ComputerWebService {
 	 * @return the response
 	 */
 	public Response deleteComputer(Long id);
+
+	/**
+	 * Fin all computers quota.
+	 *
+	 * @param limit
+	 *            the limit
+	 * @param offset
+	 *            the offset
+	 * @return the list
+	 */
+	public List<ComputerDTO> findAllComputersQuota(int limit, int offset);
+
 }
