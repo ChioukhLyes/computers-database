@@ -15,7 +15,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import ch.qos.logback.classic.Logger;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.service.ServiceComputer;
@@ -32,6 +35,10 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	@Autowired
 	private ServiceComputer serviceComputer;
 
+	/** The logger. */
+	private static Logger logger = (Logger) LoggerFactory
+			.getLogger(CompanyWebServiceImpl.class);
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -42,6 +49,7 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public ComputerDTO findById(@PathParam("id") Long id) {
+		logger.info("[GET] - List computer with id :"+id);
 		return serviceComputer.findComputerById(id);
 	}
 
@@ -55,6 +63,7 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public List<ComputerDTO> findAll() {
+		logger.info("[GET] - List all computers");
 		return serviceComputer.findAllComputers();
 	}
 
@@ -71,6 +80,7 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	@Override
 	public Response addComputer(ComputerDTO computerDTO) {
 		serviceComputer.insertComputer(computerDTO);
+		logger.info("[POST] - Add computer");
 		return Response.status(201).entity("[Computers] - Add computer - ok")
 				.build();
 	}
@@ -88,6 +98,7 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	@Override
 	public Response updateComputer(ComputerDTO computerDTO) {
 		serviceComputer.updateComputer(computerDTO);
+		logger.info("[PUT] - Update computer with id :"+computerDTO.getId());
 		return Response.status(201)
 				.entity("[Computers] - Update computer - ok").build();
 	}
@@ -105,6 +116,7 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	public Response deleteComputer(@PathParam("id") Long id) {
 		ComputerDTO computerDTO = serviceComputer.findComputerById(id);
 		serviceComputer.deleteComputer(computerDTO);
+		logger.info("[DELETE] - Delete computer with id :"+id);
 		return Response.status(201)
 				.entity("[Computers] - Delete computer - ok").build();
 
@@ -122,6 +134,7 @@ public class ComputerWebServiceImpl implements ComputerWebService {
 	public List<ComputerDTO> findAllComputersQuota(
 			@DefaultValue("5") @QueryParam("limit") int limit,
 			@DefaultValue("0") @QueryParam("offset") int offset) {
+		logger.info("[GET] - List computers by page");
 		return serviceComputer.findAllComputers(limit, offset);
 	}
 

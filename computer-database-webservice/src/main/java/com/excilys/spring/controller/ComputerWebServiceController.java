@@ -9,6 +9,7 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import ch.qos.logback.classic.Logger;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.service.ServiceComputer;
@@ -49,6 +52,10 @@ public class ComputerWebServiceController {
 	@Autowired
 	private ServiceComputer serviceComputer;
 
+	/** The logger. */
+	private static Logger logger = (Logger) LoggerFactory
+			.getLogger(ComputerWebServiceController.class);
+	
 	/**
 	 * Find by id.
 	 *
@@ -57,6 +64,7 @@ public class ComputerWebServiceController {
 	 */
 	@RequestMapping(value = GET_COMPUTER_ID, method = RequestMethod.GET)
 	public @ResponseBody ComputerDTO findById(@PathVariable("id") Long id) {
+		logger.info("[GET] - List computer with id :"+id);
 		return serviceComputer.findComputerById(id);
 	}
 
@@ -67,6 +75,7 @@ public class ComputerWebServiceController {
 	 */
 	@RequestMapping(value = GET_COMPUTERS, method = RequestMethod.GET)
 	public @ResponseBody List<ComputerDTO> findAll() {
+		logger.info("[GET] - List all computers");
 		return serviceComputer.findAllComputers();
 	}
 
@@ -80,6 +89,7 @@ public class ComputerWebServiceController {
 	public @ResponseBody Response addComputer(
 			@RequestBody ComputerDTO computerDTO) {
 		serviceComputer.insertComputer(computerDTO);
+		logger.info("[POST] - Add computer");
 		return Response.status(201).entity("[Computers] - Add computer - ok")
 				.build();
 	}
@@ -94,6 +104,7 @@ public class ComputerWebServiceController {
 	public @ResponseBody Response updateComputer(
 			@RequestBody ComputerDTO computerDTO) {
 		serviceComputer.updateComputer(computerDTO);
+		logger.info("[GET] - Update computer with id :"+computerDTO.getId());
 		return Response.status(201)
 				.entity("[Computers] - Update computer - ok").build();
 	}
@@ -108,6 +119,7 @@ public class ComputerWebServiceController {
 	public @ResponseBody Response deleteComputer(@PathVariable("id") Long id) {
 		ComputerDTO computerDTO = serviceComputer.findComputerById(id);
 		serviceComputer.deleteComputer(computerDTO);
+		logger.info("[GET] - Delete computer with id :"+id);
 		return Response.status(201)
 				.entity("[Computers] - Delete computer - ok").build();
 
