@@ -462,7 +462,7 @@ public class MainCLI {
 				targetComputers.path("/delete/" + id)
 						.request(MediaType.APPLICATION_JSON).delete();
 				
-				System.out.println("The computer whit id "+id+" has been deleted.");
+				System.out.println("The computer with id "+id+" has been deleted.");
 			}
 		}
 		// try {
@@ -494,7 +494,7 @@ public class MainCLI {
 				
 				targetCompanies.path("/delete/" + id)
 						.request(MediaType.APPLICATION_JSON).delete();
-				System.out.println("The company whit id "+id+" has been deleted.");
+				System.out.println("The company with id "+id+" has been deleted.");
 			}
 		}
 		// }

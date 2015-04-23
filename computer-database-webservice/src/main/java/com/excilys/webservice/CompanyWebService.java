@@ -22,11 +22,12 @@ public interface CompanyWebService {
 	/**
 	 * Delete company.
 	 *
-	 * @param company
-	 *            the company
+	 * @param id
+	 *            the id
+	 * @return the response
 	 */
 	public Response deleteCompany(Long id);
-	
+
 	/**
 	 * Find all companies quota.
 	 *

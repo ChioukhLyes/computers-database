@@ -48,6 +48,7 @@
 		<JODA.USERTYPE>3.0.0.CR1</JODA.USERTYPE>
 		<JAVA-SOURCE-VERSION>1.8</JAVA-SOURCE-VERSION>
 		<JERSEY-VERSION>2.16</JERSEY-VERSION>
+		<JACKSON.DATABIND>2.2.3</JACKSON.DATABIND>
 		<JAVA-TARGET-VERSION>1.8</JAVA-TARGET-VERSION>
 		<SPRING-SECURITY>3.2.6.RELEASE</SPRING-SECURITY>
 		<MAVEN-JAVADOC-PLUGIN>2.10.1</MAVEN-JAVADOC-PLUGIN>
@@ -177,12 +178,14 @@
 				<version>${JERSEY-VERSION}</version>
 			</dependency>
 
-			<!-- <dependency>
-				<groupId>com.wordnik</groupId>
-				<artifactId>swagger-jaxrs_2.10</artifactId>
-				<version>${SWAGGER-JAXRS}</version>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${JACKSON.DATABIND}</version>
 			</dependency>
- -->
+
+			<!-- <dependency> <groupId>com.wordnik</groupId> <artifactId>swagger-jaxrs_2.10</artifactId> 
+				<version>${SWAGGER-JAXRS}</version> </dependency> -->
 			<!-- Dependencies Spring 4 -->
 
 			<dependency>

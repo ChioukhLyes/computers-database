@@ -1,6 +1,3 @@
-/*
- * 
- */
 package com.excilys.webservice.impl;
 
 import java.util.List;
