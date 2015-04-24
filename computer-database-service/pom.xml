@@ -15,7 +15,7 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>computer-database-persistence</artifactId>
 		</dependency>
-</dependencies>
+	</dependencies>
 
 
 </project>
