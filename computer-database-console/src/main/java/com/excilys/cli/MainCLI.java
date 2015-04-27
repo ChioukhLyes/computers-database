@@ -374,8 +374,6 @@ public class MainCLI {
 				.ofPattern("MM-dd-yyyy");
 		DateTimeFormatter formatterFr = DateTimeFormatter
 				.ofPattern("dd-MM-yyyy");
-		DateTimeFormatter dateFormat = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd");
 		String donnee;
 
 		System.out.println("Enter computer id (Long) : ");

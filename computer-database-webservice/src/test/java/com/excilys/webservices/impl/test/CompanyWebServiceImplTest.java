@@ -1,0 +1,38 @@
+/**
+ * 
+ */
+package com.excilys.webservices.impl.test;
+
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+/**
+ * @author root
+ * 27 avr. 2015 yea2015 
+ * filCompanyWebServiceImplTest.java
+ */
+public class CompanyWebServiceImplTest {
+
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	@Test
+	public final void test() {
+		//fail("Not yet implemented"); // TODO
+	}
+
+}

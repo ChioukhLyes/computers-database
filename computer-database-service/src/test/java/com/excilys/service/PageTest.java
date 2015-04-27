@@ -21,7 +21,7 @@ import com.excilys.models.Page;
 public class PageTest {
 
 	/** The page. */
-	Page<String> page;
+	private Page<String> page;
 
 	/*
 	 * (non-Javadoc)

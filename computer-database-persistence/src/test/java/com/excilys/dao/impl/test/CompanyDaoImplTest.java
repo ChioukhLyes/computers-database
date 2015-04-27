@@ -1,129 +1,58 @@
 /*
  * root
  * 
- * ServiceCompanyTest.java - 2015
+ * CompanyDaoImplTest.java - 2015
  */
-package com.excilys.service;
+package com.excilys.dao.impl.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.excilys.dao.impl.CompanyDaoImpl;
 import com.excilys.models.Company;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class ServiceCompanyTest.
+ * The Class CompanyDaoImplTest.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:application-context-service.xml")
-public class ServiceCompanyTest {
+@ContextConfiguration(locations = "classpath:application-context-persistence-test.xml")
+public class CompanyDaoImplTest {
 
-	/** The service company. */
 	@Autowired
-	ServiceCompany serviceCompany;
-
-	/** The exception. */
-	@Rule
-	public ExpectedException exception = ExpectedException.none();
+	private CompanyDaoImpl compmanyDaoImpl;
 
 	/**
 	 * Sets the up.
+	 *
+	 * @throws Exception
+	 *             the exception
 	 */
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 	}
 
 	/**
 	 * Tear down.
+	 *
+	 * @throws Exception
+	 *             the exception
 	 */
 	@After
-	public void tearDown() {
-	}
-
-	/**
-	 * Testdelete company exception.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	@Transactional
-	public void testdeleteCompanyException() {
-		// GIVE
-		Company company;
-		// WHENE
-		company = null;
-		serviceCompany.deleteCompany(company);
-		// THEN
-	}
-
-	/**
-	 * Testdelete company true.
-	 */
-	@Test
-	@Transactional
-	public void testdeleteCompanyTrue() {
-
-		// GIVE
-		Company company = new Company();
-		serviceCompany.deleteCompany(company);
-		// WHENE
-		// THEN
-	}
-
-	/**
-	 * Testfind company by id exception.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	@Transactional
-	public void testfindCompanyByIdException() {
-
-		// GIVE
-		Long id = null;
-		// WHENE
-		serviceCompany.findCompanyById(id);
-		// THEN
-	}
-
-	/**
-	 * Testfind company by id zero.
-	 */
-	@Test
-	@Transactional
-	public void testfindCompanyByIdZero() {
-		// GIVE
-		Company company;
-		long id = 0;
-		// WHENE
-		company = serviceCompany.findCompanyById(id);
-		// THEN
-		assertNull(company);
-	}
-
-	/**
-	 * Testfind company by id true.
-	 */
-	@Test
-	@Transactional
-	public void testfindCompanyByIdTrue() {
-
-		Company company;
-		long id = 5;
-		// GIVE
-		// WHENE
-		company = serviceCompany.findCompanyById(id);
-		// THEN
-		assertNotNull(company);
-		assertEquals(company.getId(), 5);
+	public void tearDown() throws Exception {
 	}
 
 	/**
@@ -135,7 +64,7 @@ public class ServiceCompanyTest {
 		// GIVEN
 		List<Company> companies;
 		// WHENE
-		companies = serviceCompany.findAllCompanies();
+		companies = compmanyDaoImpl.findAllCompanies();
 		// THEN
 		assertNotNull(companies);
 		assertTrue(companies.get(0) instanceof Company);
@@ -153,7 +82,7 @@ public class ServiceCompanyTest {
 		int offset = 0;
 		List<Company> companies;
 		// WHENE
-		companies = serviceCompany.findAllCompanies(limit, offset);
+		companies = compmanyDaoImpl.findAllCompanies(limit, offset);
 		// THEN
 		assertNotNull(companies);
 		assertTrue(companies.get(0) instanceof Company);
@@ -172,7 +101,7 @@ public class ServiceCompanyTest {
 		int offset = -1;
 		List<Company> companies;
 		// WHENE
-		companies = serviceCompany.findAllCompanies(limit, offset);
+		companies = compmanyDaoImpl.findAllCompanies(limit, offset);
 		// THEN
 		assertNotNull(companies);
 		assertTrue(companies.get(0) instanceof Company);
@@ -187,7 +116,7 @@ public class ServiceCompanyTest {
 		// GIVEN
 		Company company;
 		// WHENE
-		company = serviceCompany.findCompanyById((long) 20);
+		company = compmanyDaoImpl.findCompanyById((long) 20);
 		// THEN
 		assertNotNull(company);
 		assertEquals(company.getId(), (long) 20);
@@ -202,7 +131,7 @@ public class ServiceCompanyTest {
 		// GIVEN
 		Company company;
 		// WHENE
-		company = serviceCompany.findCompanyById((long) -1);
+		company = compmanyDaoImpl.findCompanyById((long) -1);
 		// THEN
 		assertNull(company);
 	}
@@ -216,11 +145,9 @@ public class ServiceCompanyTest {
 		// GIVEN
 		Company company;
 		// WHENE
-		company = serviceCompany.findCompanyById((long) 1000);
+		company = compmanyDaoImpl.findCompanyById((long) 1000);
 		// THEN
 		assertNull(company);
 	}
 
-	
-	
 }
