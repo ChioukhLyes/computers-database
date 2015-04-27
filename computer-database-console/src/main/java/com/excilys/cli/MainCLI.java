@@ -258,11 +258,12 @@ public class MainCLI {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		Long choice = null;
-
-		while (choice == null || !(choice instanceof Long)) {
+		System.out.println("Enter computer id (Long) : ");
+		while (!scanner.hasNextLong()) {
 			System.out.println("Enter computer id (Long) : ");
-			choice = scanner.nextLong();
+			scanner.next();
 		}
+		choice = scanner.nextLong();
 		System.out.println("Computer details :");
 
 		Response response = targetComputers.path("/list/" + choice)
@@ -274,8 +275,6 @@ public class MainCLI {
 			throw new RuntimeException("[HTTP] Failed : error code "
 					+ response.getStatus());
 		}
-
-		// System.out.println(serviceComputer.findComputerById(choice).toString());
 		mainCLI();
 	}
 
@@ -292,18 +291,15 @@ public class MainCLI {
 		LocalDate introduced = null;
 		LocalDate discontinued = null;
 		Long companyId = null;
-		// SimpleDateFormat dateFormat =
-		// SimpleDateFormat.ofPattern("yyyy/MM/dd");
-		
+
 		DateTimeFormatter formatterUs = DateTimeFormatter
 				.ofPattern("MM-dd-yyyy");
 		DateTimeFormatter formatterFr = DateTimeFormatter
 				.ofPattern("dd-MM-yyyy");
-		
+
 		String donnee;
 		while (name == null) {
 			System.out.println("Enter computer name : ");
-			// scanner.nextLine();
 			name = scanner.nextLine();
 		}
 
@@ -311,7 +307,7 @@ public class MainCLI {
 			System.out
 					.println("Enter computer introduced date (MM-dd-yyyy or dd-MM-yyyy) : ");
 			donnee = scanner.next();
-			
+
 			if (DateValidator.getInstance().isValid(donnee, "MM-dd-yyyy"))
 				introduced = LocalDate.parse(donnee, formatterUs);
 			else if (DateValidator.getInstance().isValid(donnee, "dd-MM-yyyy"))
@@ -329,6 +325,10 @@ public class MainCLI {
 		}
 
 		System.out.println("Enter company id (Long) : ");
+		while (!scanner.hasNextLong()) {
+			System.out.println("Enter company id (Long) : ");
+			scanner.next();
+		}
 		companyId = scanner.nextLong();
 
 		try {
@@ -336,7 +336,6 @@ public class MainCLI {
 			computerDTO.setIntroduced(introduced);
 			computerDTO.setDiscontinued(discontinued);
 			computerDTO.setCompanyId(companyId);
-			// serviceComputer.insertComputer(computerDTO);
 
 			Response response = targetComputers
 					.path("/add")
@@ -370,19 +369,24 @@ public class MainCLI {
 		LocalDate introduced = null;
 		LocalDate discontinued = null;
 		Long companyId = null;
-		// DateTimeFormatter dateFormat = DateTimeFormatter
-		// .ofPattern("yyyy/MM/dd");
+		Response response = null;
+		DateTimeFormatter formatterUs = DateTimeFormatter
+				.ofPattern("MM-dd-yyyy");
+		DateTimeFormatter formatterFr = DateTimeFormatter
+				.ofPattern("dd-MM-yyyy");
 		DateTimeFormatter dateFormat = DateTimeFormatter
 				.ofPattern("yyyy-MM-dd");
 		String donnee;
-		while (id == null || computerDTO == null) {
+
+		System.out.println("Enter computer id (Long) : ");
+		while (!scanner.hasNextLong()) {
 			System.out.println("Enter computer id (Long) : ");
-			id = scanner.nextLong();
-			
-			Response response = targetComputers.path("/list/" + id)
-					.request(MediaType.APPLICATION_JSON).get();
-			computerDTO = response.readEntity(ComputerDTO.class);
+			scanner.next();
 		}
+		id = scanner.nextLong();
+		response = targetComputers.path("/list/" + id)
+				.request(MediaType.APPLICATION_JSON).get();
+		computerDTO = response.readEntity(ComputerDTO.class);
 
 		while (name == null) {
 			System.out.println("Current computer name : "
@@ -393,43 +397,50 @@ public class MainCLI {
 		}
 		computerDTO.setName(name);
 
+		System.out.println("Current  computer introduced date  : "
+				+ computerDTO.getIntroduced());
 		while (introduced == null) {
-			System.out.println("Current computer introduced date : "
-					+ computerDTO.getIntroduced());
 			System.out
-					.println("Enter new computer introduced date (yyyy-MM-dd) : ");
+					.println("Enter computer introduced date (MM-dd-yyyy or dd-MM-yyyy) : ");
 			donnee = scanner.next();
-			if (DateValidator.getInstance().isValid(donnee, "yyyy-MM-dd")) {
-				introduced = LocalDate.parse(donnee, dateFormat);
-			}
+
+			if (DateValidator.getInstance().isValid(donnee, "MM-dd-yyyy"))
+				introduced = LocalDate.parse(donnee, formatterUs);
+			else if (DateValidator.getInstance().isValid(donnee, "dd-MM-yyyy"))
+				introduced = LocalDate.parse(donnee, formatterFr);
 		}
+
 		computerDTO.setIntroduced(introduced);
 
+		System.out.println("Current  computer discontinued date  : "
+				+ computerDTO.getDiscontinued());
 		while (discontinued == null) {
-			System.out.println("Current computer discontinued date : "
-					+ computerDTO.getDiscontinued());
 			System.out
-					.println("Enter new computer discontinued date (yyyy-MM-ddd) : ");
+					.println("Enter computer discontinued date (MM-dd-yyyy or dd-MM-yyyy) : ");
 			donnee = scanner.next();
-			if (DateValidator.getInstance().isValid(donnee, "yyyy-MM-dd")) {
-				discontinued = LocalDate.parse(donnee, dateFormat);
-			}
+			if (DateValidator.getInstance().isValid(donnee, "MM-dd-yyyy"))
+				discontinued = LocalDate.parse(donnee, formatterUs);
+			else if (DateValidator.getInstance().isValid(donnee, "dd-MM-yyyy"))
+				discontinued = LocalDate.parse(donnee, formatterFr);
 		}
+
 		computerDTO.setDiscontinued(discontinued);
 
 		System.out.println("Current  company id  : "
 				+ computerDTO.getCompanyId());
-		System.out.println("Enter new company id (Long) : ");
+		System.out.println("Enter company id (Long) : ");
+		while (!scanner.hasNextLong()) {
+			System.out.println("Enter company id (Long) : ");
+			scanner.next();
+		}
 		companyId = scanner.nextLong();
-		if (companyId != null && companyId instanceof Long)
-			computerDTO.setCompanyId(companyId);
+		computerDTO.setCompanyId(companyId);
 
 		try {
-			Response response = targetComputers
+			response = targetComputers
 					.path("/update")
 					.request(MediaType.APPLICATION_JSON)
-					.put(Entity
-							.entity(computerDTO, MediaType.APPLICATION_JSON));
+					.put(Entity.entity(computerDTO, MediaType.APPLICATION_JSON));
 
 			if (response.getStatus() != 200 && response.getStatus() != 201) {
 				throw new RuntimeException("[HTTP] Failed : error code :"
@@ -453,25 +464,18 @@ public class MainCLI {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		Long id = null;
-		while (id == null) {
+
+		System.out.println("Enter computer id (Long) : ");
+		while (!scanner.hasNextLong()) {
 			System.out.println("Enter computer id (Long) : ");
-			//scanner.next();
-			if (scanner.hasNextLong()) {
-				id = scanner.nextLong();
-				
-				targetComputers.path("/delete/" + id)
-						.request(MediaType.APPLICATION_JSON).delete();
-				
-				System.out.println("The computer with id "+id+" has been deleted.");
-			}
+			scanner.next();
 		}
-		// try {
-		// serviceComputer.deleteComputer(computerDTO);
-		// System.out.println("The following computer has been deleted : "
-		// + computerDTO.toString());
-		// } catch (Exception e) {
-		// System.err.println("Computer not deleted" + e.getMessage());
-		// }
+		id = scanner.nextLong();
+		targetComputers.path("/delete/" + id)
+				.request(MediaType.APPLICATION_JSON).delete();
+
+		System.out.println("The computer with id " + id + " has been deleted.");
+
 		mainCLI();
 
 	}
@@ -487,24 +491,15 @@ public class MainCLI {
 		Scanner scanner = new Scanner(System.in);
 		Long id = null;
 
-		while (id == null) {
+		System.out.println("Enter company id (Long) : ");
+		while (!scanner.hasNextLong()) {
 			System.out.println("Enter company id (Long) : ");
-			if (scanner.hasNextLong()) {
-				id = scanner.nextLong();
-				
-				targetCompanies.path("/delete/" + id)
-						.request(MediaType.APPLICATION_JSON).delete();
-				System.out.println("The company with id "+id+" has been deleted.");
-			}
+			scanner.next();
 		}
-		// }
-		// try {
-		// serviceCompany.deleteCompany(company);
-		// System.out.println("The following company has been deleted : "
-		// + company.toString());
-		// } catch (Exception e) {
-		// System.err.println("Company not deleted " + e.getMessage());
-		// }
+		id = scanner.nextLong();
+		targetCompanies.path("/delete/" + id)
+				.request(MediaType.APPLICATION_JSON).delete();
+		System.out.println("The company with id " + id + " has been deleted.");
 		mainCLI();
 
 	}

@@ -9,3 +9,5 @@ target/*
 *.ear
 *.class
 *.springBeans
+/target/
+/target/

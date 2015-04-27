@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.hibernate.annotations.Type;
 import org.springframework.stereotype.Component;
 
-import com.excilys.dao.mapper.LocalDateAdapter;
+import com.excilys.utils.LocalDateAdapter;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -44,13 +44,13 @@ public class ComputerDTO implements Serializable {
 
 	/** The introduced. */
 	@Column(name = "introduced")
-	@Type(type = "com.excilys.dao.mapper.CustomLocalDateTimeUserType")
+	@Type(type = "com.excilys.utils.CustomLocalDateTimeUserType")
 	@XmlJavaTypeAdapter(LocalDateAdapter.class)
 	private LocalDate introduced;
 
 	/** The discontinued. */
 	@Column(name = "discontinued")
-	@Type(type = "com.excilys.dao.mapper.CustomLocalDateTimeUserType")
+	@Type(type = "com.excilys.utils.CustomLocalDateTimeUserType")
 	@XmlJavaTypeAdapter(LocalDateAdapter.class)
 	private LocalDate discontinued;
 

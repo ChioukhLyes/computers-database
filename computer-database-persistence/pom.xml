@@ -8,12 +8,8 @@
 		<artifactId>computer-database</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
 	<artifactId>computer-database-persistence</artifactId>
-
-
 	<dependencies>
-
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>computer-database-core</artifactId>
@@ -29,8 +25,6 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 	</dependencies>
-
-
 </project>
 
 

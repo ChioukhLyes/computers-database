@@ -1,4 +1,4 @@
-package com.excilys.dao.mapper;
+package com.excilys.utils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
