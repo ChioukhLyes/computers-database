@@ -271,7 +271,7 @@ public class ComputerWebServiceTest {
 		// GIVEN
 		ComputerDTO computerDTO = new ComputerDTO();
 		// WHENE
-		computerDTO.setId(730);
+		computerDTO.setId(450);
 		computerDTO.setName("TestWSUpdated");
 		computerDTO.setIntroduced(null);
 		computerDTO.setDiscontinued(LocalDate.parse("10-10-2000",

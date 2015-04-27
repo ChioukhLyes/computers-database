@@ -356,7 +356,7 @@ public class ServiceComputerTest {
 	@Transactional
 	public final void testUpdateComputer() {
 		// GIVEN
-		ComputerDTO computer = serviceComputer.findComputerById((long) 700);
+		ComputerDTO computer = serviceComputer.findComputerById((long) 450);
 		// WHENE
 		computer.setName("Updated");
 		serviceComputer.updateComputer(computer);

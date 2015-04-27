@@ -98,11 +98,11 @@
 		</c:if>
 	</ul>
 	<div class="btn-group btn-group-sm pull-right" role="group">
-		<button type="button" class="btn btn-default"
+		<button id="paginate10" type="button" class="btn btn-default"
 			onclick="document.location.href='dashboard?page=1&size=10&search=${currentPage.searchString}&orderby=${currentPage.orderEntitiesBy}&orderoption=${currentPage.optionOrder}'">10</button>
-		<button type="button" class="btn btn-default"
+		<button id="paginate50" type="button" class="btn btn-default"
 			onclick="document.location.href='dashboard?page=1&size=50&search=${currentPage.searchString}&orderby=${currentPage.orderEntitiesBy}&orderoption=${currentPage.optionOrder}'">50</button>
-		<button type="button" class="btn btn-default"
+		<button id="paginate100" type="button" class="btn btn-default"
 			onclick="document.location.href='dashboard?page=1&size=100&search=${currentPage.searchString}&orderby=${currentPage.orderEntitiesBy}&orderoption=${currentPage.optionOrder}'">100</button>
 	</div>
 </div>

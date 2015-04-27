@@ -20,7 +20,7 @@
 	</modules>
 	<!-- Version APIs -->
 	<properties>
-		<CH.QOS.LOGBACK>1.0.13</CH.QOS.LOGBACK>
+		<CH.QOS.LOGBACK>1.1.3</CH.QOS.LOGBACK>
 		<COMMONS-VALIDATOR>1.4.0</COMMONS-VALIDATOR>
 		<MYSQL>5.1.34</MYSQL>
 		<JUNIT>4.12</JUNIT>
@@ -37,7 +37,7 @@
 		<JOOK>3.5.0</JOOK>
 		<SPRING.VERSION>4.1.5.RELEASE</SPRING.VERSION>
 		<SPRING.TAGLIBS>4.0.0.RELEASE</SPRING.TAGLIBS>
-		<SLF4J.VERSION>1.7.10</SLF4J.VERSION>
+		<SLF4J.VERSION>1.7.12</SLF4J.VERSION>
 		<JAVAX.VALIDATION>1.1.0.Final</JAVAX.VALIDATION>
 		<INJECT>1</INJECT>
 		<HIBERNATE.CORE>4.3.8.Final</HIBERNATE.CORE>
@@ -212,7 +212,6 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${CH.QOS.LOGBACK}</version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -286,10 +285,10 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${MAVEN-SUREFIRE-PLUGIN}</version>
 				<configuration>
-					<excludes>
+					<!-- <excludes>
 						<exclude>**/integration/*.java</exclude>
-						<!-- Exclude selenium tests -->
-					</excludes>
+						Exclude selenium tests
+					</excludes> -->
 				</configuration>
 				<executions>
 					<execution>

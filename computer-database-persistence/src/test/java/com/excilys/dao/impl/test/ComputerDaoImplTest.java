@@ -224,7 +224,7 @@ public class ComputerDaoImplTest {
 	@Transactional
 	public final void testUpdateComputer() {
 		// GIVEN
-		ComputerDTO computer = computerDaoImpl.findComputerById((long) 700);
+		ComputerDTO computer = computerDaoImpl.findComputerById((long) 450);
 		// WHENE
 		computer.setName("Updated");
 		computerDaoImpl.updateComputer(computer);

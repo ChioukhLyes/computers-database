@@ -77,7 +77,7 @@
 										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="name" orderoption="ASC"/>"
 									</c:otherwise>
 								</c:choose>
-						aria-label="Last"> <c:choose>
+						aria-label="Last" id="orderByComputerName"> <c:choose>
 								<c:when test="${currentPage.optionOrder == 'DESC' }">
 									<span class="glyphicon glyphicon-sort-by-alphabet-alt"
 										aria-hidden="true"></span>
@@ -106,7 +106,7 @@
 										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="introduced" orderoption="ASC"/>"
 									</c:otherwise>
 								</c:choose>
-						aria-label="Last"> <c:choose>
+						aria-label="Last" id="orderByIntroduced"> <c:choose>
 								<c:when test="${currentPage.optionOrder == 'DESC' }">
 									<span class="glyphicon glyphicon-sort-by-order-alt"
 										aria-hidden="true"></span>
@@ -134,7 +134,7 @@
 										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="discontinued" orderoption="ASC"/>"
 									</c:otherwise>
 								</c:choose>
-						aria-label="Last"> <c:choose>
+						aria-label="Last" id="orderByDiscontinued"> <c:choose>
 								<c:when test="${currentPage.optionOrder == 'DESC' }">
 									<span class="glyphicon glyphicon-sort-by-order-alt"
 										aria-hidden="true"></span>
@@ -162,7 +162,7 @@
 										href="<mylib:link target="dashboard" page="${currentPage.pageNumber}" size="${currentPage.pageSize}" search="${currentPage.searchString}" orderby="companyname" orderoption="ASC"/>"
 									</c:otherwise>
 								</c:choose>
-						aria-label="Last"> <c:choose>
+						aria-label="Last" id="orderByCompanyName"> <c:choose>
 								<c:when test="${currentPage.optionOrder == 'DESC' }">
 									<span class="glyphicon glyphicon-sort-by-alphabet-alt"
 										aria-hidden="true"></span>
