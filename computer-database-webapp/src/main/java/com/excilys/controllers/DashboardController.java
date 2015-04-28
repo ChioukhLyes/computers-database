@@ -5,6 +5,8 @@ import java.util.StringTokenizer;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,7 +44,6 @@ public class DashboardController {
 
 	/** The number computers. */
 	private long numberComputers;
-
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
 			.getLogger(DashboardController.class);
@@ -81,6 +82,10 @@ public class DashboardController {
 			ModelAndView modelAndView) {
 
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String username = auth.getName();
+	    		  
 		if (page != 0)
 			currentPage.setPageNumber(page);
 		if (size != 0)
@@ -99,7 +104,8 @@ public class DashboardController {
 		numberComputers = this.serviceComputer.getCountComputers(search);
 		currentPage.setMaxPage((long) ((numberComputers - 1) / size + 1));
 		currentPage.setEntities(lisComputers);
-
+		
+		modelAndView.addObject("username",username);
 		modelAndView.addObject("currentPage", currentPage);
 		modelAndView.addObject("numberComputers", numberComputers);
 		modelAndView.setViewName("dashboard");

@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,7 @@ import com.excilys.dto.ComputerDTO;
 import com.excilys.models.Company;
 import com.excilys.service.ServiceCompany;
 import com.excilys.service.ServiceComputer;
+
 import org.apache.commons.validator.routines.DateValidator;
 // TODO: Auto-generated Javadoc
 /**
@@ -71,6 +74,9 @@ public class EditController {
 			ModelAndView modelAndView) {
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		List<Company> lisCompanies = serviceCompany.findAllCompanies();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String username = auth.getName();
+		modelAndView.addObject("username",username);
 		modelAndView.addObject("Companies", lisCompanies);
 		if (id != 0) {
 			computer = serviceComputer.findComputerById(id);

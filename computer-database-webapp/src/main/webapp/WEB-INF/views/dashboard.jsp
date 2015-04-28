@@ -12,6 +12,7 @@
 	<div class="container">
 		<h1 id="homeTitle">
 			<c:out value="${numberComputers}"></c:out>
+			<c:out value="${aa}"></c:out>
 			<spring:message code="computer.found" />
 		</h1>
 
@@ -43,7 +44,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<security:authorize access="hasRole('ROLE_ADMIN')">
 		<form id="deleteForm" action="dashboard" method="POST">
 			<input type="hidden" name="selection" value="">
@@ -202,6 +203,7 @@
 		</table>
 	</div>
 </section>
+
 
 <footer class="navbar-fixed-bottom">
 	<mylib:paginator page="${currentPage}" />

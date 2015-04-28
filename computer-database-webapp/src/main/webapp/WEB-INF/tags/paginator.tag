@@ -3,6 +3,9 @@
 <%@ attribute name="page" required="true" type="com.excilys.models.Page"
 	description="CurrentPage"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="security"%>
+
 	
 <div class="container text-center">
 	<ul class="pagination">
@@ -97,6 +100,16 @@
 			</a></li>
 		</c:if>
 	</ul>
+	
+	<div class="btn-group btn-group-sm pull-left" role="group">
+	<security:authorize access="isAuthenticated()">
+		<h5 class="btn-group btn-group-sm pull-left">
+			<small><spring:message code="connecterAs" /></small>
+			<c:out value=":  ${username}"></c:out>
+		</h5>
+	</security:authorize>
+	</div>
+	
 	<div class="btn-group btn-group-sm pull-right" role="group">
 		<button id="paginate10" type="button" class="btn btn-default"
 			onclick="document.location.href='dashboard?page=1&size=10&search=${currentPage.searchString}&orderby=${currentPage.orderEntitiesBy}&orderoption=${currentPage.optionOrder}'">10</button>
