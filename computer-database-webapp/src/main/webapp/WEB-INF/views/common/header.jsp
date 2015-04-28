@@ -50,7 +50,7 @@
 							<spring:message code="confirmation" />
 						</div>
 						<div class="modal-footer">
-							<a href="<c:url value="j_spring_security_logout" />"
+							<a id="confirmationlogout" href="<c:url value="j_spring_security_logout" />"
 								class="btn btn-danger btn-block"><spring:message
 									code="logout" /></a>
 						</div>
@@ -69,7 +69,7 @@
 
 				<li class="notifbox">
 					<ul class="notif">
-						<li><a onclick="updateQueryStringParameter('language','fr')">
+						<li><a id="languagesChangeFr" onclick="updateQueryStringParameter('language','fr')">
 								<ul class="imageblock">
 									<li><img src="images/France.png" class="notifimage" /></li>
 								</ul>
@@ -83,7 +83,7 @@
 						</a></li>
 					</ul>
 					<ul class="notif">
-						<li><a onclick="updateQueryStringParameter('language','en')">
+						<li><a id="languagesChangeEn" onclick="updateQueryStringParameter('language','en')">
 								<ul class="imageblock">
 									<li><img src="images/English.png" class="notifimage" /></li>
 								</ul>
@@ -100,7 +100,7 @@
 			</ul>
 
 			<!-- End Switch language operation  -->
-			<a class="navbar-brand" href="dashboard"> <spring:message
+			<a id="titleNavBar" class="navbar-brand" href="dashboard"> <spring:message
 					code="title" /></a>
 		</div>
 	</header>

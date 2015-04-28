@@ -1,7 +1,6 @@
 package integration;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -89,12 +88,14 @@ public class DashboardTest {
 	@Test
 	public void testSearchEmpty() throws Exception {
 
+		//GIVEN
 		String number = driver.findElement(By.id("homeTitle")).getText();
 		WebElement searchbox = driver.findElement(By.id("searchbox"));
 		WebElement searchsubmit = driver.findElement(By.id("searchsubmit"));
-
+		//WHENE
 		searchbox.clear();
 		searchsubmit.click();
+		//THENE
 		assertEquals(number, driver.findElement(By.id("homeTitle")).getText());
 
 	}
@@ -108,11 +109,14 @@ public class DashboardTest {
 	@Test
 	public void testSearchWord() throws Exception {
 
+		//GIVE
 		WebElement searchbox = driver.findElement(By.id("searchbox"));
 		WebElement searchsubmit = driver.findElement(By.id("searchsubmit"));
+		//WHENE
 		searchbox.clear();
 		searchbox.sendKeys("Apple II");
 		searchsubmit.click();
+		//THENE
 		verifyComputerList(8);
 	}
 
@@ -125,13 +129,16 @@ public class DashboardTest {
 	@Test
 	public void testSearchWordWithChanginPage() throws Exception {
 
+		//GIVEN
 		WebElement searchbox = driver.findElement(By.id("searchbox"));
 		WebElement searchsubmit = driver.findElement(By.id("searchsubmit"));
+		//WHENE
 		searchbox.clear();
 		searchbox.sendKeys("Apple");
 		searchsubmit.click();
 		WebElement page = driver.findElement(By.id("paginate50"));
 		page.click();
+		//THENE
 		verifyComputerList(49);
 	}
 
@@ -186,19 +193,24 @@ public class DashboardTest {
 	@Test
 	public void testOrderByName() throws Exception {
 
+		//GIVEN
 		WebElement searchbox = driver.findElement(By.id("searchbox"));
 		WebElement searchsubmit = driver.findElement(By.id("searchsubmit"));
+		//WHENE
 		searchbox.clear();
 		searchbox.sendKeys("Apple II");
 		searchsubmit.click();
+		//THENE
 		verifyComputerList(8);
 		WebElement sorted = driver.findElement(By.id("orderByComputerName"));
+		//GIVEN
 		sorted.click();
 		WebElement listComputer = driver.findElement(By.id("results"));
 		List<WebElement> tableRows = listComputer
 				.findElements(By.tagName("tr"));
 		List<WebElement> tableRowTds = tableRows.get(0).findElements(
 				By.tagName("td"));
+		//THENE
 		assertEquals(tableRowTds.get(1).getText(), "Apple III Plus");
 
 	}
@@ -212,19 +224,24 @@ public class DashboardTest {
 	@Test
 	public void testOrderByIntroduced() throws Exception {
 
+		//GIVEN
 		WebElement searchbox = driver.findElement(By.id("searchbox"));
 		WebElement searchsubmit = driver.findElement(By.id("searchsubmit"));
 		searchbox.clear();
 		searchbox.sendKeys("Apple II");
 		searchsubmit.click();
+		//THENE
 		verifyComputerList(8);
+		//GIVEN
 		WebElement sorted = driver.findElement(By.id("orderByIntroduced"));
+		//WHNE
 		sorted.click();
 		WebElement listComputer = driver.findElement(By.id("results"));
 		List<WebElement> tableRows = listComputer
 				.findElements(By.tagName("tr"));
 		List<WebElement> tableRowTds = tableRows.get(0).findElements(
 				By.tagName("td"));
+		//THENE
 		assertEquals(tableRowTds.get(2).getText(), "1983-12-01");
 
 	}
@@ -238,19 +255,25 @@ public class DashboardTest {
 	@Test
 	public void testOrderByDiscontinued() throws Exception {
 
+		//GIVEN
 		WebElement searchbox = driver.findElement(By.id("searchbox"));
 		WebElement searchsubmit = driver.findElement(By.id("searchsubmit"));
+		//WHENE
 		searchbox.clear();
 		searchbox.sendKeys("Apple II");
 		searchsubmit.click();
+		//THENE
 		verifyComputerList(8);
+		//GIVEN
 		WebElement sorted = driver.findElement(By.id("orderByDiscontinued"));
+		//WHENE
 		sorted.click();
 		WebElement listComputer = driver.findElement(By.id("results"));
 		List<WebElement> tableRows = listComputer
 				.findElements(By.tagName("tr"));
 		List<WebElement> tableRowTds = tableRows.get(0).findElements(
 				By.tagName("td"));
+		//THENE
 		assertEquals(tableRowTds.get(3).getText(), "1993-10-01");
 
 	}
@@ -264,23 +287,166 @@ public class DashboardTest {
 	@Test
 	public void testOrderByCompanyName() throws Exception {
 
+		//GIVEN
 		WebElement searchbox = driver.findElement(By.id("searchbox"));
 		WebElement searchsubmit = driver.findElement(By.id("searchsubmit"));
+		//WHENE
 		searchbox.clear();
 		searchbox.sendKeys("Apple II");
 		searchsubmit.click();
+		//THEN
 		verifyComputerList(8);
+		//GIVE
 		WebElement sorted = driver.findElement(By.id("orderByCompanyName"));
+		//WHENE
 		sorted.click();
 		WebElement listComputer = driver.findElement(By.id("results"));
 		List<WebElement> tableRows = listComputer
 				.findElements(By.tagName("tr"));
 		List<WebElement> tableRowTds = tableRows.get(0).findElements(
 				By.tagName("td"));
+		//THEN
 		assertEquals(tableRowTds.get(4).getText(), "Apple Inc.");
 
 	}
 
+	/**
+	 * Test change language fr.
+	 *
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void testChangeLanguageFr() throws Exception {
+
+		// GIVEN
+		WebElement flagLanuage = driver.findElement(By.id("languagesChange"));
+		WebElement changeToFr = driver.findElement(By.id("languagesChangeFr"));
+		// WHENE
+		flagLanuage.click();
+		changeToFr.click();
+		// THENE
+		WebElement searchsubmit = driver.findElement(By.id("searchsubmit"));
+		assertEquals(searchsubmit.getAttribute("value"), "Filtrer par nom");
+	}
+
+	/**
+	 * Test change language en.
+	 *
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void testChangeLanguageEn() throws Exception {
+
+		// GIVEN
+		WebElement flagLanuage = driver.findElement(By.id("languagesChange"));
+		WebElement changeToEn = driver.findElement(By.id("languagesChangeEn"));
+		// WHENE
+		flagLanuage.click();
+		changeToEn.click();
+		// THENE
+		WebElement searchsubmit = driver.findElement(By.id("searchsubmit"));
+		assertEquals(searchsubmit.getAttribute("value"), "Filter by name");
+	}
+
+	/**
+	 * Test edition autorisation.
+	 *
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void testEditionAutorisation() throws Exception {
+
+		// GIVEN
+		WebElement listComputer = driver.findElement(By.id("results"));
+		List<WebElement> tableRows = listComputer
+				.findElements(By.tagName("tr"));
+		List<WebElement> tableRowTds = tableRows.get(0).findElements(
+				By.tagName("td"));
+		WebElement link = tableRowTds.get(1).findElement(By.tagName("a"));
+		// WHENE
+		link.click();
+		// THENE
+		assertEquals(driver.getCurrentUrl(),
+				"http://localhost:8080/computer-database-webapp/login");
+	}
+
+	/**
+	 * Test long in button.
+	 *
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void testLongInButton() throws Exception {
+
+		// GIVEN
+		WebElement link = driver.findElement(By.id("logout-button"));
+		// WHENE
+		link.click();
+		// THENE
+		assertEquals(driver.getCurrentUrl(),
+				"http://localhost:8080/computer-database-webapp/login");
+	}
+	
+	@Test
+	public void testAddButton() throws Exception {
+
+		// GIVEN
+		WebElement link = driver.findElement(By.id("addComputer"));
+		// WHENE
+		link.click();
+		// THENE
+		assertEquals(driver.getCurrentUrl(),
+				"http://localhost:8080/computer-database-webapp/login");
+	}
+	
+	@Test
+	public void testLogInPageSuccess() throws Exception {
+
+		// GIVEN
+		WebElement link = driver.findElement(By.id("logout-button"));
+		// WHENE
+		link.click();
+		WebElement textinput = driver.findElement(By.id("textinput"));
+		WebElement passwordinput = driver.findElement(By.id("passwordinput"));
+		WebElement submit = driver.findElement(By.id("button1id"));
+		textinput.clear();
+		textinput.sendKeys("Admin1");
+		passwordinput.clear();
+		passwordinput.sendKeys("123456");
+		submit.click();
+		// THENE
+		WebElement logoutbutton = driver.findElement(By.id("logout-button")); 
+		assertEquals(logoutbutton.getAttribute("class"), "btn btn-danger pull-right");
+		logoutbutton.click();
+		WebElement confirmationlogout = driver.findElement(By.id("confirmationlogout")); 
+		confirmationlogout.click();
+		
+	}
+
+	@Test
+	public void testLogInPageError() throws Exception {
+
+		// GIVEN
+		WebElement link = driver.findElement(By.id("logout-button"));
+		// WHENE
+		link.click();
+		WebElement textinput = driver.findElement(By.id("textinput"));
+		WebElement passwordinput = driver.findElement(By.id("passwordinput"));
+		WebElement submit = driver.findElement(By.id("button1id"));
+		textinput.clear();
+		textinput.sendKeys("Admin1");
+		passwordinput.clear();
+		passwordinput.sendKeys("$$$$");
+		submit.click();
+		// THENE
+		WebElement logoutbutton = driver.findElement(By.id("logout-button")); 
+		assertEquals(logoutbutton.getAttribute("class"), "btn btn-success pull-right");
+	}
+	
 	/**
 	 * Calculate items *.
 	 *

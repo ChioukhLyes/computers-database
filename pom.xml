@@ -200,6 +200,10 @@
 			<artifactId>javax.inject</artifactId>
 			<version>${INJECT}</version>
 		</dependency>
+
+		
+
+
 		<!-- xml reader, or a bug will occurred while loading spring context from 
 			xml file -->
 		<dependency>
@@ -285,10 +289,8 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${MAVEN-SUREFIRE-PLUGIN}</version>
 				<configuration>
-					<!-- <excludes>
-						<exclude>**/integration/*.java</exclude>
-						Exclude selenium tests
-					</excludes> -->
+					<!-- <excludes> <exclude>**/integration/*.java</exclude> Exclude selenium 
+						tests </excludes> -->
 				</configuration>
 				<executions>
 					<execution>
@@ -311,7 +313,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	<reporting>
+	<!-- <reporting>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -323,5 +325,17 @@
 				</configuration>
 			</plugin>
 		</plugins>
-	</reporting>
+	</reporting> -->
+	<reporting>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-report-plugin</artifactId>
+					<version>2.18.1</version>
+					<configuration>
+						<showSuccess>false</showSuccess>
+					</configuration>
+				</plugin>
+			</plugins>
+		</reporting>
 </project>

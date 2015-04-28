@@ -54,7 +54,7 @@
 						</fieldset>
 						<div class="actions pull-right">
 
-							<input type="submit" value=" <spring:message code="add"/>"
+							<input id="submitAdd" type="submit" value="<spring:message code="add"/>"
 								class="btn btn-primary">
 							<spring:message code="or" />
 							<a href="dashboard" class="btn btn-default"> <spring:message
