@@ -273,5 +273,7 @@ public class AddComputerTest {
 		// THENE
 		assertEquals(discontinued.getAttribute("class"), "form-control error");
 	}
+	
+	
 
 }

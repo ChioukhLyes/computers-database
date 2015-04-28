@@ -103,7 +103,7 @@
 	
 	<div class="btn-group btn-group-sm pull-left" role="group">
 	<security:authorize access="isAuthenticated()">
-		<h5 class="btn-group btn-group-sm pull-left">
+		<h5 id="username" class="btn-group btn-group-sm pull-left">
 			<small><spring:message code="connecterAs" /></small>
 			<c:out value=":  ${username}"></c:out>
 		</h5>
