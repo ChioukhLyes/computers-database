@@ -15,6 +15,8 @@
 	<mvc:annotation-driven />
 	<mvc:annotation-driven validator="validator" />
 
+	<import resource="classpath:/spring-security.xml" />
+	
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
 		<property name="cookieName" value="language" />

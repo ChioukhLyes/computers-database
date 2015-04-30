@@ -67,7 +67,7 @@ public interface ComputerDAO  {
 	 *            the computer
 	 * @return true, if successful
 	 */
-	void insertComputer(ComputerDTO computer);
+	void insertComputer(Computer computer);
 
 	/**
 	 * Delete computer.

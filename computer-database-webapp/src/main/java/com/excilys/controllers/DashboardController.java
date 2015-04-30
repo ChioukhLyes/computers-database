@@ -129,14 +129,15 @@ public class DashboardController {
 			ModelAndView modelAndView) {
 
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String username = auth.getName();
 		StringTokenizer stringTokenizer = new StringTokenizer(selection, ",");
 		while (stringTokenizer.hasMoreTokens()) {
 			computer.setId(Long.valueOf(stringTokenizer.nextToken()));
 			this.serviceComputer.deleteComputer(computer);
 			numberComputers--;
 		}
-
+		
 		currentPage.setEntities(this.serviceComputer
 				.findAllComputersCompaniesByName(currentPage.getPageSize(),
 						((currentPage.getPageNumber() - 1) * currentPage
@@ -144,7 +145,8 @@ public class DashboardController {
 								.getOrderEntitiesBy(), currentPage
 								.getSearchString(), currentPage
 								.getoptionOrder()));
-
+		
+		modelAndView.addObject("username",username);
 		modelAndView.addObject("currentPage", currentPage);
 		modelAndView.addObject("numberComputers", numberComputers);
 		modelAndView.setViewName("dashboard");

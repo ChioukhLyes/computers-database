@@ -1,3 +1,8 @@
+/*
+ * root
+ * 
+ * Company.java - 2015
+ */
 package com.excilys.models;
 
 import java.io.Serializable;
@@ -90,6 +95,17 @@ public class Company implements Serializable {
 	 */
 	public Company() {
 		super();
+	}
+
+	/**
+	 * Instantiates a new company.
+	 *
+	 * @param id
+	 *            the id
+	 */
+	public Company(Long id) {
+		super();
+		this.id = id;
 	}
 
 	/*

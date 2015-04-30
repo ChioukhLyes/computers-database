@@ -1,11 +1,12 @@
 package com.excilys.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import javax.validation.ConstraintViolationException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -134,7 +135,7 @@ public class ServiceComputerTest {
 		// THEN
 	}
 
-	@Test(expected = ConstraintViolationException.class)
+	@Test
 	@Transactional
 	public void testupdateComputerNull() {
 

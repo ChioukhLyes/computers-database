@@ -1,3 +1,8 @@
+/*
+ * root
+ * 
+ * Computer.java - 2015
+ */
 package com.excilys.models;
 
 import java.io.Serializable;
@@ -15,7 +20,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.hibernate.annotations.Type;
 import org.springframework.stereotype.Component;
 
-import com.excilys.utils.*;
+import com.excilys.utils.LocalDateAdapter;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -247,6 +252,101 @@ public class Computer implements Serializable {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	/**
+	 * The Class Builder.
+	 */
+	public static class Builder {
+		private Computer computer;
+
+		/**
+		 * Name.
+		 *
+		 * @param name
+		 *            the name
+		 * @return the builder
+		 */
+		public Builder name(String name) {
+			computer.setName(name);
+			return this;
+		}
+
+		/**
+		 * Id.
+		 *
+		 * @param id
+		 *            the id
+		 * @return the builder
+		 */
+		public Builder id(int id) {
+			computer.setId(id);
+			return this;
+		}
+
+		/**
+		 * Introduced.
+		 *
+		 * @param introduced
+		 *            the introduced
+		 * @return the builder
+		 */
+		public Builder introduced(LocalDate introduced) {
+			computer.setIntroduced(introduced);
+			return this;
+		}
+
+		/**
+		 * Discontinued.
+		 *
+		 * @param discontinued
+		 *            the discontinued
+		 * @return the builder
+		 */
+		public Builder discontinued(LocalDate discontinued) {
+			computer.setDiscontinued(discontinued);
+			return this;
+		}
+
+		/**
+		 * Company.
+		 *
+		 * @param company
+		 *            the company
+		 * @return the builder
+		 */
+		public Builder company(Company company) {
+			computer.setCompany(company);
+			return this;
+		}
+
+		/**
+		 * Company.
+		 *
+		 * @param companyId
+		 *            the company id
+		 * @return the builder
+		 */
+		public Builder company(long companyId) {
+			computer.setCompany(new Company(companyId));
+			return this;
+		}
+
+		/**
+		 * Instantiates a new builder.
+		 */
+		public Builder() {
+			computer = new Computer();
+		}
+
+		/**
+		 * Builds the.
+		 *
+		 * @return the computer
+		 */
+		public Computer build() {
+			return computer;
+		}
 	}
 
 }

@@ -101,13 +101,8 @@ public class ComputerDaoImpl implements ComputerDAO {
 	 * ComputerDTO)
 	 */
 	@Override
-	public void insertComputer(ComputerDTO computerDTO) {
+	public void insertComputer(Computer computer) {
 		Session session = sessionFactory.getCurrentSession();
-		computer.setName(computerDTO.getName());
-		computer.setIntroduced(computerDTO.getIntroduced());
-		computer.setDiscontinued(computerDTO.getDiscontinued());
-		computer.setCompany(new Company(computerDTO.getCompanyId(), computerDTO
-				.getCompanyName()));
 		session.save(computer);
 		logger.info("Computer insertion");
 	}

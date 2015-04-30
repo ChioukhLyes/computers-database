@@ -10,7 +10,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.After;
@@ -24,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.dao.impl.ComputerDaoImpl;
 import com.excilys.dto.ComputerDTO;
+import com.excilys.models.Computer;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -153,38 +153,16 @@ public class ComputerDaoImplTest {
 	/**
 	 * Test insert computer null.
 	 */
-	@Test(expected = NullPointerException.class)
+	@Test(expected = IllegalArgumentException.class)
 	@Transactional
 	public final void testInsertComputerNull() {
 
 		// GIVEN
-		ComputerDTO computer;
+		Computer computer = null;
 		// WHENE
-		computer = null;
 		computerDaoImpl.insertComputer(computer);
 		// THEN
 		assertNull(computer);
-	}
-
-	/**
-	 * Test insert computer error.
-	 */
-	@SuppressWarnings("null")
-	@Test(expected = NullPointerException.class)
-	@Transactional
-	public final void testInsertComputerError() {
-
-		// GIVEN
-		ComputerDTO computer = null;
-		// WHENE
-		computer.setName("aaaa");
-		computer.setIntroduced(LocalDate.parse("12-12-2000"));
-		computer.setDiscontinued(LocalDate.parse("12-12-2000"));
-		computer.setCompanyName(null);
-		computer.setCompanyId((long) 2);
-		computerDaoImpl.insertComputer(computer);
-		// THEN
-		assertNotNull(computer);
 	}
 
 	/**

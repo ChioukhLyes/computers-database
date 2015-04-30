@@ -11,8 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import ch.qos.logback.classic.Logger;
-import com.excilys.dto.ComputerDTO;
+
 import com.excilys.dao.impl.ComputerDaoImpl;
+import com.excilys.dto.ComputerDTO;
 import com.excilys.models.Company;
 import com.excilys.models.Computer;
 
@@ -31,6 +32,10 @@ public class ServiceComputer {
 	/** The computer dto. */
 	@Autowired
 	private ComputerDTO computerDTO;
+
+	/** The computer dto. */
+	@Autowired
+	private Computer computer;
 
 	/** The logger. */
 	private static Logger logger = (Logger) LoggerFactory
@@ -127,7 +132,25 @@ public class ServiceComputer {
 			throw new IllegalArgumentException(
 					"[Insert] - ComputerDTO bean is null");
 		}
-		computerDAO.insertComputer(computerDTO);
+		computer.setName(computerDTO.getName());
+
+		computer.setIntroduced((computerDTO.getIntroduced() != null)
+				&& (computerDTO.getIntroduced().getYear() < 2038)
+				&& (computerDTO.getIntroduced().getYear() > 1970) ? computerDTO
+				.getIntroduced() : null);
+
+		computer.setDiscontinued((computerDTO.getDiscontinued() != null)
+				&& (computerDTO.getDiscontinued().getYear() < 2038)
+				&& (computerDTO.getDiscontinued().getYear() > 1970) ? computerDTO
+				.getDiscontinued() : null);
+
+		if (computerDTO.getCompanyId() != 0)
+			computer.setCompany(new Company(computerDTO.getCompanyId(),
+					computerDTO.getCompanyName()));
+		else
+			computer.setCompany(null);
+
+		computerDAO.insertComputer(computer);
 		logger.trace("Computer insertion.");
 	}
 
@@ -177,6 +200,17 @@ public class ServiceComputer {
 			throw new IllegalArgumentException(
 					"[Update] - ComputerDTO bean is null");
 		}
+		
+		computerDTO.setIntroduced((computerDTO.getIntroduced() != null)
+				&& (computerDTO.getIntroduced().getYear() < 2038)
+				&& (computerDTO.getIntroduced().getYear() > 1970) ? computerDTO
+				.getIntroduced() : null);
+
+		computerDTO.setDiscontinued((computerDTO.getDiscontinued() != null)
+				&& (computerDTO.getDiscontinued().getYear() < 2038)
+				&& (computerDTO.getDiscontinued().getYear() > 1970) ? computerDTO
+				.getDiscontinued() : null);
+		
 		computerDAO.updateComputer(computerDTO);
 		logger.trace("Computer update.");
 	}

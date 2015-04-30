@@ -136,6 +136,7 @@ public class AddController {
 			computer.setCompanyId(companyId);
 			computer.setCompanyName(company.getName());
 		}
+		else computer.setCompanyId(companyId);
 
 		serviceComputer.insertComputer(computer);
 		modelAndView.setViewName("success");
